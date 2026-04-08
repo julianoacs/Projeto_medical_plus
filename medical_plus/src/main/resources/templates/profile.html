@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile - Medical Plus</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+        }
+
+        /* HEADER */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: #0d6efd;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .logo {
+            color: white;
+            text-decoration: none;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .home-btn {
+            background: transparent;
+            border: 2px solid white;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .home-btn:hover {
+            background: white;
+            color: #0d6efd;
+        }
+
+        .logout-btn {
+            background: white;
+            color: #0d6efd;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* LAYOUT */
+        .container {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            background: white;
+            padding: 20px;
+            border-right: 1px solid #eee;
+        }
+
+        .menu-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+
+        .menu-item:hover {
+            background: #f1f5ff;
+        }
+
+        .menu-item.active {
+            background: #0d6efd;
+            color: white;
+        }
+
+        /* CONTENT */
+        .content {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+        }
+
+        /* HISTÓRICO */
+        .agendamento {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+
+        .agendamento:last-child {
+            border-bottom: none;
+        }
+
+        .acoes {
+            margin-top: 10px;
+        }
+
+        .btn-small {
+            padding: 6px 12px;
+            margin-right: 5px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn-cancelar {
+            background: #dc3545;
+            color: white;
+        }
+
+        .btn-remarcar {
+            background: #ffc107;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>
+        <a href="/" class="logo">Medical Plus</a>
+    </h1>
+
+    <div class="header-actions">
+        <button class="home-btn" onclick="location.href='/'">Home</button>
+        <button class="logout-btn" onclick="location.href='/logout'">Logout</button>
+    </div>
+</header>
+
+<div class="container">
+
+    <!-- MENU -->
+    <div class="sidebar">
+        <div class="menu-item active" onclick="mostrarSecao('dados')">
+            Dados Cadastrais
+        </div>
+        <div class="menu-item" onclick="mostrarSecao('historico')">
+            Histórico de Consultas
+        </div>
+    </div>
+
+    <!-- CONTEÚDO -->
+    <div class="content">
+
+        <!-- DADOS -->
+        <div id="dados" class="section active">
+            <div class="card">
+                <h2>Dados Cadastrais</h2>
+                <br>
+
+                <p><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
+                <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
+                <p><strong>Tipo:</strong> <span th:text="${usuario.tipo}"></span></p>
+            </div>
+        </div>
+
+        <!-- HISTÓRICO -->
+        <div id="historico" class="section">
+            <div class="card">
+                <h2>Histórico de Consultas</h2>
+                <br>
+
+                <div th:if="${#lists.isEmpty(agendamentos)}">
+                    <p>Nenhuma consulta agendada.</p>
+                </div>
+
+                <div th:each="ag, iterStat : ${agendamentos}" class="agendamento">
+
+                    <p><strong>Exame:</strong> <span th:text="${ag.exame}"></span></p>
+                    <p><strong>Médico:</strong> <span th:text="${ag.medico}"></span></p>
+                    <p><strong>Data:</strong> <span th:text="${ag.data}"></span></p>
+                    <p><strong>Hora:</strong> <span th:text="${ag.hora}"></span></p>
+
+                    <div class="acoes">
+                        <button class="btn-small btn-cancelar"
+                                th:onclick="'location.href=\'/cancelar?index=' + ${iterStat.index} + '\''">
+                            Cancelar
+                        </button>
+
+                        <button class="btn-small btn-remarcar"
+                                onclick="alert('Remarcar em breve')">
+                            Remarcar
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+    function mostrarSecao(secao) {
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+
+        document.getElementById(secao).classList.add('active');
+        event.target.classList.add('active');
+    }
+</script>
+
+</body>
+</html>
