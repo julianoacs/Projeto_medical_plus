@@ -29,7 +29,6 @@
 
         header h1 {
             font-size: 24px;
-            font-weight: bold;
         }
 
         .logo {
@@ -49,7 +48,6 @@
             padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
         }
 
         .home-btn:hover {
@@ -124,10 +122,6 @@
             padding: 15px 0;
         }
 
-        .agendamento:last-child {
-            border-bottom: none;
-        }
-
         .acoes {
             margin-top: 10px;
         }
@@ -169,11 +163,18 @@
 
     <!-- MENU -->
     <div class="sidebar">
-        <div class="menu-item active" onclick="mostrarSecao('dados')">
-            Dados Cadastrais
-        </div>
-        <div class="menu-item" onclick="mostrarSecao('historico')">
-            Histórico de Consultas
+        <div class="menu-item active" onclick="mostrarSecao('dados')">Dados Cadastrais</div>
+        <div class="menu-item" onclick="mostrarSecao('historico')">Histórico de Consultas</div>
+
+        <!-- 🔥 MENU ADMIN -->
+        <div th:if="${usuario.tipo == 'ADMIN'}">
+            <div class="menu-item" onclick="mostrarSecao('pacientes')">
+                Cadastros de Pacientes
+            </div>
+
+            <div class="menu-item" onclick="mostrarSecao('medicosAdmin')">
+                Cadastros de Médicos
+            </div>
         </div>
     </div>
 
@@ -185,7 +186,6 @@
             <div class="card">
                 <h2>Dados Cadastrais</h2>
                 <br>
-
                 <p><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
                 <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
                 <p><strong>Tipo:</strong> <span th:text="${usuario.tipo}"></span></p>
@@ -202,7 +202,7 @@
                     <p>Nenhuma consulta agendada.</p>
                 </div>
 
-                <div th:each="ag, iterStat : ${agendamentos}" class="agendamento">
+                <div th:each="ag, stat : ${agendamentos}" class="agendamento">
 
                     <p><strong>Exame:</strong> <span th:text="${ag.exame}"></span></p>
                     <p><strong>Médico:</strong> <span th:text="${ag.medico}"></span></p>
@@ -211,7 +211,7 @@
 
                     <div class="acoes">
                         <button class="btn-small btn-cancelar"
-                                th:onclick="'location.href=\'/cancelar?index=' + ${iterStat.index} + '\''">
+                                th:onclick="'window.location.href=\'/cancelar?index=' + ${stat.index} + '\''">
                             Cancelar
                         </button>
 
@@ -226,17 +226,75 @@
             </div>
         </div>
 
+        <!-- 👤 PACIENTES -->
+        <div id="pacientes" class="section">
+            <div class="card">
+                <h2>Pacientes Cadastrados</h2>
+                <br>
+
+                <div th:each="p : ${pacientes}">
+                    <p><strong>Nome:</strong> <span th:text="${p.nome}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${p.email}"></span></p>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🩺 MÉDICOS -->
+        <div id="medicosAdmin" class="section">
+            <div class="card">
+                <h2>Médicos Cadastrados</h2>
+                <br>
+
+                <div th:each="m : ${medicos}">
+                    <p><strong>Nome:</strong> <span th:text="${m.nome}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${m.email}"></span></p>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
 
 <script>
     function mostrarSecao(secao) {
+
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
 
         document.getElementById(secao).classList.add('active');
         event.target.classList.add('active');
+
+        const url = new URL(window.location);
+        url.searchParams.set('aba', secao);
+        window.history.pushState({}, '', url);
+    }
+
+    window.onload = function() {
+
+        const params = new URLSearchParams(window.location.search);
+        const aba = params.get("aba");
+
+        let secao = aba ? aba : "dados";
+
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+
+        if (document.getElementById(secao)) {
+            document.getElementById(secao).classList.add('active');
+        } else {
+            document.getElementById('dados').classList.add('active');
+            secao = 'dados';
+        }
+
+        let index = 0;
+        if (secao === "historico") index = 1;
+        if (secao === "pacientes") index = 2;
+        if (secao === "medicosAdmin") index = 3;
+
+        document.querySelectorAll('.menu-item')[index].classList.add('active');
     }
 </script>
 

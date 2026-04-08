@@ -11,6 +11,16 @@ public class UsuarioService {
 
     private final List<Usuario> usuarios = new ArrayList<>();
 
+    public UsuarioService() {
+        // 🔥 ADMIN PADRÃO
+        usuarios.add(new Usuario(
+                "Administrador",
+                "admin@medical.com",
+                "123",
+                "ADMIN"
+        ));
+    }
+
     public void salvar(Usuario usuario) {
         usuarios.add(usuario);
     }
@@ -20,5 +30,17 @@ public class UsuarioService {
                 .filter(u -> u.getEmail().equals(email) && u.getSenha().equals(senha))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<Usuario> listarPacientes() {
+        return usuarios.stream()
+                .filter(u -> u.getTipo().equalsIgnoreCase("paciente"))
+                .toList();
+    }
+
+    public List<Usuario> listarMedicos() {
+        return usuarios.stream()
+                .filter(u -> u.getTipo().equalsIgnoreCase("medico"))
+                .toList();
     }
 }
