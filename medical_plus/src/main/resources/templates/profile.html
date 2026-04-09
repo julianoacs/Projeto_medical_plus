@@ -166,7 +166,7 @@
         <div class="menu-item active" onclick="mostrarSecao('dados')">Dados Cadastrais</div>
         <div class="menu-item" onclick="mostrarSecao('historico')">Histórico de Consultas</div>
 
-        <!-- 🔥 MENU ADMIN -->
+        <!-- MENU ADMIN -->
         <div th:if="${usuario.tipo == 'ADMIN'}">
             <div class="menu-item" onclick="mostrarSecao('pacientes')">
                 Cadastros de Pacientes
@@ -226,7 +226,7 @@
             </div>
         </div>
 
-        <!-- 👤 PACIENTES -->
+        <!-- PACIENTES -->
         <div id="pacientes" class="section">
             <div class="card">
                 <h2>Pacientes Cadastrados</h2>
@@ -240,7 +240,7 @@
             </div>
         </div>
 
-        <!-- 🩺 MÉDICOS -->
+        <!-- MÉDICOS -->
         <div id="medicosAdmin" class="section">
             <div class="card">
                 <h2>Médicos Cadastrados</h2>

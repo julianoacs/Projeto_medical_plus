@@ -12,7 +12,7 @@ public class UsuarioService {
     private final List<Usuario> usuarios = new ArrayList<>();
 
     public UsuarioService() {
-        // 🔥 ADMIN PADRÃO
+        // ADMIN PADRÃO
         usuarios.add(new Usuario(
                 "Administrador",
                 "admin@medical.com",

@@ -12,24 +12,24 @@ public class AgendamentoService {
 
     private final List<Agendamento> agendamentos = new ArrayList<>();
 
-    // ✅ SALVAR AGENDAMENTO
+    // SALVAR AGENDAMENTO
     public void salvar(Agendamento agendamento) {
         agendamentos.add(agendamento);
     }
 
-    // ✅ LISTAR APENAS DO USUÁRIO
+    // LISTAR APENAS DO USUÁRIO
     public List<Agendamento> listarPorUsuario(String email) {
         return agendamentos.stream()
                 .filter(a -> a.getEmailUsuario().equals(email))
                 .collect(Collectors.toList());
     }
 
-    // 🔥 LISTAR TODOS (ADMIN)
+    // LISTAR TODOS (ADMIN)
     public List<Agendamento> listarTodos() {
         return agendamentos;
     }
 
-    // ❌ REMOVER AGENDAMENTO (USUÁRIO)
+    // REMOVER AGENDAMENTO (USUÁRIO)
     public void remover(int index, String email) {
 
         List<Agendamento> listaUsuario = listarPorUsuario(email);
@@ -40,7 +40,7 @@ public class AgendamentoService {
         }
     }
 
-    // 🔥 REMOVER QUALQUER AGENDAMENTO (ADMIN FUTURO)
+    // REMOVER QUALQUER AGENDAMENTO (ADMIN FUTURO)
     public void removerAdmin(int index) {
 
         if (index >= 0 && index < agendamentos.size()) {

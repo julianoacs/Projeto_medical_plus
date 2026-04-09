@@ -13,7 +13,7 @@ public class ExameController {
     @GetMapping("/exames")
     public String listarExames(Model model, HttpSession session) {
 
-        // Lista de exames
+        // Lista de exames temporaria
         List<String> exames = List.of(
                 "Hemograma Completo",
                 "Raio-X",
@@ -26,7 +26,7 @@ public class ExameController {
         // envia exames para o HTML
         model.addAttribute("exames", exames);
 
-        // 🔥 envia usuário logado (IMPORTANTE)
+        // envia usuário logado (IMPORTANTE)
         model.addAttribute("usuario", session.getAttribute("usuario"));
 
         return "exames";

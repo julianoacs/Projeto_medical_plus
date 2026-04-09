@@ -13,7 +13,7 @@ public class MedicosController {
     @GetMapping("/medicos")
     public String listarMedicos(Model model, HttpSession session) {
 
-        // Lista de médicos
+        // Lista de médicos temporaria
         List<String[]> medicos = List.of(
                 new String[]{"Dr. João Silva", "Cardiologista"},
                 new String[]{"Dra. Maria Oliveira", "Dermatologista"},
@@ -25,7 +25,7 @@ public class MedicosController {
         // envia médicos para o HTML
         model.addAttribute("medicos", medicos);
 
-        // 🔥 envia usuário logado (IMPORTANTE)
+        // envia usuário logado (IMPORTANTE)
         model.addAttribute("usuario", session.getAttribute("usuario"));
 
         return "medicos";

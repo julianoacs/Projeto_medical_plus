@@ -18,7 +18,7 @@ public class AgendamentoController {
     @Autowired
     private AgendamentoService agendamentoService;
 
-    // 🔒 ABRIR TELA (PROTEGIDA)
+    // ABRIR TELA (PROTEGIDA)
     @GetMapping("/agendamentos")
     public String agendamentos(HttpSession session, Model model) {
 
@@ -50,7 +50,7 @@ public class AgendamentoController {
         return "agendamentos";
     }
 
-    // ✅ SALVAR AGENDAMENTO
+    // SALVAR AGENDAMENTO
     @PostMapping("/agendar")
     public String agendar(String exame,
                           String medico,
@@ -69,7 +69,7 @@ public class AgendamentoController {
                 medico,
                 data,
                 hora,
-                usuario.getEmail() // 🔥 vínculo com usuário
+                usuario.getEmail() // vínculo com usuário
         );
 
         agendamentoService.salvar(ag);
@@ -77,7 +77,7 @@ public class AgendamentoController {
         return "redirect:/profile";
     }
 
-    // ❌ CANCELAR AGENDAMENTO
+    // CANCELAR AGENDAMENTO
     @GetMapping("/cancelar")
     public String cancelar(int index, HttpSession session) {
 

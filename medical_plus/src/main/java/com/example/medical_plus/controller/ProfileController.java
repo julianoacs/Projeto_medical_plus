@@ -29,7 +29,7 @@ public class ProfileController {
 
         model.addAttribute("usuario", usuario);
 
-        // 🔥 DIFERENCIAÇÃO ADMIN x USUÁRIO
+        // DIFERENCIAÇÃO ADMIN x USUÁRIO
         if ("ADMIN".equalsIgnoreCase(usuario.getTipo())) {
 
             // ADMIN vê tudo

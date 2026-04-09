@@ -6,7 +6,7 @@ public class Agendamento {
     private String medico;
     private String data;
     private String hora;
-    private String emailUsuario; // 🔥 vincula ao usuário
+    private String emailUsuario; // vincula ao usuário
 
     public Agendamento(String exame, String medico, String data, String hora, String emailUsuario) {
         this.exame = exame;
