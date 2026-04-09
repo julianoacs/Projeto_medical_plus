@@ -87,8 +87,13 @@ public class AgendamentoController {
             return "redirect:/login";
         }
 
-        agendamentoService.remover(index, usuario.getEmail());
+        // SE FOR ADMIN
+        if ("ADMIN".equalsIgnoreCase(usuario.getTipo())) {
+            agendamentoService.removerAdmin(index);
+        } else {
+            agendamentoService.remover(index, usuario.getEmail());
+        }
 
-        return "redirect:/profile";
+        return "redirect:/profile?aba=historico";
     }
 }
