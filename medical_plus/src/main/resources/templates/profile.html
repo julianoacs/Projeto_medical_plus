@@ -17,6 +17,7 @@
             background: #f4f7fb;
         }
 
+        /* HEADER */
         header {
             display: flex;
             justify-content: space-between;
@@ -24,6 +25,11 @@
             padding: 20px 40px;
             background: #0d6efd;
             color: white;
+        }
+
+        header h1 {
+            font-size: 24px;
+            font-weight: bold;
         }
 
         .logo {
@@ -45,6 +51,11 @@
             cursor: pointer;
         }
 
+        .home-btn:hover {
+            background: white;
+            color: #0d6efd;
+        }
+
         .logout-btn {
             background: white;
             color: #0d6efd;
@@ -55,6 +66,7 @@
             font-weight: bold;
         }
 
+        /* LAYOUT */
         .container {
             display: flex;
             height: calc(100vh - 80px);
@@ -64,6 +76,7 @@
             width: 250px;
             background: white;
             padding: 20px;
+            border-right: 1px solid #eee;
         }
 
         .menu-item {
@@ -99,8 +112,10 @@
             background: white;
             padding: 25px;
             border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
 
+        /* HISTÓRICO */
         .agendamento {
             border-bottom: 1px solid #eee;
             padding: 15px 0;
@@ -112,6 +127,7 @@
             border-radius: 6px;
             cursor: pointer;
             margin-right: 5px;
+            font-size: 12px;
         }
 
         .btn-cancelar {
@@ -157,12 +173,17 @@
             cursor: pointer;
         }
 
+        .btn-add-exame:hover {
+            background: #0b5ed7;
+        }
+
         .btn-remover-exame {
             background: #dc3545;
             color: white;
             padding: 5px 10px;
             border-radius: 6px;
             text-decoration: none;
+            font-size: 12px;
         }
 
         .btn-remover-exame:hover {
@@ -175,7 +196,9 @@
 <body>
 
 <header>
-    <h1><a href="/" class="logo">Medical Plus</a></h1>
+    <h1>
+        <a href="/" class="logo">Medical Plus</a>
+    </h1>
 
     <div class="header-actions">
         <button class="home-btn" onclick="location.href='/'">Home</button>
@@ -185,6 +208,7 @@
 
 <div class="container">
 
+    <!-- MENU -->
     <div class="sidebar">
         <div class="menu-item active" onclick="mostrarSecao('dados')">Dados</div>
         <div class="menu-item" onclick="mostrarSecao('historico')">Histórico</div>
@@ -195,39 +219,39 @@
         </div>
     </div>
 
+    <!-- CONTEÚDO -->
     <div class="content">
 
         <!-- DADOS -->
         <div id="dados" class="section active">
             <div class="card">
 
-                <p><b>Nome:</b> <span th:text="${usuario.nome}"></span></p>
-                <p><b>Email:</b> <span th:text="${usuario.email}"></span></p>
-                <p><b>Tipo:</b> <span th:text="${usuario.tipo}"></span></p>
+                <p><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
+                <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
+                <p><strong>Tipo:</strong> <span th:text="${usuario.tipo}"></span></p>
 
                 <!-- MÉDICO -->
-                <div th:if="${usuario.tipo == 'medico'}">
+                <div th:if="${usuario.tipo == 'MEDICO'}">
 
-                    <hr><br>
-                    <h3>Exames</h3>
+                    <hr style="margin:20px 0;">
+
+                    <h3>Exames que você realiza</h3>
 
                     <div th:if="${#lists.isEmpty(usuario.exames)}">
-                        Nenhum exame cadastrado
+                        <p style="color:#666;">Nenhum exame cadastrado</p>
                     </div>
 
                     <div th:each="ex : ${usuario.exames}" class="exame-container">
-
                         <span th:text="${ex}"></span>
 
                         <a th:href="@{/medico/remover-exame(exame=${ex})}" class="btn-remover-exame">
                             Excluir
                         </a>
-
                     </div>
 
                     <form action="/medico/adicionar-exame" method="post" class="form-exame">
-                        <input type="text" name="exame" placeholder="Novo exame" class="input-exame">
-                        <button class="btn-add-exame">Adicionar</button>
+                        <input type="text" name="exame" placeholder="Novo exame" class="input-exame" required>
+                        <button type="submit" class="btn-add-exame">Adicionar</button>
                     </form>
 
                 </div>
@@ -239,6 +263,9 @@
         <div id="historico" class="section">
             <div class="card">
 
+                <h2>Histórico</h2>
+                <br>
+
                 <div th:if="${#lists.isEmpty(agendamentos)}">
                     Nenhuma consulta
                 </div>
@@ -246,11 +273,14 @@
                 <div th:each="ag, stat : ${agendamentos}" class="agendamento">
 
                     <p th:if="${usuario.tipo == 'ADMIN'}">
-                        <b>Paciente:</b> <span th:text="${ag.nomeUsuario}"></span>
+                        <strong>Paciente:</strong>
+                        <span th:text="${ag.nomeUsuario}"></span>
                     </p>
 
-                    <p><b>Exame:</b> <span th:text="${ag.exame}"></span></p>
-                    <p><b>Médico:</b> <span th:text="${ag.medico}"></span></p>
+                    <p><strong>Exame:</strong> <span th:text="${ag.exame}"></span></p>
+                    <p><strong>Médico:</strong> <span th:text="${ag.medico}"></span></p>
+                    <p><strong>Data:</strong> <span th:text="${ag.data}"></span></p>
+                    <p><strong>Hora:</strong> <span th:text="${ag.hora}"></span></p>
 
                     <a th:href="@{/cancelar(index=${stat.index})}" class="btn-small btn-cancelar">
                         Cancelar
@@ -264,8 +294,13 @@
         <!-- PACIENTES -->
         <div id="pacientes" class="section">
             <div class="card">
+                <h2>Pacientes</h2>
+                <br>
+
                 <div th:each="p : ${pacientes}">
-                    <p th:text="${p.nome}"></p>
+                    <p><strong>Nome:</strong> <span th:text="${p.nome}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${p.email}"></span></p>
+                    <hr>
                 </div>
             </div>
         </div>
@@ -273,8 +308,13 @@
         <!-- MÉDICOS -->
         <div id="medicos" class="section">
             <div class="card">
+                <h2>Médicos</h2>
+                <br>
+
                 <div th:each="m : ${medicos}">
-                    <p th:text="${m.nome}"></p>
+                    <p><strong>Nome:</strong> <span th:text="${m.nome}"></span></p>
+                    <p><strong>Email:</strong> <span th:text="${m.email}"></span></p>
+                    <hr>
                 </div>
             </div>
         </div>
