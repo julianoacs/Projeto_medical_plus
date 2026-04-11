@@ -17,7 +17,6 @@
             background: #f4f7fb;
         }
 
-        /* HEADER */
         header {
             display: flex;
             justify-content: space-between;
@@ -25,10 +24,6 @@
             padding: 20px 40px;
             background: #0d6efd;
             color: white;
-        }
-
-        header h1 {
-            font-size: 24px;
         }
 
         .logo {
@@ -50,11 +45,6 @@
             cursor: pointer;
         }
 
-        .home-btn:hover {
-            background: white;
-            color: #0d6efd;
-        }
-
         .logout-btn {
             background: white;
             color: #0d6efd;
@@ -65,18 +55,15 @@
             font-weight: bold;
         }
 
-        /* LAYOUT */
         .container {
             display: flex;
             height: calc(100vh - 80px);
         }
 
-        /* SIDEBAR */
         .sidebar {
             width: 250px;
             background: white;
             padding: 20px;
-            border-right: 1px solid #eee;
         }
 
         .menu-item {
@@ -86,16 +73,15 @@
             border-radius: 8px;
         }
 
-        .menu-item:hover {
-            background: #f1f5ff;
-        }
-
         .menu-item.active {
             background: #0d6efd;
             color: white;
         }
 
-        /* CONTENT */
+        .menu-item:hover {
+            background: #f1f5ff;
+        }
+
         .content {
             flex: 1;
             padding: 40px;
@@ -113,26 +99,19 @@
             background: white;
             padding: 25px;
             border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
 
-        /* HISTÓRICO */
         .agendamento {
             border-bottom: 1px solid #eee;
             padding: 15px 0;
         }
 
-        .acoes {
-            margin-top: 10px;
-        }
-
         .btn-small {
             padding: 6px 12px;
-            margin-right: 5px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 12px;
+            margin-right: 5px;
         }
 
         .btn-cancelar {
@@ -144,13 +123,15 @@
             background: #ffc107;
         }
 
-        /* MÉDICO - EXAMES */
+        /* MÉDICO */
 
-        .exame-item {
+        .exame-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             background: #f1f5ff;
             padding: 10px;
             border-radius: 8px;
-            font-weight: 500;
             margin-bottom: 10px;
         }
 
@@ -171,24 +152,30 @@
             background: #0d6efd;
             color: white;
             border: none;
-            padding: 10px 20px;
+            padding: 10px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
         }
 
-        .btn-add-exame:hover {
-            background: #0b5ed7;
+        .btn-remover-exame {
+            background: #dc3545;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .btn-remover-exame:hover {
+            background: #bb2d3b;
         }
 
     </style>
 </head>
+
 <body>
 
 <header>
-    <h1>
-        <a href="/" class="logo">Medical Plus</a>
-    </h1>
+    <h1><a href="/" class="logo">Medical Plus</a></h1>
 
     <div class="header-actions">
         <button class="home-btn" onclick="location.href='/'">Home</button>
@@ -198,48 +185,49 @@
 
 <div class="container">
 
-    <!-- MENU -->
     <div class="sidebar">
-        <div class="menu-item active" onclick="mostrarSecao('dados')">Dados Cadastrais</div>
-        <div class="menu-item" onclick="mostrarSecao('historico')">Histórico de Consultas</div>
+        <div class="menu-item active" onclick="mostrarSecao('dados')">Dados</div>
+        <div class="menu-item" onclick="mostrarSecao('historico')">Histórico</div>
 
         <div th:if="${usuario.tipo == 'ADMIN'}">
-            <div class="menu-item" onclick="mostrarSecao('pacientes')">Cadastros de Pacientes</div>
-            <div class="menu-item" onclick="mostrarSecao('medicosAdmin')">Cadastros de Médicos</div>
+            <div class="menu-item" onclick="mostrarSecao('pacientes')">Pacientes</div>
+            <div class="menu-item" onclick="mostrarSecao('medicos')">Médicos</div>
         </div>
     </div>
 
-    <!-- CONTEÚDO -->
     <div class="content">
 
         <!-- DADOS -->
         <div id="dados" class="section active">
             <div class="card">
-                <h2>Dados Cadastrais</h2>
-                <br>
 
-                <p><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
-                <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
-                <p><strong>Tipo:</strong> <span th:text="${usuario.tipo}"></span></p>
+                <p><b>Nome:</b> <span th:text="${usuario.nome}"></span></p>
+                <p><b>Email:</b> <span th:text="${usuario.email}"></span></p>
+                <p><b>Tipo:</b> <span th:text="${usuario.tipo}"></span></p>
 
-                <!-- 🔥 MÉDICO -->
+                <!-- MÉDICO -->
                 <div th:if="${usuario.tipo == 'medico'}">
 
-                    <hr style="margin:20px 0;">
-
-                    <h3>Exames que você realiza</h3>
+                    <hr><br>
+                    <h3>Exames</h3>
 
                     <div th:if="${#lists.isEmpty(usuario.exames)}">
-                        <p style="color: #666;">Nenhum exame cadastrado.</p>
+                        Nenhum exame cadastrado
                     </div>
 
-                    <div th:each="ex : ${usuario.exames}" class="exame-item">
+                    <div th:each="ex : ${usuario.exames}" class="exame-container">
+
                         <span th:text="${ex}"></span>
+
+                        <a th:href="@{/medico/remover-exame(exame=${ex})}" class="btn-remover-exame">
+                            Excluir
+                        </a>
+
                     </div>
 
                     <form action="/medico/adicionar-exame" method="post" class="form-exame">
-                        <input type="text" name="exame" placeholder="Nome do exame" required class="input-exame">
-                        <button type="submit" class="btn-add-exame">Adicionar</button>
+                        <input type="text" name="exame" placeholder="Novo exame" class="input-exame">
+                        <button class="btn-add-exame">Adicionar</button>
                     </form>
 
                 </div>
@@ -250,36 +238,23 @@
         <!-- HISTÓRICO -->
         <div id="historico" class="section">
             <div class="card">
-                <h2>Histórico de Consultas</h2>
-                <br>
 
                 <div th:if="${#lists.isEmpty(agendamentos)}">
-                    <p>Nenhuma consulta agendada.</p>
+                    Nenhuma consulta
                 </div>
 
                 <div th:each="ag, stat : ${agendamentos}" class="agendamento">
 
                     <p th:if="${usuario.tipo == 'ADMIN'}">
-                        <strong>Paciente:</strong>
-                        <span th:text="${ag.nomeUsuario}"></span>
+                        <b>Paciente:</b> <span th:text="${ag.nomeUsuario}"></span>
                     </p>
 
-                    <p><strong>Exame:</strong> <span th:text="${ag.exame}"></span></p>
-                    <p><strong>Médico:</strong> <span th:text="${ag.medico}"></span></p>
-                    <p><strong>Data:</strong> <span th:text="${ag.data}"></span></p>
-                    <p><strong>Hora:</strong> <span th:text="${ag.hora}"></span></p>
+                    <p><b>Exame:</b> <span th:text="${ag.exame}"></span></p>
+                    <p><b>Médico:</b> <span th:text="${ag.medico}"></span></p>
 
-                    <div class="acoes">
-                        <button class="btn-small btn-cancelar"
-                                th:onclick="'window.location.href=\'/cancelar?index=' + ${stat.index} + '\''">
-                            Cancelar
-                        </button>
-
-                        <button class="btn-small btn-remarcar"
-                                onclick="alert('Remarcar em breve')">
-                            Remarcar
-                        </button>
-                    </div>
+                    <a th:href="@{/cancelar(index=${stat.index})}" class="btn-small btn-cancelar">
+                        Cancelar
+                    </a>
 
                 </div>
 
@@ -289,27 +264,17 @@
         <!-- PACIENTES -->
         <div id="pacientes" class="section">
             <div class="card">
-                <h2>Pacientes Cadastrados</h2>
-                <br>
-
                 <div th:each="p : ${pacientes}">
-                    <p><strong>Nome:</strong> <span th:text="${p.nome}"></span></p>
-                    <p><strong>Email:</strong> <span th:text="${p.email}"></span></p>
-                    <hr>
+                    <p th:text="${p.nome}"></p>
                 </div>
             </div>
         </div>
 
         <!-- MÉDICOS -->
-        <div id="medicosAdmin" class="section">
+        <div id="medicos" class="section">
             <div class="card">
-                <h2>Médicos Cadastrados</h2>
-                <br>
-
                 <div th:each="m : ${medicos}">
-                    <p><strong>Nome:</strong> <span th:text="${m.nome}"></span></p>
-                    <p><strong>Email:</strong> <span th:text="${m.email}"></span></p>
-                    <hr>
+                    <p th:text="${m.nome}"></p>
                 </div>
             </div>
         </div>
@@ -325,27 +290,6 @@
 
         document.getElementById(secao).classList.add('active');
         event.target.classList.add('active');
-
-        const url = new URL(window.location);
-        url.searchParams.set('aba', secao);
-        window.history.pushState({}, '', url);
-    }
-
-    window.onload = function() {
-        const params = new URLSearchParams(window.location.search);
-        const aba = params.get("aba") || "dados";
-
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-        document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
-
-        document.getElementById(aba).classList.add('active');
-
-        let index = 0;
-        if (aba === "historico") index = 1;
-        if (aba === "pacientes") index = 2;
-        if (aba === "medicosAdmin") index = 3;
-
-        document.querySelectorAll('.menu-item')[index].classList.add('active');
     }
 </script>
 

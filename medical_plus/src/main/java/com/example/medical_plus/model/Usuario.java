@@ -10,7 +10,7 @@ public class Usuario {
     private String senha;
     private String tipo;
 
-    // 🔥 NOVO: exames do médico
+    // 🔥 EXAMES DO MÉDICO
     private List<String> exames = new ArrayList<>();
 
     public Usuario(String nome, String email, String senha, String tipo) {
@@ -20,7 +20,7 @@ public class Usuario {
         this.tipo = tipo;
     }
 
-    // GETTERS
+    // ✅ GETTERS
 
     public String getNome() {
         return nome;
@@ -42,9 +42,23 @@ public class Usuario {
         return exames;
     }
 
-    // 🔥 MÉTODO PARA ADICIONAR EXAME (USADO PELO MÉDICO)
+    // ADICIONAR EXAME (COM VALIDAÇÃO)
 
     public void adicionarExame(String exame) {
-        this.exames.add(exame);
+
+        if (exame == null || exame.trim().isEmpty()) {
+            return;
+        }
+
+        // 🔥 evita duplicados
+        if (!exames.contains(exame)) {
+            exames.add(exame);
+        }
+    }
+
+    // 🔥 REMOVER EXAME
+
+    public void removerExame(String exame) {
+        exames.remove(exame);
     }
 }

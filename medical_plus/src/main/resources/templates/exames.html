@@ -99,23 +99,28 @@
             background: white;
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            overflow: hidden;
+            padding: 10px;
         }
 
         .item {
             padding: 18px 20px;
             font-size: 18px;
-            border-bottom: 1px solid #eee;
-            transition: 0.2s;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: 0.3s;
             cursor: pointer;
+            background: #ffffff;
+            border: 1px solid #eee;
         }
 
         .item:hover {
             background: #f1f5ff;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
 
         .item:last-child {
-            border-bottom: none;
+            margin-bottom: 0;
         }
 
         /* ESTADO VAZIO */
@@ -160,7 +165,7 @@
 
         <div class="lista">
 
-            <!-- 🔥 LISTA DINÂMICA -->
+            <!-- LISTA -->
             <div th:if="${!#lists.isEmpty(exames)}">
                 <div class="item"
                      th:each="exame : ${exames}"
@@ -168,7 +173,7 @@
                 </div>
             </div>
 
-            <!-- 🔥 CASO NÃO TENHA EXAMES -->
+            <!-- VAZIO -->
             <div th:if="${#lists.isEmpty(exames)}" class="empty">
                 Nenhum exame disponível no momento.
             </div>
