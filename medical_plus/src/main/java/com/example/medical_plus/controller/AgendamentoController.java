@@ -18,7 +18,7 @@ public class AgendamentoController {
     @Autowired
     private AgendamentoService agendamentoService;
 
-    // ABRIR TELA (PROTEGIDA)
+    // 🔒 ABRIR TELA DE AGENDAMENTO
     @GetMapping("/agendamentos")
     public String agendamentos(HttpSession session, Model model) {
 
@@ -50,7 +50,7 @@ public class AgendamentoController {
         return "agendamentos";
     }
 
-    // SALVAR AGENDAMENTO
+    // ✅ SALVAR AGENDAMENTO
     @PostMapping("/agendar")
     public String agendar(String exame,
                           String medico,
@@ -64,20 +64,22 @@ public class AgendamentoController {
             return "redirect:/login";
         }
 
-        Agendamento ag = new Agendamento(
+        //  AGORA SALVA NOME + EMAIL
+        Agendamento agendamento = new Agendamento(
                 exame,
                 medico,
                 data,
                 hora,
-                usuario.getEmail() // vínculo com usuário
+                usuario.getEmail(),
+                usuario.getNome()
         );
 
-        agendamentoService.salvar(ag);
+        agendamentoService.salvar(agendamento);
 
-        return "redirect:/profile";
+        return "redirect:/profile?aba=historico";
     }
 
-    // CANCELAR AGENDAMENTO
+    //  CANCELAR AGENDAMENTO
     @GetMapping("/cancelar")
     public String cancelar(int index, HttpSession session) {
 
@@ -87,7 +89,7 @@ public class AgendamentoController {
             return "redirect:/login";
         }
 
-        // SE FOR ADMIN
+        // ADMIN pode cancelar qualquer consulta
         if ("ADMIN".equalsIgnoreCase(usuario.getTipo())) {
             agendamentoService.removerAdmin(index);
         } else {

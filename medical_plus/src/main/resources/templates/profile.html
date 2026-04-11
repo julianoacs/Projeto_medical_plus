@@ -203,7 +203,10 @@
                 </div>
 
                 <div th:each="ag, stat : ${agendamentos}" class="agendamento">
-
+                    <p th:if="${usuario.tipo == 'ADMIN'}">
+                        <strong>Paciente:</strong>
+                        <span th:text="${ag.nomeUsuario}"></span>
+                    </p>
                     <p><strong>Exame:</strong> <span th:text="${ag.exame}"></span></p>
                     <p><strong>Médico:</strong> <span th:text="${ag.medico}"></span></p>
                     <p><strong>Data:</strong> <span th:text="${ag.data}"></span></p>

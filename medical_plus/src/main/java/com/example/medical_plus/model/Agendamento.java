@@ -6,15 +6,26 @@ public class Agendamento {
     private String medico;
     private String data;
     private String hora;
-    private String emailUsuario; // vincula ao usuário
+    private String emailUsuario;
+    private String nomeUsuario;
 
-    public Agendamento(String exame, String medico, String data, String hora, String emailUsuario) {
+    // 🔥 CONSTRUTOR COMPLETO
+    public Agendamento(String exame,
+                       String medico,
+                       String data,
+                       String hora,
+                       String emailUsuario,
+                       String nomeUsuario) {
+
         this.exame = exame;
         this.medico = medico;
         this.data = data;
         this.hora = hora;
         this.emailUsuario = emailUsuario;
+        this.nomeUsuario = nomeUsuario;
     }
+
+    // GETTERS (OBRIGATÓRIO PARA THYMELEAF)
 
     public String getExame() {
         return exame;
@@ -34,5 +45,9 @@ public class Agendamento {
 
     public String getEmailUsuario() {
         return emailUsuario;
+    }
+
+    public String getNomeUsuario() {
+        return nomeUsuario;
     }
 }
