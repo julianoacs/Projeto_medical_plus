@@ -56,7 +56,7 @@
             background: #e6e6e6;
         }
 
-        /* BOTÃO VOLTAR */
+        /* TOP BAR */
         .top-bar {
             padding: 20px 40px 0 40px;
         }
@@ -118,6 +118,13 @@
             border-bottom: none;
         }
 
+        /* ESTADO VAZIO */
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+
     </style>
 </head>
 <body>
@@ -142,7 +149,6 @@
     </button>
 </header>
 
-<!-- BOTÃO VOLTAR -->
 <div class="top-bar">
     <button class="back-btn" onclick="location.href='/'">Home</button>
 </div>
@@ -153,7 +159,20 @@
         <h2 class="titulo">Exames Disponíveis</h2>
 
         <div class="lista">
-            <div class="item" th:each="exame : ${exames}" th:text="${exame}"></div>
+
+            <!-- 🔥 LISTA DINÂMICA -->
+            <div th:if="${!#lists.isEmpty(exames)}">
+                <div class="item"
+                     th:each="exame : ${exames}"
+                     th:text="${exame}">
+                </div>
+            </div>
+
+            <!-- 🔥 CASO NÃO TENHA EXAMES -->
+            <div th:if="${#lists.isEmpty(exames)}" class="empty">
+                Nenhum exame disponível no momento.
+            </div>
+
         </div>
     </div>
 
