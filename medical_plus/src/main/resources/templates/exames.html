@@ -17,7 +17,6 @@
             background: #f4f7fb;
         }
 
-        /* HEADER */
         header {
             display: flex;
             justify-content: space-between;
@@ -37,10 +36,6 @@
             text-decoration: none;
         }
 
-        .logo:hover {
-            opacity: 0.8;
-        }
-
         .login-btn {
             background: white;
             color: #0d6efd;
@@ -49,14 +44,8 @@
             border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
-            transition: 0.3s;
         }
 
-        .login-btn:hover {
-            background: #e6e6e6;
-        }
-
-        /* TOP BAR */
         .top-bar {
             padding: 20px 40px 0 40px;
         }
@@ -68,16 +57,8 @@
             padding: 8px 16px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
-            transition: 0.3s;
         }
 
-        .back-btn:hover {
-            background: #0d6efd;
-            color: white;
-        }
-
-        /* CONTAINER */
         .container {
             padding: 40px;
             display: flex;
@@ -94,7 +75,6 @@
             margin-bottom: 30px;
         }
 
-        /* LISTA */
         .lista {
             background: white;
             border-radius: 16px;
@@ -102,28 +82,43 @@
             padding: 10px;
         }
 
+        .exame-box {
+            margin-bottom: 10px;
+        }
+
         .item {
             padding: 18px 20px;
             font-size: 18px;
             border-radius: 10px;
-            margin-bottom: 10px;
-            transition: 0.3s;
             cursor: pointer;
             background: #ffffff;
             border: 1px solid #eee;
+            transition: 0.3s;
         }
 
         .item:hover {
             background: #f1f5ff;
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
         }
 
-        .item:last-child {
-            margin-bottom: 0;
+        /* 🔥 EXPANSÃO */
+        .medicos-box {
+            display: none;
+            padding: 15px 20px;
+            background: #f9fbff;
+            border: 1px solid #eee;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
         }
 
-        /* ESTADO VAZIO */
+        .medico-item {
+            padding: 8px 0;
+            border-bottom: 1px dashed #ddd;
+        }
+
+        .medico-item:last-child {
+            border-bottom: none;
+        }
+
         .empty {
             padding: 30px;
             text-align: center;
@@ -132,6 +127,7 @@
 
     </style>
 </head>
+
 <body>
 
 <header>
@@ -139,14 +135,12 @@
         <a href="/" class="logo">Medical Plus</a>
     </h1>
 
-    <!-- NÃO LOGADO -->
     <button th:if="${usuario == null}"
             class="login-btn"
             onclick="location.href='/login'">
         Login
     </button>
 
-    <!-- LOGADO -->
     <button th:if="${usuario != null}"
             class="login-btn"
             onclick="location.href='/profile'">
@@ -165,12 +159,31 @@
 
         <div class="lista">
 
-            <!-- LISTA -->
+            <!-- 🔥 LISTA -->
             <div th:if="${!#lists.isEmpty(exames)}">
-                <div class="item"
-                     th:each="exame : ${exames}"
-                     th:text="${exame}">
+
+                <div th:each="exame : ${exames}" class="exame-box">
+
+                    <!-- EXAME -->
+                    <div class="item" onclick="toggleExame(this)">
+                        <span th:text="${exame}"></span>
+                    </div>
+
+                    <!-- MÉDICOS -->
+                    <div class="medicos-box">
+
+                        <div th:each="m : ${medicos}"
+                             th:if="${#lists.contains(m.exames, exame)}"
+                             class="medico-item">
+
+                            <strong th:text="'Dr(a) ' +${m.nome}"></strong><br>
+
+                        </div>
+
+                    </div>
+
                 </div>
+
             </div>
 
             <!-- VAZIO -->
@@ -182,6 +195,19 @@
     </div>
 
 </main>
+
+<script>
+    function toggleExame(element) {
+
+        const box = element.nextElementSibling;
+
+        if (box.style.display === "block") {
+            box.style.display = "none";
+        } else {
+            box.style.display = "block";
+        }
+    }
+</script>
 
 </body>
 </html>
