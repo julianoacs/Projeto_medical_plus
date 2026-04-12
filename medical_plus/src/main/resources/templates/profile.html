@@ -6,6 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
+        /* BOTÃO CANCELAR CONSULTA */
+            .btn-cancelar {
+            background: #dc3545;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .btn-cancelar:hover {
+            background: #b02a37;
+        }
+
+        /* BOTÃO REMARCAR */
+            .btn-remarcar {
+            background: #0d6efd;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .btn-remarcar:hover {
+            background: #0b5ed7;
+        }
+
+        /* BOTÕES EMPILHADOS */
+            .acoes-botoes {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI'; }
 
         body { background:#f4f7fb; }
@@ -162,7 +199,7 @@
                 </div>
 
                 <!-- COM CONSULTAS -->
-                <div th:each="ag : ${agendamentos}" class="exame-container">
+                <div th:each="ag, stat : ${agendamentos}" class="exame-container">
 
                     <div class="agendamento-info">
                         <strong th:text="${ag.exame}"></strong>
@@ -171,10 +208,27 @@
 
                         <span th:text="'Data: ' + ${ag.data} + ' - ' + ${ag.hora}"></span>
 
-                        <!-- 🔥 MOSTRA PACIENTE APENAS PARA ADMIN -->
+                        <!-- ADMIN -->
                         <span th:if="${usuario.tipo.equalsIgnoreCase('ADMIN')}"
                               th:text="'Paciente: ' + ${ag.nomeUsuario}">
-                </span>
+        </span>
+                    </div>
+
+                    <!-- 🔥 BOTÕES -->
+                    <div style="acoes-botoes">
+
+                        <!-- CANCELAR -->
+                        <a th:href="@{/cancelar(index=${stat.index})}"
+                           class="btn-cancelar">
+                            Cancelar
+                        </a>
+
+                        <!-- REMARCAR -->
+                        <a th:href="@{/agendamentos}"
+                           class="btn-remarcar">
+                            Remarcar
+                        </a>
+
                     </div>
 
                 </div>
