@@ -162,10 +162,22 @@
         <h2 class="titulo">Médicos Disponíveis</h2>
 
         <div class="lista">
-            <div class="item" th:each="medico : ${medicos}">
-                <span class="nome" th:text="${medico[0]}"></span>
-                <span class="especialidade" th:text="${medico[1]}"></span>
+
+            <div th:each="m : ${medicos}" class="item">
+
+                <div>
+            <span class="nome"
+                  th:text="'Dr(a) ' + ${m.nome}"></span>
+                    <br>
+                    <span class="especialidade"
+                          th:text="${m.especialidade != null && !m.especialidade.isEmpty()
+                          ? m.especialidade
+                          : 'Sem Especialidade'}">
+            </span>
+                </div>
+
             </div>
+
         </div>
     </div>
 
