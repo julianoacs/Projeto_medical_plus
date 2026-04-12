@@ -135,11 +135,7 @@
             color: white;
         }
 
-        .btn-remarcar {
-            background: #ffc107;
-        }
-
-        /* MÉDICO */
+        /* MÉDICO - EXAMES */
 
         .exame-container {
             display: flex;
@@ -213,6 +209,11 @@
         <div class="menu-item active" onclick="mostrarSecao('dados')">Dados</div>
         <div class="menu-item" onclick="mostrarSecao('historico')">Histórico</div>
 
+        <!-- 🔥 NOVA ABA EXAMES -->
+        <div th:if="${usuario.tipo == 'medico'}">
+            <div class="menu-item" onclick="mostrarSecao('exames')">Exames</div>
+        </div>
+
         <div th:if="${usuario.tipo == 'ADMIN'}">
             <div class="menu-item" onclick="mostrarSecao('pacientes')">Pacientes</div>
             <div class="menu-item" onclick="mostrarSecao('medicos')">Médicos</div>
@@ -225,36 +226,35 @@
         <!-- DADOS -->
         <div id="dados" class="section active">
             <div class="card">
-
                 <p><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
                 <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
                 <p><strong>Tipo:</strong> <span th:text="${usuario.tipo}"></span></p>
+            </div>
+        </div>
 
-                <!-- MÉDICO -->
-                <div th:if="${usuario.tipo == 'MEDICO'}">
+        <!-- EXAMES -->
+        <div id="exames" class="section">
+            <div class="card">
 
-                    <hr style="margin:20px 0;">
+                <h2>Exames que você realiza</h2>
+                <br>
 
-                    <h3>Exames que você realiza</h3>
-
-                    <div th:if="${#lists.isEmpty(usuario.exames)}">
-                        <p style="color:#666;">Nenhum exame cadastrado</p>
-                    </div>
-
-                    <div th:each="ex : ${usuario.exames}" class="exame-container">
-                        <span th:text="${ex}"></span>
-
-                        <a th:href="@{/medico/remover-exame(exame=${ex})}" class="btn-remover-exame">
-                            Excluir
-                        </a>
-                    </div>
-
-                    <form action="/medico/adicionar-exame" method="post" class="form-exame">
-                        <input type="text" name="exame" placeholder="Novo exame" class="input-exame" required>
-                        <button type="submit" class="btn-add-exame">Adicionar</button>
-                    </form>
-
+                <div th:if="${#lists.isEmpty(usuario.exames)}">
+                    <p style="color:#666;">Nenhum exame cadastrado</p>
                 </div>
+
+                <div th:each="ex : ${usuario.exames}" class="exame-container">
+                    <span th:text="${ex}"></span>
+
+                    <a th:href="@{/medico/remover-exame(exame=${ex})}" class="btn-remover-exame">
+                        Excluir
+                    </a>
+                </div>
+
+                <form action="/medico/adicionar-exame" method="post" class="form-exame">
+                    <input type="text" name="exame" placeholder="Novo exame" class="input-exame" required>
+                    <button type="submit" class="btn-add-exame">Adicionar</button>
+                </form>
 
             </div>
         </div>
