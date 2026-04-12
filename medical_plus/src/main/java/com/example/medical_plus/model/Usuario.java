@@ -13,11 +13,8 @@ public class Usuario {
     // 🔥 EXAMES DO MÉDICO
     private List<String> exames = new ArrayList<>();
 
-    // 🔥 NOVO — DOCUMENTO DO MÉDICO
-    private String documento;
-
-    // 🔥 NOVO — STATUS DO MÉDICO (FUTURO ADMIN)
-    private String status = "PENDENTE"; // PENDENTE / APROVADO / REJEITADO
+    // 🔥 NOVO — LISTA DE DOCUMENTOS (MULTI)
+    private List<Documento> documentos = new ArrayList<>();
 
     public Usuario(String nome, String email, String senha, String tipo) {
         this.nome = nome;
@@ -50,24 +47,8 @@ public class Usuario {
         return exames;
     }
 
-    public String getDocumento() {
-        return documento;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    // =====================
-    // SETTERS
-    // =====================
-
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public List<Documento> getDocumentos() {
+        return documentos;
     }
 
     // =====================
@@ -81,7 +62,6 @@ public class Usuario {
             return;
         }
 
-        // evita duplicados (case insensitive)
         boolean jaExiste = exames.stream()
                 .anyMatch(e -> e.equalsIgnoreCase(exame));
 
@@ -93,5 +73,35 @@ public class Usuario {
     // 🔥 REMOVER EXAME
     public void removerExame(String exame) {
         exames.removeIf(e -> e.equalsIgnoreCase(exame));
+    }
+
+    // =====================
+    // 🔥 DOCUMENTOS
+    // =====================
+
+    // ADICIONAR DOCUMENTO
+    public void adicionarDocumento(String nomeArquivo) {
+
+        if (nomeArquivo == null || nomeArquivo.isEmpty()) {
+            return;
+        }
+
+        documentos.add(new Documento(nomeArquivo));
+    }
+
+    // REMOVER DOCUMENTO
+    public void removerDocumento(String nomeArquivo) {
+        documentos.removeIf(doc ->
+                doc.getNomeArquivo().equalsIgnoreCase(nomeArquivo)
+        );
+    }
+
+    // ATUALIZAR STATUS DO DOCUMENTO
+    public void atualizarStatusDocumento(String nomeArquivo, String status) {
+
+        documentos.stream()
+                .filter(doc -> doc.getNomeArquivo().equalsIgnoreCase(nomeArquivo))
+                .findFirst()
+                .ifPresent(doc -> doc.setStatus(status));
     }
 }
