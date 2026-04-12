@@ -6,163 +6,95 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI'; }
 
-        body {
-            background: #f4f7fb;
-        }
+        body { background:#f4f7fb; }
 
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background: #0d6efd;
-            color: white;
+            display:flex; justify-content:space-between; align-items:center;
+            padding:20px 40px; background:#0d6efd; color:white;
         }
 
-        header h1 {
-            font-size: 24px;
-        }
+        header h1 { font-size:24px; }
 
-        .logo {
-            color: white;
-            text-decoration: none;
-        }
+        .logo { color:white; text-decoration:none; }
 
-        .header-actions {
-            display: flex;
-            gap: 10px;
-        }
+        .header-actions { display:flex; gap:10px; }
 
         .home-btn {
-            background: transparent;
-            border: 2px solid white;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            cursor: pointer;
+            background:transparent; border:2px solid white; color:white;
+            padding:8px 16px; border-radius:8px; cursor:pointer;
         }
 
         .logout-btn {
-            background: white;
-            color: #0d6efd;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
+            background:white; color:#0d6efd; border:none;
+            padding:10px 20px; border-radius:8px; cursor:pointer;
         }
 
-        .container {
-            display: flex;
-            height: calc(100vh - 80px);
-        }
+        .container { display:flex; height:calc(100vh - 80px); }
 
         .sidebar {
-            width: 250px;
-            background: white;
-            padding: 20px;
-            border-right: 1px solid #eee;
+            width:250px; background:white; padding:20px;
+            border-right:1px solid #eee;
         }
 
         .menu-item {
-            padding: 12px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            border-radius: 8px;
+            padding:12px; margin-bottom:10px;
+            cursor:pointer; border-radius:8px;
         }
 
-        .menu-item.active {
-            background: #0d6efd;
-            color: white;
-        }
+        .menu-item.active { background:#0d6efd; color:white; }
 
-        .menu-item:hover {
-            background: #f1f5ff;
-        }
+        .menu-item:hover { background:#f1f5ff; }
 
-        .content {
-            flex: 1;
-            padding: 40px;
-        }
+        .content { flex:1; padding:40px; }
 
-        .section {
-            display: none;
-        }
+        .section { display:none; }
 
-        .section.active {
-            display: block;
-        }
+        .section.active { display:block; }
 
         .card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-        }
-
-        .agendamento {
-            border-bottom: 1px solid #eee;
-            padding: 15px 0;
-        }
-
-        .btn-small {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
-        }
-
-        .btn-cancelar {
-            background: #dc3545;
-            color: white;
+            background:white; padding:25px; border-radius:12px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.08);
         }
 
         .exame-container {
-            display: flex;
-            justify-content: space-between;
-            background: #f1f5ff;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-        }
-
-        .form-exame {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .input-exame {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-
-        .btn-add-exame {
-            background: #0d6efd;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 8px;
-            cursor: pointer;
+            display:flex; justify-content:space-between;
+            background:#f1f5ff; padding:10px;
+            border-radius:8px; margin-bottom:10px;
         }
 
         .btn-remover-exame {
-            background: #dc3545;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-size: 12px;
+            background:#dc3545; color:white;
+            padding:5px 10px; border-radius:6px;
+            text-decoration:none; font-size:12px;
         }
+
+        .form-exame { display:flex; gap:10px; margin-top:10px; }
+
+        .input-exame {
+            flex:1; padding:10px;
+            border-radius:8px; border:1px solid #ccc;
+        }
+
+        .btn-add-exame {
+            background:#0d6efd; color:white;
+            border:none; padding:10px;
+            border-radius:8px; cursor:pointer;
+        }
+
+        /* DOCUMENTOS */
+        .status {
+            padding:6px 10px;
+            border-radius:6px;
+            font-size:12px;
+            display:inline-block;
+            margin-top:5px;
+        }
+
+        .pendente { background:#ffc107; }
+        .aprovado { background:#198754; color:white; }
+        .rejeitado { background:#dc3545; color:white; }
 
     </style>
 </head>
@@ -189,6 +121,7 @@
         <!-- MÉDICO -->
         <div th:if="${usuario.tipo.equalsIgnoreCase('MEDICO')}">
             <div class="menu-item" onclick="irParaAba('exames')">Exames</div>
+            <div class="menu-item" onclick="irParaAba('documentos')">Documentos</div>
         </div>
 
         <!-- ADMIN -->
@@ -203,6 +136,7 @@
     <!-- CONTEÚDO -->
     <div class="content">
 
+        <!-- DADOS -->
         <div id="dados" class="section">
             <div class="card">
                 <p><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
@@ -211,6 +145,7 @@
             </div>
         </div>
 
+        <!-- EXAMES MÉDICO -->
         <div id="exames" class="section">
             <div class="card">
 
@@ -229,6 +164,48 @@
             </div>
         </div>
 
+        <!-- 🔥 DOCUMENTOS -->
+        <div id="documentos" class="section">
+            <div class="card">
+
+                <h2>Documentos</h2>
+                <br>
+
+                <p><strong>Status:</strong></p>
+
+                <span th:text="${usuario.status}"
+                      th:classappend="
+                        ${usuario.status == 'PENDENTE'} ? 'status pendente' :
+                        (${usuario.status == 'APROVADO'} ? 'status aprovado' : 'status rejeitado')">
+                </span>
+
+                <br><br>
+
+                <div th:if="${usuario.documento != null}">
+                    <p><strong>Documento enviado:</strong></p>
+                    <p th:text="${usuario.documento}"></p>
+                </div>
+
+                <div th:if="${usuario.documento == null}">
+                    <p>Nenhum documento enviado</p>
+                </div>
+
+                <br>
+
+                <form action="/medico/upload-documento"
+                      method="post"
+                      enctype="multipart/form-data">
+
+                    <input type="file" name="arquivo" required>
+                    <br><br>
+                    <button class="btn-add-exame">Enviar</button>
+
+                </form>
+
+            </div>
+        </div>
+
+        <!-- EXAMES ADMIN -->
         <div id="examesAdmin" class="section">
             <div class="card">
 
@@ -242,49 +219,10 @@
                     </div>
 
                     <a th:href="@{/admin/remover-exame(exame=${ex.nomeExame})}"
-                       class="btn-remover-exame">
-                        Excluir
-                    </a>
+                       class="btn-remover-exame">Excluir</a>
 
                 </div>
 
-            </div>
-        </div>
-
-        <div id="historico" class="section">
-            <div class="card">
-
-                <div th:each="ag, stat : ${agendamentos}" class="agendamento">
-
-                    <p th:if="${usuario.tipo.equalsIgnoreCase('ADMIN')}">
-                        <strong>Paciente:</strong>
-                        <span th:text="${ag.nomeUsuario}"></span>
-                    </p>
-
-                    <p><strong>Exame:</strong> <span th:text="${ag.exame}"></span></p>
-
-                    <a th:href="@{/cancelar(index=${stat.index})}" class="btn-small btn-cancelar">
-                        Cancelar
-                    </a>
-
-                </div>
-
-            </div>
-        </div>
-
-        <div id="pacientes" class="section">
-            <div class="card">
-                <div th:each="p : ${pacientes}">
-                    <p th:text="${p.nome}"></p>
-                </div>
-            </div>
-        </div>
-
-        <div id="medicos" class="section">
-            <div class="card">
-                <div th:each="m : ${medicos}">
-                    <p th:text="${m.nome}"></p>
-                </div>
             </div>
         </div>
 

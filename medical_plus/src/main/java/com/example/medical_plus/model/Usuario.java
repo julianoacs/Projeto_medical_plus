@@ -13,6 +13,12 @@ public class Usuario {
     // 🔥 EXAMES DO MÉDICO
     private List<String> exames = new ArrayList<>();
 
+    // 🔥 NOVO — DOCUMENTO DO MÉDICO
+    private String documento;
+
+    // 🔥 NOVO — STATUS DO MÉDICO (FUTURO ADMIN)
+    private String status = "PENDENTE"; // PENDENTE / APROVADO / REJEITADO
+
     public Usuario(String nome, String email, String senha, String tipo) {
         this.nome = nome;
         this.email = email;
@@ -20,7 +26,9 @@ public class Usuario {
         this.tipo = tipo;
     }
 
-    // ✅ GETTERS
+    // =====================
+    // GETTERS
+    // =====================
 
     public String getNome() {
         return nome;
@@ -42,23 +50,48 @@ public class Usuario {
         return exames;
     }
 
-    // ADICIONAR EXAME (COM VALIDAÇÃO)
+    public String getDocumento() {
+        return documento;
+    }
 
+    public String getStatus() {
+        return status;
+    }
+
+    // =====================
+    // SETTERS
+    // =====================
+
+    public void setDocumento(String documento) {
+        this.documento = documento;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    // =====================
+    // MÉTODOS DE NEGÓCIO
+    // =====================
+
+    // 🔥 ADICIONAR EXAME (COM VALIDAÇÃO)
     public void adicionarExame(String exame) {
 
         if (exame == null || exame.trim().isEmpty()) {
             return;
         }
 
-        // 🔥 evita duplicados
-        if (!exames.contains(exame)) {
+        // evita duplicados (case insensitive)
+        boolean jaExiste = exames.stream()
+                .anyMatch(e -> e.equalsIgnoreCase(exame));
+
+        if (!jaExiste) {
             exames.add(exame);
         }
     }
 
     // 🔥 REMOVER EXAME
-
     public void removerExame(String exame) {
-        exames.remove(exame);
+        exames.removeIf(e -> e.equalsIgnoreCase(exame));
     }
 }
