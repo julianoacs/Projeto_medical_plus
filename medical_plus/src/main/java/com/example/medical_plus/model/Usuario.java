@@ -2,6 +2,9 @@ package com.example.medical_plus.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.List;
+import com.example.medical_plus.model.Documento;
 
 public class Usuario {
 
@@ -13,8 +16,8 @@ public class Usuario {
     // 🔥 EXAMES DO MÉDICO
     private List<String> exames = new ArrayList<>();
 
-    // 🔥 NOVO — DOCUMENTO DO MÉDICO
-    private String documento;
+    // 🔥 NOVO — LISTA DE DOCUMENTOS
+    private List<Documento> documentos = new ArrayList<>();
 
     // 🔥 NOVO — STATUS DO MÉDICO (FUTURO ADMIN)
     private String status = "PENDENTE"; // PENDENTE / APROVADO / REJEITADO
@@ -50,9 +53,7 @@ public class Usuario {
         return exames;
     }
 
-    public String getDocumento() {
-        return documento;
-    }
+    public List<Documento> getDocumentos() { return documentos; }
 
     public String getStatus() {
         return status;
@@ -61,10 +62,6 @@ public class Usuario {
     // =====================
     // SETTERS
     // =====================
-
-    public void setDocumento(String documento) {
-        this.documento = documento;
-    }
 
     public void setStatus(String status) {
         this.status = status;
@@ -88,6 +85,16 @@ public class Usuario {
         if (!jaExiste) {
             exames.add(exame);
         }
+    }
+
+    // 🔥 ADICIONAR DOCUMENTO
+    public void adicionarDocumento(String nomeArquivo) {
+        documentos.add(new Documento(nomeArquivo));
+    }
+
+    // 🔥 REMOVER DOCUMENTO
+    public void removerDocumento(String nomeArquivo) {
+        documentos.removeIf(d -> d.getNomeArquivo().equals(nomeArquivo));
     }
 
     // 🔥 REMOVER EXAME

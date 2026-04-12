@@ -9,21 +9,4 @@ import org.springframework.web.multipart.MultipartFile;
 @Controller
 public class DocumentoController {
 
-    @PostMapping("/medico/upload-documento")
-    public String uploadDocumento(@RequestParam("arquivo") MultipartFile arquivo,
-                                  HttpSession session) {
-
-        Usuario usuario = (Usuario) session.getAttribute("usuario");
-
-        if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) {
-            return "redirect:/login";
-        }
-
-        if (!arquivo.isEmpty()) {
-            // 🔥 aqui estamos salvando só o nome (simples)
-            usuario.setDocumento(arquivo.getOriginalFilename());
-        }
-
-        return "redirect:/profile?aba=documentos";
-    }
 }
