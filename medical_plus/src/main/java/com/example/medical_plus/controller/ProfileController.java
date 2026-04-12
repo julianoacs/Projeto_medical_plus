@@ -23,28 +23,43 @@ public class ProfileController {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
+        // 🔒 PROTEÇÃO
         if (usuario == null) {
             return "redirect:/login";
         }
 
+        // 🔥 USUÁRIO LOGADO
         model.addAttribute("usuario", usuario);
 
-        // DIFERENCIAÇÃO ADMIN x USUÁRIO
+        // =========================
+        // 👨‍💼 ADMIN
+        // =========================
         if ("ADMIN".equalsIgnoreCase(usuario.getTipo())) {
 
-            // ADMIN vê tudo
-            model.addAttribute("agendamentos", agendamentoService.listarTodos());
+            // 📅 TODAS CONSULTAS
+            model.addAttribute("agendamentos",
+                    agendamentoService.listarTodos());
 
-            model.addAttribute("pacientes", usuarioService.listarPacientes());
-            model.addAttribute("medicos", usuarioService.listarMedicos());
+            // 👥 LISTAS
+            model.addAttribute("pacientes",
+                    usuarioService.listarPacientes());
 
-        } else {
+            model.addAttribute("medicos",
+                    usuarioService.listarMedicos());
 
-            // usuário comum vê só os dele
-            model.addAttribute(
-                    "agendamentos",
-                    agendamentoService.listarPorUsuario(usuario.getEmail())
-            );
+            // NOVO — TODOS EXAMES
+            model.addAttribute("todosExames",
+                    usuarioService.listarTodosExamesComMedico());
+
+        }
+        // =========================
+        // 👤 USUÁRIO NORMAL / MÉDICO
+        // =========================
+        else {
+
+            // 📅 SOMENTE DO USUÁRIO
+            model.addAttribute("agendamentos",
+                    agendamentoService.listarPorUsuario(usuario.getEmail()));
         }
 
         return "profile";

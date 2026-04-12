@@ -1,5 +1,6 @@
 package com.example.medical_plus.service;
 
+import com.example.medical_plus.dto.ExameDTO;
 import com.example.medical_plus.model.Usuario;
 import org.springframework.stereotype.Service;
 
@@ -48,21 +49,78 @@ public class UsuarioService {
                 .toList();
     }
 
-    // 🔥 NOVO — LISTAR TODOS OS EXAMES DOS MÉDICOS
+    // 🔥 LISTAR TODOS EXAMES (ANTIGO - MANTIDO)
     public List<String> listarTodosExames() {
 
         List<String> exames = new ArrayList<>();
 
         for (Usuario u : usuarios) {
-
             if ("MEDICO".equalsIgnoreCase(u.getTipo())) {
                 exames.addAll(u.getExames());
             }
         }
 
-        // 🔥 REMOVER DUPLICADOS
         return exames.stream()
                 .distinct()
                 .toList();
+    }
+
+    // 🔥 NOVO — LISTAR EXAMES COM MÉDICO (DTO)
+    public List<ExameDTO> listarTodosExamesComMedico() {
+
+        List<ExameDTO> lista = new ArrayList<>();
+
+        for (Usuario u : usuarios) {
+
+            if ("MEDICO".equalsIgnoreCase(u.getTipo())) {
+
+                for (String exame : u.getExames()) {
+
+                    lista.add(new ExameDTO(
+                            exame,
+                            u.getNome()
+                    ));
+                }
+            }
+        }
+
+        return lista;
+    }
+
+    // 🔥 REMOVER EXAME GLOBAL (ADMIN)
+    public void removerExameGlobal(String exame) {
+
+        for (Usuario u : usuarios) {
+
+            if ("MEDICO".equalsIgnoreCase(u.getTipo())) {
+
+                u.getExames().removeIf(e ->
+                        e.equalsIgnoreCase(exame)
+                );
+            }
+        }
+    }
+
+    // 🔥 ADICIONAR EXAME AO MÉDICO (COM VALIDAÇÃO)
+    public void adicionarExameAoMedico(Usuario usuario, String exame) {
+
+        if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) {
+            return;
+        }
+
+        boolean jaExiste = usuario.getExames().stream()
+                .anyMatch(e -> e.equalsIgnoreCase(exame));
+
+        if (!jaExiste) {
+            usuario.getExames().add(exame);
+        }
+    }
+
+    // 🔥 BUSCAR USUÁRIO POR EMAIL
+    public Usuario buscarPorEmail(String email) {
+        return usuarios.stream()
+                .filter(u -> u.getEmail().equalsIgnoreCase(email))
+                .findFirst()
+                .orElse(null);
     }
 }

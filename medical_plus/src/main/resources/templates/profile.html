@@ -17,7 +17,6 @@
             background: #f4f7fb;
         }
 
-        /* HEADER */
         header {
             display: flex;
             justify-content: space-between;
@@ -29,7 +28,6 @@
 
         header h1 {
             font-size: 24px;
-            font-weight: bold;
         }
 
         .logo {
@@ -51,11 +49,6 @@
             cursor: pointer;
         }
 
-        .home-btn:hover {
-            background: white;
-            color: #0d6efd;
-        }
-
         .logout-btn {
             background: white;
             color: #0d6efd;
@@ -63,10 +56,8 @@
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
-            font-weight: bold;
         }
 
-        /* LAYOUT */
         .container {
             display: flex;
             height: calc(100vh - 80px);
@@ -115,7 +106,6 @@
             box-shadow: 0 10px 25px rgba(0,0,0,0.08);
         }
 
-        /* HISTÓRICO */
         .agendamento {
             border-bottom: 1px solid #eee;
             padding: 15px 0;
@@ -126,7 +116,6 @@
             border: none;
             border-radius: 6px;
             cursor: pointer;
-            margin-right: 5px;
             font-size: 12px;
         }
 
@@ -135,12 +124,9 @@
             color: white;
         }
 
-        /* MÉDICO - EXAMES */
-
         .exame-container {
             display: flex;
             justify-content: space-between;
-            align-items: center;
             background: #f1f5ff;
             padding: 10px;
             border-radius: 8px;
@@ -169,10 +155,6 @@
             cursor: pointer;
         }
 
-        .btn-add-exame:hover {
-            background: #0b5ed7;
-        }
-
         .btn-remover-exame {
             background: #dc3545;
             color: white;
@@ -182,19 +164,13 @@
             font-size: 12px;
         }
 
-        .btn-remover-exame:hover {
-            background: #bb2d3b;
-        }
-
     </style>
 </head>
 
 <body>
 
 <header>
-    <h1>
-        <a href="/" class="logo">Medical Plus</a>
-    </h1>
+    <h1><a href="/" class="logo">Medical Plus</a></h1>
 
     <div class="header-actions">
         <button class="home-btn" onclick="location.href='/'">Home</button>
@@ -206,25 +182,28 @@
 
     <!-- MENU -->
     <div class="sidebar">
-        <div class="menu-item active" onclick="mostrarSecao('dados')">Dados Cadastrais</div>
-        <div class="menu-item" onclick="mostrarSecao('historico')">Histórico de Consultas</div>
 
-        <!-- 🔥 NOVA ABA EXAMES -->
-        <div th:if="${usuario.tipo == 'medico'}">
-            <div class="menu-item" onclick="mostrarSecao('exames')">Cadastrar Exames</div>
+        <div class="menu-item" onclick="irParaAba('dados')">Dados</div>
+        <div class="menu-item" onclick="irParaAba('historico')">Histórico</div>
+
+        <!-- MÉDICO -->
+        <div th:if="${usuario.tipo.equalsIgnoreCase('MEDICO')}">
+            <div class="menu-item" onclick="irParaAba('exames')">Exames</div>
         </div>
 
-        <div th:if="${usuario.tipo == 'ADMIN'}">
-            <div class="menu-item" onclick="mostrarSecao('pacientes')">Pacientes Cadastrados</div>
-            <div class="menu-item" onclick="mostrarSecao('medicos')">Médicos Cadastrados</div>
+        <!-- ADMIN -->
+        <div th:if="${usuario.tipo.equalsIgnoreCase('ADMIN')}">
+            <div class="menu-item" onclick="irParaAba('pacientes')">Pacientes</div>
+            <div class="menu-item" onclick="irParaAba('medicos')">Médicos</div>
+            <div class="menu-item" onclick="irParaAba('examesAdmin')">Exames</div>
         </div>
+
     </div>
 
     <!-- CONTEÚDO -->
     <div class="content">
 
-        <!-- DADOS -->
-        <div id="dados" class="section active">
+        <div id="dados" class="section">
             <div class="card">
                 <p><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
                 <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
@@ -232,55 +211,57 @@
             </div>
         </div>
 
-        <!-- EXAMES -->
         <div id="exames" class="section">
             <div class="card">
 
-                <h2>Exames que você realiza</h2>
-                <br>
-
-                <div th:if="${#lists.isEmpty(usuario.exames)}">
-                    <p style="color:#666;">Nenhum exame cadastrado</p>
-                </div>
+                <h2>Seus Exames</h2>
 
                 <div th:each="ex : ${usuario.exames}" class="exame-container">
                     <span th:text="${ex}"></span>
-
-                    <a th:href="@{/medico/remover-exame(exame=${ex})}" class="btn-remover-exame">
-                        Excluir
-                    </a>
+                    <a th:href="@{/medico/remover-exame(exame=${ex})}" class="btn-remover-exame">Excluir</a>
                 </div>
 
                 <form action="/medico/adicionar-exame" method="post" class="form-exame">
-                    <input type="text" name="exame" placeholder="Novo exame" class="input-exame" required>
-                    <button type="submit" class="btn-add-exame">Adicionar</button>
+                    <input type="text" name="exame" class="input-exame" required>
+                    <button class="btn-add-exame">Adicionar</button>
                 </form>
 
             </div>
         </div>
 
-        <!-- HISTÓRICO -->
+        <div id="examesAdmin" class="section">
+            <div class="card">
+
+                <h2>Todos os Exames</h2>
+
+                <div th:each="ex : ${todosExames}" class="exame-container">
+
+                    <div>
+                        <strong th:text="${ex.nomeExame}"></strong><br>
+                        <small>Dr(a): <span th:text="${ex.nomeMedico}"></span></small>
+                    </div>
+
+                    <a th:href="@{/admin/remover-exame(exame=${ex.nomeExame})}"
+                       class="btn-remover-exame">
+                        Excluir
+                    </a>
+
+                </div>
+
+            </div>
+        </div>
+
         <div id="historico" class="section">
             <div class="card">
 
-                <h2>Histórico</h2>
-                <br>
-
-                <div th:if="${#lists.isEmpty(agendamentos)}">
-                    Nenhuma consulta
-                </div>
-
                 <div th:each="ag, stat : ${agendamentos}" class="agendamento">
 
-                    <p th:if="${usuario.tipo == 'ADMIN'}">
+                    <p th:if="${usuario.tipo.equalsIgnoreCase('ADMIN')}">
                         <strong>Paciente:</strong>
                         <span th:text="${ag.nomeUsuario}"></span>
                     </p>
 
                     <p><strong>Exame:</strong> <span th:text="${ag.exame}"></span></p>
-                    <p><strong>Médico:</strong> <span th:text="${ag.medico}"></span></p>
-                    <p><strong>Data:</strong> <span th:text="${ag.data}"></span></p>
-                    <p><strong>Hora:</strong> <span th:text="${ag.hora}"></span></p>
 
                     <a th:href="@{/cancelar(index=${stat.index})}" class="btn-small btn-cancelar">
                         Cancelar
@@ -291,30 +272,18 @@
             </div>
         </div>
 
-        <!-- PACIENTES -->
         <div id="pacientes" class="section">
             <div class="card">
-                <h2>Pacientes</h2>
-                <br>
-
                 <div th:each="p : ${pacientes}">
-                    <p><strong>Nome:</strong> <span th:text="${p.nome}"></span></p>
-                    <p><strong>Email:</strong> <span th:text="${p.email}"></span></p>
-                    <hr>
+                    <p th:text="${p.nome}"></p>
                 </div>
             </div>
         </div>
 
-        <!-- MÉDICOS -->
         <div id="medicos" class="section">
             <div class="card">
-                <h2>Médicos</h2>
-                <br>
-
                 <div th:each="m : ${medicos}">
-                    <p><strong>Nome:</strong> <span th:text="${m.nome}"></span></p>
-                    <p><strong>Email:</strong> <span th:text="${m.email}"></span></p>
-                    <hr>
+                    <p th:text="${m.nome}"></p>
                 </div>
             </div>
         </div>
@@ -324,13 +293,29 @@
 </div>
 
 <script>
-    function mostrarSecao(secao) {
+
+    function irParaAba(aba) {
+        window.location.href = "/profile?aba=" + aba;
+    }
+
+    window.onload = function () {
+
+        const params = new URLSearchParams(window.location.search);
+        const aba = params.get("aba") || "dados";
+
         document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
         document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
 
-        document.getElementById(secao).classList.add('active');
-        event.target.classList.add('active');
-    }
+        document.getElementById(aba)?.classList.add('active');
+
+        document.querySelectorAll('.menu-item').forEach(m => {
+            if (m.innerText.toLowerCase().includes(aba.toLowerCase())) {
+                m.classList.add('active');
+            }
+        });
+
+    };
+
 </script>
 
 </body>
