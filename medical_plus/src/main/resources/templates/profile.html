@@ -64,6 +64,10 @@
             border-radius:8px; margin-bottom:10px;
         }
 
+        .agendamento-info {
+            display:flex; flex-direction:column; gap:4px;
+        }
+
         .btn-remover-exame {
             background:#dc3545; color:white;
             padding:5px 10px; border-radius:6px;
@@ -115,7 +119,7 @@
     <!-- MENU -->
     <div class="sidebar">
 
-        <div class="menu-item" onclick="irParaAba('dados')">Dados</div>
+        <div class="menu-item" data-aba="dados" onclick="irParaAba('dados')">Dados</div>
         <div class="menu-item" onclick="irParaAba('historico')">Histórico</div>
 
         <!-- MÉDICO -->
@@ -142,6 +146,39 @@
                 <p><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
                 <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
                 <p><strong>Tipo:</strong> <span th:text="${usuario.tipo}"></span></p>
+            </div>
+        </div>
+
+        <!-- HISTÓRICO -->
+        <div id="historico" class="section">
+            <div class="card">
+
+                <h2>Histórico de Consultas</h2>
+                <br>
+
+                <!-- SEM CONSULTAS -->
+                <div th:if="${#lists.isEmpty(agendamentos)}">
+                    Nenhuma consulta registrada
+                </div>
+
+                <!-- COM CONSULTAS -->
+                <div th:each="ag : ${agendamentos}" class="exame-container">
+
+                    <div class="agendamento-info">
+                        <strong th:text="${ag.exame}"></strong>
+
+                        <span th:text="'Dr(a): ' + ${ag.medico}"></span>
+
+                        <span th:text="'Data: ' + ${ag.data} + ' - ' + ${ag.hora}"></span>
+
+                        <!-- 🔥 MOSTRA PACIENTE APENAS PARA ADMIN -->
+                        <span th:if="${usuario.tipo.equalsIgnoreCase('ADMIN')}"
+                              th:text="'Paciente: ' + ${ag.nomeUsuario}">
+                </span>
+                    </div>
+
+                </div>
+
             </div>
         </div>
 
