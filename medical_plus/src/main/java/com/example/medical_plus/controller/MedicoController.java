@@ -92,4 +92,18 @@ public class MedicoController {
         }
         return "redirect:/profile?aba=documentos";
     }
+
+    @PostMapping("/medico/definir-especialidade")
+    public String definirEspecialidade(String especialidade, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) {
+            return "redirect:/login";
+        }
+
+        usuario.setEspecialidade(especialidade);
+
+        return "redirect:/profile?aba=dados";
+    }
 }

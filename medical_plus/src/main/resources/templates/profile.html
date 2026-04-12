@@ -188,6 +188,7 @@
         <div th:if="${usuario.tipo.equalsIgnoreCase('MEDICO')}">
             <div class="menu-item" onclick="irParaAba('exames')">Exames</div>
             <div class="menu-item" onclick="irParaAba('documentos')">Documentos</div>
+            <div class="menu-item" onclick="irParaAba('especialidade')">Especialidade</div>
         </div>
 
         <!-- ADMIN -->
@@ -205,9 +206,23 @@
         <!-- DADOS -->
         <div id="dados" class="section">
             <div class="card">
+
                 <p><strong>Nome:</strong> <span th:text="${usuario.nome}"></span></p>
                 <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
                 <p><strong>Tipo:</strong> <span th:text="${usuario.tipo}"></span></p>
+
+                <!-- MÉDICO -->
+                <div th:if="${usuario.tipo.equalsIgnoreCase('MEDICO')}">
+
+                    <p><strong>Especialidade:</strong>
+                        <span th:text="${usuario.especialidade != null && !usuario.especialidade.isEmpty()
+                                ? usuario.especialidade
+                                : 'Sem Especialidade'}">
+                </span>
+                    </p>
+
+                </div>
+
             </div>
         </div>
 
@@ -314,6 +329,31 @@
                     <input type="file" name="arquivos" multiple required>
                     <br><br>
                     <button class="btn-add-exame">Enviar documentos</button>
+                </form>
+
+            </div>
+        </div>
+
+        <!-- ESPECIALIDADE -->
+        <div id="especialidade" class="section">
+            <div class="card">
+
+                <h2>Definir Especialidade</h2>
+                <br>
+
+                <form action="/medico/definir-especialidade" method="post">
+
+                    <label>Especialidade:</label>
+                    <input type="text"
+                           name="especialidade"
+                           class="input-exame"
+                           placeholder="Ex: Cardiologia"
+                           th:value="${usuario.especialidade}">
+
+                    <br><br>
+
+                    <button class="btn-add-exame">Salvar</button>
+
                 </form>
 
             </div>

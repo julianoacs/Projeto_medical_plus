@@ -22,6 +22,9 @@ public class Usuario {
     // 🔥 NOVO — STATUS DO MÉDICO (FUTURO ADMIN)
     private String status = "PENDENTE"; // PENDENTE / APROVADO / REJEITADO
 
+    // 🔥 NOVO — ESPECIALIDADE DO MÉDICO
+    private String especialidade;
+
     public Usuario(String nome, String email, String senha, String tipo) {
         this.nome = nome;
         this.email = email;
@@ -59,6 +62,8 @@ public class Usuario {
         return status;
     }
 
+    public String getEspecialidade() { return especialidade; }
+
     // =====================
     // SETTERS
     // =====================
@@ -66,6 +71,8 @@ public class Usuario {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public void setEspecialidade(String especialidade) { this.especialidade = especialidade; }
 
     // =====================
     // MÉTODOS DE NEGÓCIO
@@ -100,5 +107,11 @@ public class Usuario {
     // 🔥 REMOVER EXAME
     public void removerExame(String exame) {
         exames.removeIf(e -> e.equalsIgnoreCase(exame));
+    }
+
+    public void definirEspecialidade(String especialidade) {
+        if (especialidade != null && !especialidade.trim().isEmpty()) {
+            this.especialidade = especialidade;
+        }
     }
 }
