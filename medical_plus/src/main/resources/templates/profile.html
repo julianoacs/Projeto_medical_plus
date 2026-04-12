@@ -7,6 +7,7 @@
 
     <style>
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI'; }
+
         body { background:#f4f7fb; }
 
         header {
@@ -14,7 +15,7 @@
             padding:20px 40px; background:#0d6efd; color:white;
         }
 
-        header h1 { font-size:24px; font-weight:bold; }
+        header h1 { font-size:24px; }
 
         .logo { color:white; text-decoration:none; }
 
@@ -43,11 +44,13 @@
         }
 
         .menu-item.active { background:#0d6efd; color:white; }
+
         .menu-item:hover { background:#f1f5ff; }
 
         .content { flex:1; padding:40px; }
 
         .section { display:none; }
+
         .section.active { display:block; }
 
         .card {
@@ -55,7 +58,6 @@
             box-shadow:0 10px 25px rgba(0,0,0,0.08);
         }
 
-        /* EXAMES */
         .exame-container {
             display:flex; justify-content:space-between;
             background:#f1f5ff; padding:10px;
@@ -81,61 +83,19 @@
             border-radius:8px; cursor:pointer;
         }
 
-        /* STATUS */
+        /* DOCUMENTOS */
         .status {
             padding:6px 10px;
             border-radius:6px;
             font-size:12px;
             display:inline-block;
+            margin-top:5px;
         }
 
         .pendente { background:#ffc107; }
         .aprovado { background:#198754; color:white; }
         .rejeitado { background:#dc3545; color:white; }
 
-        /* MÉDICOS ADMIN */
-        .medico-box { margin-bottom:10px; }
-
-        .medico-header {
-            background:#fff;
-            padding:15px;
-            border-radius:10px;
-            border:1px solid #eee;
-            cursor:pointer;
-        }
-
-        .medico-header:hover { background:#f1f5ff; }
-
-        .medico-detalhes {
-            display:none;
-            padding:15px;
-            border:1px solid #eee;
-            border-top:none;
-            border-radius:0 0 10px 10px;
-            background:#f9fbff;
-        }
-
-        .acoes-admin {
-            display:flex;
-            gap:10px;
-            margin-top:10px;
-        }
-
-        .btn-aprovar {
-            background:#198754;
-            color:white;
-            padding:6px 12px;
-            border-radius:6px;
-            text-decoration:none;
-        }
-
-        .btn-rejeitar {
-            background:#dc3545;
-            color:white;
-            padding:6px 12px;
-            border-radius:6px;
-            text-decoration:none;
-        }
     </style>
 </head>
 
@@ -158,11 +118,13 @@
         <div class="menu-item" onclick="irParaAba('dados')">Dados</div>
         <div class="menu-item" onclick="irParaAba('historico')">Histórico</div>
 
+        <!-- MÉDICO -->
         <div th:if="${usuario.tipo.equalsIgnoreCase('MEDICO')}">
             <div class="menu-item" onclick="irParaAba('exames')">Exames</div>
             <div class="menu-item" onclick="irParaAba('documentos')">Documentos</div>
         </div>
 
+        <!-- ADMIN -->
         <div th:if="${usuario.tipo.equalsIgnoreCase('ADMIN')}">
             <div class="menu-item" onclick="irParaAba('pacientes')">Pacientes</div>
             <div class="menu-item" onclick="irParaAba('medicos')">Médicos</div>
@@ -183,6 +145,25 @@
             </div>
         </div>
 
+        <!-- EXAMES MÉDICO -->
+        <div id="exames" class="section">
+            <div class="card">
+
+                <h2>Seus Exames</h2>
+
+                <div th:each="ex : ${usuario.exames}" class="exame-container">
+                    <span th:text="${ex}"></span>
+                    <a th:href="@{/medico/remover-exame(exame=${ex})}" class="btn-remover-exame">Excluir</a>
+                </div>
+
+                <form action="/medico/adicionar-exame" method="post" class="form-exame">
+                    <input type="text" name="exame" class="input-exame" required>
+                    <button class="btn-add-exame">Adicionar</button>
+                </form>
+
+            </div>
+        </div>
+
         <!-- DOCUMENTOS -->
         <div id="documentos" class="section">
             <div class="card">
@@ -190,43 +171,63 @@
                 <h2>Documentos</h2>
                 <br>
 
-                <div th:if="${#lists.isEmpty(usuario.documentos)}">
-                    Nenhum documento enviado
-                </div>
+                <p><strong>Status:</strong></p>
 
-                <div th:each="doc : ${usuario.documentos}" class="medico-box">
-
-                    <div class="medico-header" onclick="toggleMedico(this)">
-                        <strong th:text="${doc.nomeArquivo}"></strong>
-                    </div>
-
-                    <div class="medico-detalhes">
-
-                <span th:text="${doc.status}"
-                      th:class="'status ' +
-                      (${doc.status} == 'APROVADO' ? 'aprovado' :
-                      (${doc.status} == 'REJEITADO' ? 'rejeitado' : 'pendente'))">
+                <span th:text="${usuario.status}"
+                      th:classappend="
+                        ${usuario.status == 'PENDENTE'} ? 'status pendente' :
+                        (${usuario.status == 'APROVADO'} ? 'status aprovado' : 'status rejeitado')">
                 </span>
 
-                        <br><br>
+                <br><br>
 
-                        <a th:href="@{'/uploads/' + ${doc.nomeArquivo}}"
-                           target="_blank"
-                           class="btn-aprovar">
-                            Abrir PDF
-                        </a>
+                <div th:if="${usuario.documento != null}">
+                    <p><strong>Documento enviado:</strong></p>
+                    <p th:text="${usuario.documento}"></p>
+                </div>
 
-                    </div>
-
+                <div th:if="${usuario.documento == null}">
+                    <p>Nenhum documento enviado</p>
                 </div>
 
                 <br>
 
-                <form action="/medico/upload-documento" method="post" enctype="multipart/form-data">
+                <form action="/medico/upload-documento"
+                      method="post"
+                      enctype="multipart/form-data">
+
                     <input type="file" name="arquivo" required>
                     <br><br>
                     <button class="btn-add-exame">Enviar</button>
+
                 </form>
+
+            </div>
+        </div>
+
+        <!-- PACIENTES ADMIN -->
+        <div id="pacientes" class="section">
+            <div class="card">
+
+                <h2>Pacientes Cadastrados</h2>
+                <br>
+
+                <!-- SEM PACIENTES -->
+                <div th:if="${#lists.isEmpty(pacientes)}">
+                    Nenhum paciente cadastrado
+                </div>
+
+                <!-- COM PACIENTES -->
+                <div th:if="${!#lists.isEmpty(pacientes)}">
+                    <div th:each="p : ${pacientes}" class="exame-container">
+
+                        <div>
+                            <strong th:text="${p.nome}"></strong><br>
+                            <small>Email: <span th:text="${p.email}"></span></small>
+                        </div>
+
+                    </div>
+                </div>
 
             </div>
         </div>
@@ -235,57 +236,19 @@
         <div id="medicos" class="section">
             <div class="card">
 
-                <h2>Médicos</h2>
+                <h2>Médicos Cadastrados</h2>
                 <br>
 
-                <div th:each="m : ${medicos}" class="medico-box">
+                <div th:if="${#lists.isEmpty(medicos)}">
+                    Nenhum médico cadastrado
+                </div>
 
-                    <div class="medico-header" onclick="toggleMedico(this)">
-                        <strong th:text="'Dr(a) ' + ${m.nome}"></strong>
-                    </div>
+                <div th:each="m : ${medicos}" class="exame-container">
 
-                    <div class="medico-detalhes">
+                    <div>
+                        <strong th:text="'Dr(a) ' + ${m.nome}"></strong><br>
 
-                        <p><strong>Email:</strong> <span th:text="${m.email}"></span></p>
-
-                        <div th:if="${#lists.isEmpty(m.documentos)}">
-                            Nenhum documento enviado
-                        </div>
-
-                        <div th:each="doc : ${m.documentos}">
-
-                            <hr>
-
-                            <p th:text="${doc.nomeArquivo}"></p>
-
-                            <span th:text="${doc.status}"
-                                  th:class="'status ' +
-                          (${doc.status} == 'APROVADO' ? 'aprovado' :
-                          (${doc.status} == 'REJEITADO' ? 'rejeitado' : 'pendente'))">
-                    </span>
-
-                            <br><br>
-
-                            <a th:href="@{'/uploads/' + ${doc.nomeArquivo}}"
-                               target="_blank"
-                               class="btn-aprovar">
-                                Abrir
-                            </a>
-
-                            <div class="acoes-admin">
-                                <a th:href="@{/admin/aprovar-documento(email=${m.email}, arquivo=${doc.nomeArquivo})}"
-                                   class="btn-aprovar">
-                                    Aprovar
-                                </a>
-
-                                <a th:href="@{/admin/rejeitar-documento(email=${m.email}, arquivo=${doc.nomeArquivo})}"
-                                   class="btn-rejeitar">
-                                    Rejeitar
-                                </a>
-                            </div>
-
-                        </div>
-
+                        <small>Email: <span th:text="${m.email}"></span></small><br>
                     </div>
 
                 </div>
@@ -293,20 +256,53 @@
             </div>
         </div>
 
+        <!-- EXAMES ADMIN -->
+        <div id="examesAdmin" class="section">
+            <div class="card">
+
+                <h2>Todos os Exames</h2>
+                <br>
+
+                <!-- SEM EXAMES -->
+                <div th:if="${#lists.isEmpty(todosExames)}">
+                    Nenhum exame cadastrado
+                </div>
+
+                <!-- COM EXAMES -->
+                <div th:if="${!#lists.isEmpty(todosExames)}">
+                    <div th:each="ex : ${todosExames}" class="exame-container">
+
+                        <div>
+                            <strong th:text="${ex.nomeExame}"></strong><br>
+                            <small>
+                                Dr(a):
+                                <span th:text="${ex.nomeMedico}"></span>
+                            </small>
+                        </div>
+
+                        <a th:href="@{/admin/remover-exame(exame=${ex.nomeExame})}"
+                           class="btn-remover-exame">
+                            Excluir
+                        </a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
     </div>
+
 </div>
 
 <script>
+
     function irParaAba(aba) {
         window.location.href = "/profile?aba=" + aba;
     }
 
-    function toggleMedico(element) {
-        const detalhes = element.nextElementSibling;
-        detalhes.style.display = detalhes.style.display === "block" ? "none" : "block";
-    }
-
     window.onload = function () {
+
         const params = new URLSearchParams(window.location.search);
         const aba = params.get("aba") || "dados";
 
@@ -314,7 +310,15 @@
         document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
 
         document.getElementById(aba)?.classList.add('active');
+
+        document.querySelectorAll('.menu-item').forEach(m => {
+            if (m.innerText.toLowerCase().includes(aba.toLowerCase())) {
+                m.classList.add('active');
+            }
+        });
+
     };
+
 </script>
 
 </body>
