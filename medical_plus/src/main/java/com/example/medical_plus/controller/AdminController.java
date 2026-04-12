@@ -15,18 +15,16 @@ public class AdminController {
 
     // 🔥 REMOVER EXAME GLOBAL (ADMIN)
     @GetMapping("/admin/remover-exame")
-    public String removerExame(String exame, HttpSession session) {
+    public String removerExame(String exame, String medico, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        // 🔒 PROTEÇÃO
         if (usuario == null || !"ADMIN".equalsIgnoreCase(usuario.getTipo())) {
             return "redirect:/login";
         }
 
-        usuarioService.removerExameGlobal(exame);
+        usuarioService.removerExameDoMedico(exame, medico);
 
-        // 🔥 VOLTA PRA ABA CERTA
         return "redirect:/profile?aba=examesAdmin";
     }
 }

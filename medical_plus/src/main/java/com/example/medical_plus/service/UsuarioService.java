@@ -88,15 +88,18 @@ public class UsuarioService {
     }
 
     // 🔥 REMOVER EXAME GLOBAL (ADMIN)
-    public void removerExameGlobal(String exame) {
+    public void removerExameDoMedico(String exame, String nomeMedico) {
 
         for (Usuario u : usuarios) {
 
-            if ("MEDICO".equalsIgnoreCase(u.getTipo())) {
+            if ("MEDICO".equalsIgnoreCase(u.getTipo())
+                    && u.getNome().equalsIgnoreCase(nomeMedico)) {
 
                 u.getExames().removeIf(e ->
                         e.equalsIgnoreCase(exame)
                 );
+
+                break; // 🔥 para evitar remover de outros médicos
             }
         }
     }
