@@ -54,6 +54,9 @@ public class ProfileController {
             model.addAttribute("agendamentos",
                     agendamentoService.listarPorMedico(usuario.getNome()));
 
+            model.addAttribute("examesDisponiveis",
+                    usuarioService.listarExamesDisponiveis());
+
         }
         else {
 

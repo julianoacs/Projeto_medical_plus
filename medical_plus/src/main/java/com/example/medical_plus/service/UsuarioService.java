@@ -133,4 +133,12 @@ public class UsuarioService {
                 .filter(m -> m.getExames().contains(exame))
                 .collect(Collectors.toList());
     }
+
+    public List<String> listarExamesDisponiveis() {
+        return List.of(
+                "Exame 1",
+                "Exame 2",
+                "Exame 3"
+        );
+    }
 }

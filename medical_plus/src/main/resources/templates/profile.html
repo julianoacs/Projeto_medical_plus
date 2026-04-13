@@ -281,7 +281,15 @@
                 </div>
 
                 <form action="/medico/adicionar-exame" method="post" class="form-exame">
-                    <input type="text" name="exame" class="input-exame" required>
+                    <select name="exame" class="input-exame" required>
+                        <option value="">Selecione um exame</option>
+
+                        <option th:each="ex : ${examesDisponiveis}"
+                                th:value="${ex}"
+                                th:text="${ex}">
+                        </option>
+                    </select>
+
                     <button class="btn-add-exame">Adicionar</button>
                 </form>
 
