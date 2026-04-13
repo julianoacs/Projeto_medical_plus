@@ -36,28 +36,30 @@ public class ProfileController {
         // =========================
         if ("ADMIN".equalsIgnoreCase(usuario.getTipo())) {
 
-            // 📅 TODAS CONSULTAS
+            // ADMIN
             model.addAttribute("agendamentos",
                     agendamentoService.listarTodos());
 
-            // 👥 LISTAS
             model.addAttribute("pacientes",
                     usuarioService.listarPacientes());
 
             model.addAttribute("medicos",
                     usuarioService.listarMedicos());
 
-            // NOVO — TODOS EXAMES
             model.addAttribute("todosExames",
                     usuarioService.listarTodosExamesComMedico());
 
         }
-        // =========================
-        // 👤 USUÁRIO NORMAL / MÉDICO
-        // =========================
+        else if ("MEDICO".equalsIgnoreCase(usuario.getTipo())) {
+
+            // MÉDICO
+            model.addAttribute("agendamentos",
+                    agendamentoService.listarPorMedico(usuario.getNome()));
+
+        }
         else {
 
-            // 📅 SOMENTE DO USUÁRIO
+            // PACIENTE
             model.addAttribute("agendamentos",
                     agendamentoService.listarPorUsuario(usuario.getEmail()));
         }

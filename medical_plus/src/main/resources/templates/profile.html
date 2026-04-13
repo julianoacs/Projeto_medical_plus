@@ -244,29 +244,36 @@
                     <div class="agendamento-info">
                         <strong th:text="${ag.exame}"></strong>
 
-                        <span th:text="'Dr(a): ' + ${ag.medico}"></span>
+                        <span th:text="'Paciente: ' + ${ag.nomeUsuario}"></span>
 
                         <span th:text="'Data: ' + ${ag.data} + ' - ' + ${ag.hora}"></span>
 
-                        <!-- ADMIN -->
-                        <span th:if="${usuario.tipo.equalsIgnoreCase('ADMIN')}"
-                              th:text="'Paciente: ' + ${ag.nomeUsuario}">
+                        <span>
+            Status:
+            <b th:text="${ag.status}"></b>
         </span>
                     </div>
 
-                    <!-- 🔥 BOTÕES -->
-                    <div style="acoes-botoes">
+                    <!-- 🔥 AÇÕES DO MÉDICO -->
+                    <div class="acoes-botoes"
+                         th:if="${usuario.tipo.equalsIgnoreCase('MEDICO')}">
 
-                        <!-- CANCELAR -->
-                        <a th:href="@{/cancelar(index=${stat.index})}"
-                           class="btn-cancelar">
-                            Cancelar
+                        <!-- ACEITAR -->
+                        <a th:href="@{/consulta/aceitar(index=${stat.index})}"
+                           class="btn-add-exame">
+                            Aceitar
                         </a>
 
-                        <!-- REMARCAR -->
-                        <a th:href="@{/agendamentos}"
-                           class="btn-remarcar">
-                            Remarcar
+                        <!-- RECUSAR -->
+                        <a th:href="@{/consulta/recusar(index=${stat.index})}"
+                           class="btn-cancelar">
+                            Recusar
+                        </a>
+
+                        <!-- CANCELAR -->
+                        <a th:href="@{/consulta/cancelar(index=${stat.index})}"
+                           class="btn-cancelar">
+                            Cancelar
                         </a>
 
                     </div>

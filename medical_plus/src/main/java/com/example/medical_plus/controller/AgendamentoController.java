@@ -106,4 +106,57 @@ public class AgendamentoController {
 
         return "redirect:/profile?aba=historico";
     }
+
+    // ✅ ACEITAR CONSULTA
+    @GetMapping("/consulta/aceitar")
+    public String aceitar(int index, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) {
+            return "redirect:/login";
+        }
+
+        Agendamento ag = agendamentoService.buscarPorIndex(index);
+
+        if (ag != null && ag.getMedico().equalsIgnoreCase(usuario.getNome())) {
+            ag.setStatus("ACEITO");
+        }
+
+        return "redirect:/profile?aba=historico";
+    }
+
+    // ❌ RECUSAR CONSULTA
+    @GetMapping("/consulta/recusar")
+    public String recusar(int index, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) {
+            return "redirect:/login";
+        }
+
+        Agendamento ag = agendamentoService.buscarPorIndex(index);
+
+        if (ag != null && ag.getMedico().equalsIgnoreCase(usuario.getNome())) {
+            ag.setStatus("RECUSADO");
+        }
+
+        return "redirect:/profile?aba=historico";
+    }
+
+    // 🗑️ CANCELAR (remove da lista)
+    @GetMapping("/consulta/cancelar")
+    public String cancelarConsulta(int index, HttpSession session) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+
+        if (usuario == null) {
+            return "redirect:/login";
+        }
+
+        agendamentoService.removerAdmin(index);
+
+        return "redirect:/profile?aba=historico";
+    }
 }

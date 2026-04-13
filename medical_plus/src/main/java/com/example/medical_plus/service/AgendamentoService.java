@@ -28,6 +28,21 @@ public class AgendamentoService {
                 .collect(Collectors.toList());
     }
 
+    // AGENDAMENTO BUSCA POR INDEX
+    public Agendamento buscarPorIndex(int index) {
+        if (index >= 0 && index < agendamentos.size()) {
+            return agendamentos.get(index);
+        }
+        return null;
+    }
+
+    // LISTAR APENAS DO MEDICO
+    public List<Agendamento> listarPorMedico(String nomeMedico) {
+        return agendamentos.stream()
+                .filter(a -> a.getMedico().equalsIgnoreCase(nomeMedico))
+                .collect(Collectors.toList());
+    }
+
     // LISTAR TODOS (ADMIN)
     public List<Agendamento> listarTodos() {
         return agendamentos;

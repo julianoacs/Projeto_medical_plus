@@ -9,7 +9,9 @@ public class Agendamento {
     private String emailUsuario;
     private String nomeUsuario;
 
-    // 🔥 CONSTRUTOR COMPLETO
+    // 🔥 NOVO
+    private String status = "PENDENTE";
+
     public Agendamento(String exame,
                        String medico,
                        String data,
@@ -25,29 +27,14 @@ public class Agendamento {
         this.nomeUsuario = nomeUsuario;
     }
 
-    // GETTERS (OBRIGATÓRIO PARA THYMELEAF)
+    public String getExame() { return exame; }
+    public String getMedico() { return medico; }
+    public String getData() { return data; }
+    public String getHora() { return hora; }
+    public String getEmailUsuario() { return emailUsuario; }
+    public String getNomeUsuario() { return nomeUsuario; }
 
-    public String getExame() {
-        return exame;
-    }
-
-    public String getMedico() {
-        return medico;
-    }
-
-    public String getData() {
-        return data;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public String getEmailUsuario() {
-        return emailUsuario;
-    }
-
-    public String getNomeUsuario() {
-        return nomeUsuario;
-    }
+    // 🔥 NOVO
+    public String getStatus() { return status; }
+    public void setStatus(String status) { this.status = status; }
 }
