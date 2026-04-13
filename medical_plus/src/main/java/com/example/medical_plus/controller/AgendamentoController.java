@@ -3,6 +3,7 @@ package com.example.medical_plus.controller;
 import com.example.medical_plus.model.Agendamento;
 import com.example.medical_plus.model.Usuario;
 import com.example.medical_plus.service.AgendamentoService;
+import com.example.medical_plus.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,36 +19,43 @@ public class AgendamentoController {
     @Autowired
     private AgendamentoService agendamentoService;
 
+    @Autowired
+    private UsuarioService usuarioService; // ✅ INJEÇÃO DO SERVICE
+
     // 🔒 ABRIR TELA DE AGENDAMENTO
     @GetMapping("/agendamentos")
     public String agendamentos(HttpSession session, Model model) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) return "redirect:/login";
 
-        if (usuario == null) {
-            return "redirect:/login";
-        }
+        // 🔹 Buscar todos os exames cadastrados
+        List<String> exames = usuarioService.listarTodosExames(); // deve retornar apenas nomes de exames
 
-        List<String> exames = List.of(
-                "Hemograma Completo",
-                "Raio-X",
-                "Ressonância Magnética",
-                "Tomografia Computadorizada",
-                "Ultrassonografia"
-        );
-
-        List<String> medicos = List.of(
-                "Dr. João Silva",
-                "Dra. Maria Oliveira",
-                "Dr. Carlos Souza",
-                "Dra. Ana Costa"
-        );
+        // 🔹 Buscar todos os médicos cadastrados
+        List<Usuario> medicos = usuarioService.listarMedicos(); // apenas usuários do tipo MEDICO
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("exames", exames);
         model.addAttribute("medicos", medicos);
 
         return "agendamentos";
+    }
+
+    @GetMapping("/medicos-por-exame")
+    public String medicosPorExame(String exame, HttpSession session, Model model) {
+
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) return "redirect:/login";
+
+        // Filtrar médicos que realizam o exame
+        List<Usuario> medicos = usuarioService.listarMedicosPorExame(exame);
+
+        model.addAttribute("usuario", usuario);
+        model.addAttribute("medicos", medicos);
+        model.addAttribute("exameSelecionado", exame);
+
+        return "medicos-por-exame"; // novo template ou aba parcial
     }
 
     // ✅ SALVAR AGENDAMENTO

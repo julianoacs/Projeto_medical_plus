@@ -2,13 +2,17 @@ package com.example.medical_plus.service;
 
 import com.example.medical_plus.model.Agendamento;
 import org.springframework.stereotype.Service;
-
+import com.example.medical_plus.service.UsuarioService;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class AgendamentoService {
+
+    private AgendamentoService agendamentoService;
+
+    private UsuarioService usuarioService;
 
     private final List<Agendamento> agendamentos = new ArrayList<>();
 

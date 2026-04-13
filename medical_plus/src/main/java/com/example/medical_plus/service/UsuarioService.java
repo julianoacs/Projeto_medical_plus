@@ -3,9 +3,10 @@ package com.example.medical_plus.service;
 import com.example.medical_plus.dto.ExameDTO;
 import com.example.medical_plus.model.Usuario;
 import org.springframework.stereotype.Service;
-
+import java.util.stream.Collectors;
 import java.util.ArrayList;
 import java.util.List;
+import com.example.medical_plus.service.UsuarioService;
 
 @Service
 public class UsuarioService {
@@ -125,5 +126,11 @@ public class UsuarioService {
                 .filter(u -> u.getEmail().equalsIgnoreCase(email))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public List<Usuario> listarMedicosPorExame(String exame) {
+        return listarMedicos().stream()
+                .filter(m -> m.getExames().contains(exame))
+                .collect(Collectors.toList());
     }
 }
