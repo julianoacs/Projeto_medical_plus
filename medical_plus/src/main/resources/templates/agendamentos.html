@@ -6,196 +6,120 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
-
-        body {
-            background: #f4f7fb;
-        }
+        * { margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI', sans-serif; }
+        body { background:#f4f7fb; }
 
         /* HEADER */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background: #0d6efd;
-            color: white;
+            display:flex; justify-content:space-between; align-items:center;
+            padding:20px 40px; background:#0d6efd; color:white;
         }
-
-        header h1 {
-            font-size: 24px;
-        }
-
-        .logo {
-            color: white;
-            text-decoration: none;
-        }
-
-        .logo:hover {
-            opacity: 0.8;
-        }
+        header h1 { font-size:24px; }
+        .logo { color:white; text-decoration:none; }
+        .logo:hover { opacity:0.8; }
 
         .profile-btn {
-            background: white;
-            color: #0d6efd;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: bold;
+            background:white; color:#0d6efd; border:none;
+            padding:10px 20px; border-radius:8px; font-weight:bold; cursor:pointer;
         }
-
-        .profile-btn:hover {
-            background: #e6e6e6;
-        }
+        .profile-btn:hover { background:#e6e6e6; }
 
         /* CONTAINER */
-        .container {
-            display: flex;
-            justify-content: center;
-            padding: 60px 20px;
-        }
+        .container { display:flex; justify-content:center; padding:60px 20px; }
 
         /* CARD */
         .card {
-            background: white;
-            padding: 40px;
-            border-radius: 16px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.08);
-            width: 100%;
-            max-width: 500px;
+            background:white; padding:40px; border-radius:16px;
+            box-shadow:0 10px 25px rgba(0,0,0,0.08); width:100%; max-width:500px;
         }
-
-        .card h2 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
+        .card h2 { text-align:center; margin-bottom:30px; color:#333; }
 
         /* INPUTS */
-        .input-group {
-            margin-bottom: 20px;
+        label { display:block; font-size:14px; color:#555; margin-top:10px; }
+        select, input {
+            width:100%; padding:10px; margin-top:5px;
+            border-radius:8px; border:1px solid #ccc; outline:none;
         }
-
-        .input-group label {
-            font-size: 14px;
-            color: #555;
-        }
-
-        .input-group select,
-        .input-group input {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            outline: none;
-        }
-
-        .input-group select:focus,
-        .input-group input:focus {
-            border-color: #0d6efd;
-        }
+        select:focus, input:focus { border-color:#0d6efd; }
 
         /* BOTÕES */
-        .btn {
-            width: 100%;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 10px;
-            transition: 0.3s;
-        }
-
-        .btn-agendar {
-            background: #0d6efd;
-            color: white;
-        }
-
-        .btn-agendar:hover {
-            background: #0b5ed7;
-        }
-
-        .btn-back {
-            background: transparent;
-            border: 2px solid #0d6efd;
-            color: #0d6efd;
-        }
-
-        .btn-back:hover {
-            background: #0d6efd;
-            color: white;
-        }
-
+        .btn { width:100%; padding:12px; border-radius:8px; border:none; font-weight:bold; cursor:pointer; margin-top:10px; transition:0.3s; }
+        .btn-agendar { background:#0d6efd; color:white; }
+        .btn-agendar:hover { background:#0b5ed7; }
+        .btn-back { background:transparent; border:2px solid #0d6efd; color:#0d6efd; }
+        .btn-back:hover { background:#0d6efd; color:white; }
     </style>
 </head>
 <body>
 
 <header>
-    <h1>
-        <a href="/" class="logo">Medical Plus</a>
-    </h1>
-
-    <button class="profile-btn" onclick="location.href='/profile'">
-        Profile
-    </button>
+    <h1><a href="/" class="logo">Medical Plus</a></h1>
+    <button class="profile-btn" onclick="location.href='/profile'">Profile</button>
 </header>
 
 <div class="container">
-
     <div class="card">
         <h2>Novo Agendamento</h2>
 
-        <form action="/agendar" method="post">
+        <form action="/agendar" method="post" onsubmit="return validarForm()">
 
-            <!-- EXAME -->
-            <div class="input-group">
-                <label>Tipo de Exame</label>
-                <select name="exame">
-                    <option th:each="ex : ${exames}" th:value="${ex}" th:text="${ex}"></option>
-                </select>
-            </div>
+            <!-- Selecionar Exame -->
+            <label>Tipo de Exame:</label>
+            <select id="exameSelect" name="exame" required>
+                <option value="">--Selecione--</option>
+                <option th:each="ex : ${exames}" th:value="${ex}" th:text="${ex}"></option>
+            </select>
 
-            <!-- MÉDICO -->
-            <div class="input-group">
-                <label>Médico</label>
-                <select name="medico">
-                    <option th:each="m : ${medicos}" th:value="${m.nome}" th:text="${m.nome}"></option>
-                </select>
-            </div>
+            <!-- Selecionar Médico -->
+            <label>Médico:</label>
+            <select id="medicoSelect" name="medico" required>
+                <option value="">--Selecione o exame primeiro--</option>
+                <option th:each="m : ${medicos}" th:value="${m.nome}"
+                        th:text="'Dr(a) ' + ${m.nome}"
+                        th:attr="data-exames=${#strings.arrayJoin(m.exames, ',')}">
+                </option>
+            </select>
 
-            <!-- DATA -->
-            <div class="input-group">
-                <label>Data</label>
-                <input type="date" name="data" required>
-            </div>
+            <!-- Data e hora -->
+            <label>Data:</label>
+            <input type="date" name="data" required>
+            <label>Hora:</label>
+            <input type="time" name="hora" required>
 
-            <!-- HORA -->
-            <div class="input-group">
-                <label>Hora</label>
-                <input type="time" name="hora" required>
-            </div>
-
-            <!-- BOTÕES -->
-            <button type="submit" class="btn btn-agendar">
-                Agendar Consulta
-            </button>
-
-            <button type="button" class="btn btn-back" onclick="location.href='/'">
-                Voltar
-            </button>
-
+            <button type="submit" class="btn btn-agendar">Agendar Consulta</button>
+            <button type="button" class="btn btn-back" onclick="location.href='/'">Voltar</button>
         </form>
     </div>
-
 </div>
+
+<script>
+    const exameSelect = document.getElementById('exameSelect');
+    const medicoSelect = document.getElementById('medicoSelect');
+
+    // Filtrar médicos por exame
+    exameSelect.addEventListener('change', () => {
+        const exameEscolhido = exameSelect.value;
+        const options = medicoSelect.querySelectorAll('option');
+
+        options.forEach(opt => {
+            if(opt.value === "") return; // placeholder
+            const examesDoMedico = opt.dataset.exames ? opt.dataset.exames.split(',') : [];
+            opt.style.display = examesDoMedico.includes(exameEscolhido) ? 'block' : 'none';
+        });
+
+        medicoSelect.value = ""; // limpa seleção anterior
+    });
+
+    // Validar se médico está disponível
+    function validarForm() {
+        const medicoSelecionado = medicoSelect.value;
+        if(!medicoSelecionado) {
+            alert("Selecione um médico disponível para o exame escolhido!");
+            return false;
+        }
+        return true;
+    }
+</script>
 
 </body>
 </html>
