@@ -14,7 +14,7 @@ public class UsuarioService {
     private final List<Usuario> usuarios = new ArrayList<>();
 
     public UsuarioService() {
-        // 🔥 ADMIN PADRÃO
+        // ADMIN PADRÃO
         usuarios.add(new Usuario(
                 "Administrador",
                 "admin@medical.com",
@@ -23,12 +23,12 @@ public class UsuarioService {
         ));
     }
 
-    // ✅ SALVAR USUÁRIO
+    // SALVAR USUÁRIO
     public void salvar(Usuario usuario) {
         usuarios.add(usuario);
     }
 
-    // ✅ LOGIN
+    // LOGIN
     public Usuario autenticar(String email, String senha) {
         return usuarios.stream()
                 .filter(u -> u.getEmail().equals(email) && u.getSenha().equals(senha))
@@ -36,21 +36,21 @@ public class UsuarioService {
                 .orElse(null);
     }
 
-    // ✅ LISTAR PACIENTES
+    // LISTAR PACIENTES
     public List<Usuario> listarPacientes() {
         return usuarios.stream()
                 .filter(u -> u.getTipo().equalsIgnoreCase("PACIENTE"))
                 .toList();
     }
 
-    // ✅ LISTAR MÉDICOS
+    // LISTAR MÉDICOS
     public List<Usuario> listarMedicos() {
         return usuarios.stream()
                 .filter(u -> u.getTipo().equalsIgnoreCase("MEDICO"))
                 .toList();
     }
 
-    // 🔥 LISTAR TODOS EXAMES (ANTIGO - MANTIDO)
+    // LISTAR TODOS EXAMES (ANTIGO - MANTIDO)
     public List<String> listarTodosExames() {
 
         List<String> exames = new ArrayList<>();
@@ -66,7 +66,7 @@ public class UsuarioService {
                 .toList();
     }
 
-    // 🔥 NOVO — LISTAR EXAMES COM MÉDICO (DTO)
+    // NOVO — LISTAR EXAMES COM MÉDICO (DTO)
     public List<ExameDTO> listarTodosExamesComMedico() {
 
         List<ExameDTO> lista = new ArrayList<>();
@@ -88,7 +88,7 @@ public class UsuarioService {
         return lista;
     }
 
-    // 🔥 REMOVER EXAME GLOBAL (ADMIN)
+    // REMOVER EXAME GLOBAL (ADMIN)
     public void removerExameDoMedico(String exame, String nomeMedico) {
 
         for (Usuario u : usuarios) {
@@ -100,12 +100,12 @@ public class UsuarioService {
                         e.equalsIgnoreCase(exame)
                 );
 
-                break; // 🔥 para evitar remover de outros médicos
+                break; // para evitar remover de outros médicos
             }
         }
     }
 
-    // 🔥 ADICIONAR EXAME AO MÉDICO (COM VALIDAÇÃO)
+    // ADICIONAR EXAME AO MÉDICO (COM VALIDAÇÃO)
     public void adicionarExameAoMedico(Usuario usuario, String exame) {
 
         if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) {
@@ -120,7 +120,7 @@ public class UsuarioService {
         }
     }
 
-    // 🔥 BUSCAR USUÁRIO POR EMAIL
+    // BUSCAR USUÁRIO POR EMAIL
     public Usuario buscarPorEmail(String email) {
         return usuarios.stream()
                 .filter(u -> u.getEmail().equalsIgnoreCase(email))

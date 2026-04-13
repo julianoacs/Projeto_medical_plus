@@ -13,7 +13,7 @@ public class AdminController {
     @Autowired
     private UsuarioService usuarioService;
 
-    // 🔥 REMOVER EXAME GLOBAL (ADMIN)
+    // REMOVER EXAME GLOBAL (SOMENTE ADMIN)
     @GetMapping("/admin/remover-exame")
     public String removerExame(String exame, String medico, HttpSession session) {
 
@@ -28,20 +28,20 @@ public class AdminController {
         return "redirect:/profile?aba=examesAdmin";
     }
 
-    // ✅ APROVAR
+    // APROVAR DOCUMENTO
     @GetMapping("/admin/aprovar-documento")
     public String aprovar(String email, String arquivo) {
 
         Usuario u = usuarioService.buscarPorEmail(email);
 
         if (u != null) {
-            // Aprovar documento específico
+            // APROVAR DOCUMENTO ESPECIFICO
             u.getDocumentos().stream()
                     .filter(d -> d.getNomeArquivo().equals(arquivo))
                     .findFirst()
                     .ifPresent(d -> d.setStatus("APROVADO"));
 
-            // 🔥 Verificar se todos os documentos foram aprovados
+            // VERIFICAR SE TODOS OS DOCUMENTOS FORAM APROVADOS
             boolean todosAprovados = u.getDocumentos().stream()
                     .allMatch(d -> "APROVADO".equals(d.getStatus()));
             if (todosAprovados) {
@@ -52,20 +52,20 @@ public class AdminController {
         return "redirect:/profile?aba=medicos";
     }
 
-    // ❌ REJEITAR
+    // REJEITAR DOCUMENTOS
     @GetMapping("/admin/rejeitar-documento")
     public String rejeitar(String email, String arquivo) {
 
         Usuario u = usuarioService.buscarPorEmail(email);
 
         if (u != null) {
-            // Rejeitar documento específico
+            // REJEITAR DOCUMENTO ESPECIFICO
             u.getDocumentos().stream()
                     .filter(d -> d.getNomeArquivo().equals(arquivo))
                     .findFirst()
                     .ifPresent(d -> d.setStatus("REJEITADO"));
 
-            // 🔥 Se houver algum rejeitado, status do médico volta para pendente
+            // SE TIVER DOCUMENTO REJEITADO O STATUS VOLTA PARA PENDENTE
             boolean algumRejeitado = u.getDocumentos().stream()
                     .anyMatch(d -> "REJEITADO".equals(d.getStatus()));
             if (algumRejeitado) {

@@ -22,17 +22,17 @@ public class AgendamentoController {
     @Autowired
     private UsuarioService usuarioService; // ✅ INJEÇÃO DO SERVICE
 
-    // 🔒 ABRIR TELA DE AGENDAMENTO
+    // ABRIR TELA DE AGENDAMENTO
     @GetMapping("/agendamentos")
     public String agendamentos(HttpSession session, Model model) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) return "redirect:/login";
 
-        // 🔹 Buscar todos os exames cadastrados
+        // BUSCA TODOS EXAMES CADASTRADOS
         List<String> exames = usuarioService.listarTodosExames(); // deve retornar apenas nomes de exames
 
-        // 🔹 Buscar todos os médicos cadastrados
+        // BUSCA TODOS MEDICOS CADASTRADOS
         List<Usuario> medicos = usuarioService.listarMedicos(); // apenas usuários do tipo MEDICO
 
         model.addAttribute("usuario", usuario);
@@ -55,10 +55,10 @@ public class AgendamentoController {
         model.addAttribute("medicos", medicos);
         model.addAttribute("exameSelecionado", exame);
 
-        return "medicos-por-exame"; // novo template ou aba parcial
+        return "medicos-por-exame";
     }
 
-    // ✅ SALVAR AGENDAMENTO
+    // SALVAR AGENDAMENTO
     @PostMapping("/agendar")
     public String agendar(String exame,
                           String medico,
@@ -72,7 +72,7 @@ public class AgendamentoController {
             return "redirect:/login";
         }
 
-        //  AGORA SALVA NOME + EMAIL
+        // SALVA NOME + EMAIL
         Agendamento agendamento = new Agendamento(
                 exame,
                 medico,
@@ -107,7 +107,7 @@ public class AgendamentoController {
         return "redirect:/profile?aba=historico";
     }
 
-    // ✅ ACEITAR CONSULTA
+    // ACEITAR CONSULTA
     @GetMapping("/consulta/aceitar")
     public String aceitar(int index, HttpSession session) {
 
@@ -126,7 +126,7 @@ public class AgendamentoController {
         return "redirect:/profile?aba=historico";
     }
 
-    // ❌ RECUSAR CONSULTA
+    // RECUSAR CONSULTA
     @GetMapping("/consulta/recusar")
     public String recusar(int index, HttpSession session) {
 
@@ -145,7 +145,7 @@ public class AgendamentoController {
         return "redirect:/profile?aba=historico";
     }
 
-    // 🗑️ CANCELAR (remove da lista)
+    // CANCELAR (remove da lista)
     @GetMapping("/consulta/cancelar")
     public String cancelarConsulta(int index, HttpSession session) {
 

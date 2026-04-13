@@ -19,15 +19,15 @@ public class MedicosController {
     @GetMapping("/medicos")
     public String listarMedicos(Model model, HttpSession session) {
 
-        // 🔥 BUSCA MÉDICOS CADASTRADOS
+        // BUSCA MÉDICOS CADASTRADOS
         List<Usuario> medicos = usuarioService.listarMedicos();
 
-        // envia médicos para o HTML
+        // Envia médicos para o HTML
         model.addAttribute("medicos", medicos);
 
-        // envia usuário logado (IMPORTANTE)
+        // Envia usuário logado (IMPORTANTE)
         model.addAttribute("usuario", session.getAttribute("usuario"));
 
-        return "medicos"; // a view Thymeleaf que renderiza os cards
+        return "medicos";
     }
 }

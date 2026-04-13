@@ -20,13 +20,13 @@ public class MedicoController {
     @Autowired
     private UsuarioService usuarioService;
 
-    // ✅ ADICIONAR EXAME
+    // ADICIONAR EXAME
     @PostMapping("/medico/adicionar-exame")
     public String adicionarExame(String exame, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        // 🔒 VALIDAÇÃO
+        // VALIDAÇÃO
         if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) {
             return "redirect:/login";
         }
@@ -36,13 +36,13 @@ public class MedicoController {
         return "redirect:/profile?aba=exames";
     }
 
-    // ❌ REMOVER EXAME DO MÉDICO
+    // REMOVER EXAME DO MÉDICO
     @GetMapping("/medico/remover-exame")
     public String removerExame(String exame, HttpSession session) {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        // 🔒 VALIDAÇÃO
+        // VALIDAÇÃO
         if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) {
             return "redirect:/login";
         }

@@ -9,7 +9,6 @@ public class Agendamento {
     private String emailUsuario;
     private String nomeUsuario;
 
-    // 🔥 NOVO
     private String status = "PENDENTE";
 
     public Agendamento(String exame,
@@ -34,7 +33,6 @@ public class Agendamento {
     public String getEmailUsuario() { return emailUsuario; }
     public String getNomeUsuario() { return nomeUsuario; }
 
-    // 🔥 NOVO
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
 }

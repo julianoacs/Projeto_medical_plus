@@ -13,17 +13,17 @@ public class ExameController {
     @Autowired
     private UsuarioService usuarioService;
 
-    // 🔥 TELA DE EXAMES COM EXPANSÃO DE MÉDICOS
+    // TELA DE EXAMES COM EXPANSÃO DE MÉDICOS
     @GetMapping("/exames")
     public String listarExames(Model model, HttpSession session) {
 
-        // 🔥 EXAMES (vindos dos médicos)
+        // EXAMES (vindos dos médicos)
         model.addAttribute("exames", usuarioService.listarTodosExames());
 
-        // 🔥 MÉDICOS (necessário para expandir na tela)
+        // MÉDICOS (necessário para expandir na tela)
         model.addAttribute("medicos", usuarioService.listarMedicos());
 
-        // 🔥 USUÁRIO LOGADO (header)
+        // USUÁRIO LOGADO (header)
         model.addAttribute("usuario", session.getAttribute("usuario"));
 
         return "exames";

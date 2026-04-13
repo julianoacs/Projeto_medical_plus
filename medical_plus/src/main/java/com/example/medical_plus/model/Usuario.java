@@ -13,16 +13,16 @@ public class Usuario {
     private String senha;
     private String tipo;
 
-    // 🔥 EXAMES DO MÉDICO
+    // EXAMES DO MÉDICO
     private List<String> exames = new ArrayList<>();
 
-    // 🔥 NOVO — LISTA DE DOCUMENTOS
+    // NOVO — LISTA DE DOCUMENTOS
     private List<Documento> documentos = new ArrayList<>();
 
-    // 🔥 NOVO — STATUS DO MÉDICO (FUTURO ADMIN)
+    // NOVO — STATUS DO MÉDICO (FUTURO ADMIN)
     private String status = "PENDENTE"; // PENDENTE / APROVADO / REJEITADO
 
-    // 🔥 NOVO — ESPECIALIDADE DO MÉDICO
+    // NOVO — ESPECIALIDADE DO MÉDICO
     private String especialidade;
 
     public Usuario(String nome, String email, String senha, String tipo) {
@@ -32,9 +32,7 @@ public class Usuario {
         this.tipo = tipo;
     }
 
-    // =====================
     // GETTERS
-    // =====================
 
     public String getNome() {
         return nome;
@@ -64,9 +62,7 @@ public class Usuario {
 
     public String getEspecialidade() { return especialidade; }
 
-    // =====================
     // SETTERS
-    // =====================
 
     public void setStatus(String status) {
         this.status = status;
@@ -74,11 +70,9 @@ public class Usuario {
 
     public void setEspecialidade(String especialidade) { this.especialidade = especialidade; }
 
-    // =====================
     // MÉTODOS DE NEGÓCIO
-    // =====================
 
-    // 🔥 ADICIONAR EXAME (COM VALIDAÇÃO)
+    // ADICIONAR EXAME (COM VALIDAÇÃO)
     public void adicionarExame(String exame) {
 
         if (exame == null || exame.trim().isEmpty()) {
@@ -94,17 +88,17 @@ public class Usuario {
         }
     }
 
-    // 🔥 ADICIONAR DOCUMENTO
+    // ADICIONAR DOCUMENTO
     public void adicionarDocumento(String nomeArquivo) {
         documentos.add(new Documento(nomeArquivo));
     }
 
-    // 🔥 REMOVER DOCUMENTO
+    // REMOVER DOCUMENTO
     public void removerDocumento(String nomeArquivo) {
         documentos.removeIf(d -> d.getNomeArquivo().equals(nomeArquivo));
     }
 
-    // 🔥 REMOVER EXAME
+    // REMOVER EXAME
     public void removerExame(String exame) {
         exames.removeIf(e -> e.equalsIgnoreCase(exame));
     }

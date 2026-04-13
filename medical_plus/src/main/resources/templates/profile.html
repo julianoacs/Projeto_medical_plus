@@ -240,44 +240,30 @@
 
                 <!-- COM CONSULTAS -->
                 <div th:each="ag, stat : ${agendamentos}" class="exame-container">
-
                     <div class="agendamento-info">
                         <strong th:text="${ag.exame}"></strong>
-
                         <span th:text="'Paciente: ' + ${ag.nomeUsuario}"></span>
-
                         <span th:text="'Data: ' + ${ag.data} + ' - ' + ${ag.hora}"></span>
-
-                        <span>
-            Status:
-            <b th:text="${ag.status}"></b>
-        </span>
+                        <span>Status: <b th:text="${ag.status}"></b></span>
                     </div>
 
-                    <!-- 🔥 AÇÕES DO MÉDICO -->
-                    <div class="acoes-botoes"
-                         th:if="${usuario.tipo.equalsIgnoreCase('MEDICO')}">
+                    <!-- AÇÕES DO MÉDICO -->
+                    <div class="acoes-botoes" th:if="${usuario.tipo.equalsIgnoreCase('MEDICO')}">
+                        <a th:href="@{/consulta/aceitar(index=${stat.index})}" class="btn-add-exame">Aceitar</a>
+                        <a th:href="@{/consulta/recusar(index=${stat.index})}" class="btn-cancelar">Recusar</a>
+                        <a th:href="@{/consulta/cancelar(index=${stat.index})}" class="btn-cancelar">Cancelar</a>
+                    </div>
 
-                        <!-- ACEITAR -->
-                        <a th:href="@{/consulta/aceitar(index=${stat.index})}"
-                           class="btn-add-exame">
-                            Aceitar
-                        </a>
-
-                        <!-- RECUSAR -->
-                        <a th:href="@{/consulta/recusar(index=${stat.index})}"
-                           class="btn-cancelar">
-                            Recusar
-                        </a>
-
-                        <!-- CANCELAR -->
-                        <a th:href="@{/consulta/cancelar(index=${stat.index})}"
-                           class="btn-cancelar">
+                    <!-- AÇÕES DO PACIENTE -->
+                    <div class="acoes-botoes" th:if="${usuario.tipo.equalsIgnoreCase('PACIENTE')}">
+                        <a th:if="${ag.status == 'PENDENTE'}"
+                           th:href="@{/consulta/cancelar(index=${stat.index})}" class="btn-cancelar">
                             Cancelar
                         </a>
-
+                        <a th:href="@{/agendamentos}" class="btn-remarcar">
+                            Remarcar
+                        </a>
                     </div>
-
                 </div>
 
             </div>

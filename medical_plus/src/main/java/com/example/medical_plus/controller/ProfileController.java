@@ -23,17 +23,15 @@ public class ProfileController {
 
         Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-        // 🔒 PROTEÇÃO
+        // PROTEÇÃO
         if (usuario == null) {
             return "redirect:/login";
         }
 
-        // 🔥 USUÁRIO LOGADO
+        // USUÁRIO LOGADO
         model.addAttribute("usuario", usuario);
 
-        // =========================
-        // 👨‍💼 ADMIN
-        // =========================
+        // ADMIN
         if ("ADMIN".equalsIgnoreCase(usuario.getTipo())) {
 
             // ADMIN
