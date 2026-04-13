@@ -128,6 +128,12 @@
             color: #666;
         }
 
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: #666;
+        }
+
     </style>
 </head>
 <body>
@@ -176,6 +182,11 @@
             </span>
                 </div>
 
+            </div>
+
+            <!-- VAZIO -->
+            <div th:if="${#lists.isEmpty(medicos)}" class="empty">
+                Nenhum médico cadastrado no momento.
             </div>
 
         </div>
