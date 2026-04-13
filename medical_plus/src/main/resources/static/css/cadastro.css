@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    background: #f4f7fb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* CARD */
+.cadastro-card {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.cadastro-card h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #333;
+}
+
+/* INPUTS */
+.input-group {
+    margin-bottom: 18px;
+}
+
+.input-group label {
+    font-size: 14px;
+    color: #555;
+}
+
+.input-group input,
+.input-group select {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: 0.2s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+    border-color: #0d6efd;
+}
+
+/* BOTÕES */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: 0.3s;
+}
+
+.btn-cadastrar {
+    background: #0d6efd;
+    color: white;
+}
+
+.btn-cadastrar:hover {
+    background: #0b5ed7;
+}
+
+.btn-back {
+    background: transparent;
+    border: 2px solid #0d6efd;
+    color: #0d6efd;
+}
+
+.btn-back:hover {
+    background: #0d6efd;
+    color: white;
+}
