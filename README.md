@@ -15,7 +15,7 @@ objetivo é otimizar o processo de atendimento, tornando-o mais prático, organi
 
 ---
 
-## 📥 Como clonar o projeto
+## Como clonar o projeto
 
 ```bash
 git clone https://github.com/julianoacs/Projeto_medical_plus.git
@@ -23,7 +23,7 @@ git clone https://github.com/julianoacs/Projeto_medical_plus.git
 
 ---
 
-## ▶️ Como rodar o sistema
+## Como rodar o sistema
 
 ### Pré-requisitos:
 - Java JDK 17+ instalado
@@ -47,4 +47,6 @@ mvn spring-boot:run
 ```
 
 4. Acesse no navegador:
-   http://localhost:8080
+```bash
+http://localhost:8080
+```
