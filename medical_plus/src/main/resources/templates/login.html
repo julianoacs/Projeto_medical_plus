@@ -31,11 +31,6 @@
         <button type="button" class="btn btn-back" onclick="location.href='/'">Voltar</button>
     </form>
 </div>
-<!-- LIMPAR CAMPOS AO VOLTAR -->
-<script>
-    window.addEventListener("pageshow", function () {
-        document.querySelectorAll("input").forEach(input => input.value = "");
-    });
-</script>
+<script th:src="@{/js/login.js}"></script>
 </body>
 </html>

@@ -43,11 +43,6 @@
         <button type="button" class="btn btn-back" onclick="location.href='/login'">Voltar</button>
     </form>
 </div>
-<script>
-    window.addEventListener("pageshow", function () {
-        document.querySelectorAll("input").forEach(input => input.value = "");
-        document.querySelectorAll("select").forEach(select => select.selectedIndex = 0);
-    });
-</script>
+<script th:src="@{/js/cadastro.js}"></script>
 </body>
 </html>

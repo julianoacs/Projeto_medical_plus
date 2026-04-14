@@ -12,14 +12,12 @@
     <h1>
         <a href="/" class="logo">Medical Plus</a>
     </h1>
-
     <!-- QUANDO O PACIENTE NÃO ESTIVER LOGADO APARECE O BOTAO LOGIN -->
     <button th:if="${usuario == null}"
             class="login-btn"
             onclick="location.href='/login'">
         Login
     </button>
-
     <!-- QUANDO O PACIENTE ESTIVER LOGADO NO SISTEMA APARECE O BOTAO PROFILE -->
     <button th:if="${usuario != null}"
             class="login-btn"
@@ -50,7 +48,6 @@
             <div th:if="${#lists.isEmpty(medicos)}" class="empty">
                 Nenhum médico cadastrado no momento.
             </div>
-
         </div>
     </div>
 </main>
