@@ -158,6 +158,16 @@ body {
 .step-card {
   position: relative;
   width: 260px;
+  transition: transform 0.3s ease;
+}
+
+.step-card:hover {
+  transform: scale(1.2);
+  z-index: 15;
+}
+
+.cards-wrapper:has(.step-card:hover) .step-card:not(:hover) {
+  transform: scale(0.8);
 }
 
 .step-number {
