@@ -5,32 +5,49 @@
     <title>Login - Medical Plus</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/css/login.css}">
-    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/telemed.png">
 </head>
 <body>
-<div class="login-card">
-    <h2>Login</h2>
-    <!-- ERRO -->
-    <div th:if="${param.erro}" class="erro">
-        Email ou senha inválidos
+
+<main class="login-main">
+    <div class="login-card">
+
+        <!-- Background gradient sutil -->
+        <div class="card-bg"></div>
+
+        <div class="card-content">
+
+            <!-- Logo -->
+            <div class="brand" onclick="location.href='/landing'">
+                <img src="/images/telemed.png" alt="Logo">
+                <span>MED CONNECT</span>
+            </div>
+
+            <!-- Título -->
+            <h1>Entrar</h1>
+            <p class="subtitle">Acesse sua conta para agendar consultas</p>
+
+            <!-- Erro -->
+            <div th:if="${param.erro}" class="erro">Email ou senha inválidos</div>
+
+            <!-- Form -->
+            <form action="/login" method="post" autocomplete="off">
+                <input type="email"    name="email" placeholder="Seu e-mail" required autocomplete="off">
+                <input type="password" name="senha" placeholder="Sua senha"  required autocomplete="new-password">
+                <button type="submit" class="btn-entrar">Entrar</button>
+                <button type="button" class="btn-voltar" onclick="location.href='/landing'">Voltar</button>
+            </form>
+
+            <!-- Links -->
+            <div class="form-links">
+                <button onclick="void(0)" class="link-btn">Esqueci minha senha</button>
+                <button onclick="location.href='/cadastro'" class="link-btn">Criar conta</button>
+            </div>
+
+        </div>
     </div>
-    <form action="/login" method="post" autocomplete="off">
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" name="email" placeholder="Digite seu email" required autocomplete="off">
-        </div>
-        <div class="input-group">
-            <label>Senha</label>
-            <input type="password" name="senha" placeholder="Digite sua senha" required autocomplete="new-password">
-        </div>
-        <div class="links">
-            <a href="/cadastro">Novo Cadastro</a>
-            <a href="#">Recuperar senha</a>
-        </div>
-        <button type="submit" class="btn btn-login">Entrar</button>
-        <button type="button" class="btn btn-back" onclick="location.href='/'">Voltar</button>
-    </form>
-</div>
+</main>
+
 <script th:src="@{/js/login.js}"></script>
 </body>
 </html>

@@ -5,51 +5,55 @@
     <title>Médicos - Medical Plus</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/css/medicos.css}">
-    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/telemed.png">
 </head>
 <body>
-<header>
-    <h1>
-        <a href="/" class="logo">Medical Plus</a>
-    </h1>
-    <!-- QUANDO O PACIENTE NÃO ESTIVER LOGADO APARECE O BOTAO LOGIN -->
-    <button th:if="${usuario == null}"
-            class="login-btn"
-            onclick="location.href='/login'">
-        Login
-    </button>
-    <!-- QUANDO O PACIENTE ESTIVER LOGADO NO SISTEMA APARECE O BOTAO PROFILE -->
-    <button th:if="${usuario != null}"
-            class="login-btn"
-            onclick="location.href='/profile'">
-        Profile
-    </button>
-</header>
-<div class="top-bar">
-    <button class="back-btn" onclick="location.href='/'">Home</button>
-</div>
-<main class="container">
-    <div class="content">
-        <h2 class="titulo">Médicos Disponíveis</h2>
-        <div class="lista">
-            <div th:each="m : ${medicos}" class="item">
-                <div>
-            <span class="nome"
-                  th:text="'Dr(a) ' + ${m.nome}"></span>
-                    <br>
-                    <span class="especialidade"
-                          th:text="${m.especialidade != null && !m.especialidade.isEmpty()
-                          ? m.especialidade
-                          : 'Sem Especialidade'}">
-            </span>
-                </div>
-            </div>
-            <!-- QUANDO NAO HOUVER NENHUM MEDICO CADASTRADO NO SISTEMA-->
-            <div th:if="${#lists.isEmpty(medicos)}" class="empty">
-                Nenhum médico cadastrado no momento.
-            </div>
-        </div>
+
+  <header class="header-shell">
+    <a href="/landing" class="header-brand">
+      <img src="/images/telemed.png" alt="Logo">
+      <span>MED CONNECT</span>
+    </a>
+    <nav class="header-nav">
+      <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
+      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
+      <button class="nav-btn" onclick="location.href='/sobre'">Sobre Nós</button>
+    </nav>
+    <div class="header-cta">
+      <button th:if="${usuario == null}" class="btn-agendar" onclick="location.href='/login'">Login</button>
+      <button th:if="${usuario != null}" class="btn-profile" onclick="location.href='/profile'">Profile</button>
     </div>
-</main>
+  </header>
+
+  <div class="top-bar">
+    <button class="back-btn" onclick="location.href='/home'">← Home</button>
+  </div>
+
+  <main class="container">
+    <div class="content">
+      <h2 class="titulo">Médicos Disponíveis</h2>
+      <div class="lista">
+        <div th:each="m : ${medicos}" class="item">
+          <div>
+            <span class="nome" th:text="'Dr(a) ' + ${m.nome}"></span><br>
+            <span class="especialidade"
+                  th:text="${m.especialidade != null && !m.especialidade.isEmpty() ? m.especialidade : 'Sem Especialidade'}">
+            </span>
+            <div th:if="${!#lists.isEmpty(m.locaisAtendimento)}" style="margin-top:6px;">
+              <div th:each="local : ${m.locaisAtendimento}" style="font-size:0.82rem; color:#6b7280; margin-top:2px;">
+                📍 <span th:text="${local.nome}"></span>
+                <span th:if="${local.endereco != null && !local.endereco.isEmpty()}"
+                      th:text="' — ' + ${local.endereco}"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div th:if="${#lists.isEmpty(medicos)}" class="empty">
+          Nenhum médico cadastrado no momento.
+        </div>
+      </div>
+    </div>
+  </main>
+
 </body>
 </html>

@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Visualizar Cadastro - Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/profile.css}">
+  <link rel="icon" type="image/png" href="/images/telemed.png">
+  <style>
+    .view-page  { max-width: 680px; margin: 40px auto; padding: 0 20px 60px; }
+    .view-card  { background: #fff; border-radius: 20px; box-shadow: 0 6px 24px rgba(0,0,0,0.08); padding: 40px; }
+    .view-card h2 { font-size: 1.6rem; font-weight: 800; color: #2a9d8a; margin-bottom: 24px; }
+    .badge { display: inline-block; padding: 4px 14px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; margin-bottom: 24px; }
+    .badge-medico   { background: #d1fae5; color: #065f46; }
+    .badge-paciente { background: #dbeafe; color: #1e40af; }
+    .badge-admin    { background: #fef3c7; color: #92400e; }
+    .info-row { display: flex; flex-direction: column; padding: 14px 0; border-bottom: 1px solid #f0f0f0; }
+    .info-row:last-of-type { border-bottom: none; }
+    .info-label { font-size: 0.82rem; font-weight: 600; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .info-value { font-size: 1rem; color: #111; font-weight: 500; }
+    .info-value.empty { color: #9ca3af; font-style: italic; font-weight: 400; }
+    .section-title { font-size: 1rem; font-weight: 700; color: #2a9d8a; margin: 28px 0 12px; border-bottom: 2px solid #e0f0ec; padding-bottom: 6px; }
+    .local-item { background: #f7fdfb; border: 1px solid #e0f0ec; border-radius: 10px; padding: 12px 16px; margin-bottom: 8px; }
+    .local-item strong { display: block; color: #111; }
+    .local-item small  { color: #6b7280; }
+    .doc-item { display: flex; justify-content: space-between; align-items: center; background: #f7fdfb; border: 1px solid #e0f0ec; border-radius: 10px; padding: 10px 16px; margin-bottom: 8px; }
+    .exame-tag { display: inline-block; background: #e0f0ec; color: #065f46; border-radius: 20px; padding: 4px 12px; font-size: 0.82rem; font-weight: 600; margin: 4px 4px 0 0; }
+    .actions { display: flex; gap: 12px; margin-top: 32px; flex-wrap: wrap; align-items: center; }
+    .btn-voltar { background: transparent; color: #2a9d8a; border: 1.5px solid #2a9d8a; border-radius: 10px; padding: 12px 24px; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .btn-editar { background: #2a9d8a; color: #fff; border: none; border-radius: 10px; padding: 12px 24px; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: none; }
+    .btn-deletar { background: #ef4444; color: #fff; border: none; border-radius: 10px; padding: 12px 24px; font-size: 0.95rem; font-weight: 600; cursor: pointer; text-decoration: none; margin-left: auto; }
+  </style>
+</head>
+<body style="background:#e5e7eb; min-height:100vh;">
+
+  <header class="header-shell">
+    <a href="/landing" class="header-brand">
+      <img src="/images/telemed.png" alt="Logo">
+      <span>MED CONNECT</span>
+    </a>
+    <nav class="header-nav">
+      <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
+      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
+      <button class="nav-btn" onclick="location.href='/sobre'">Sobre Nós</button>
+    </nav>
+    <div class="header-cta">
+      <button class="btn-home" onclick="location.href='/home'">Home</button>
+      <button class="btn-logout" onclick="location.href='/logout'">Logout</button>
+    </div>
+  </header>
+
+  <div class="view-page">
+    <div class="view-card">
+
+      <h2 th:text="${u.tipo.equalsIgnoreCase('MEDICO')} ? 'Dr(a). ' + ${u.nome} : ${u.nome}"></h2>
+
+      <span th:class="${u.tipo.equalsIgnoreCase('MEDICO')} ? 'badge badge-medico' : (${u.tipo.equalsIgnoreCase('ADMIN')} ? 'badge badge-admin' : 'badge badge-paciente')"
+            th:text="${u.tipo}"></span>
+
+      <!-- DADOS BÁSICOS -->
+      <div class="info-row">
+        <span class="info-label">Email</span>
+        <span class="info-value" th:text="${u.email}"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">CPF</span>
+        <span th:class="${u.cpf != null && !u.cpf.isEmpty()} ? 'info-value' : 'info-value empty'"
+              th:text="${u.cpf != null && !u.cpf.isEmpty()} ? ${u.cpf} : 'Não informado'"></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Data de Nascimento</span>
+        <span th:class="${u.dataNascimento != null && !u.dataNascimento.isEmpty()} ? 'info-value' : 'info-value empty'"
+              th:text="${u.dataNascimento != null && !u.dataNascimento.isEmpty()} ? ${u.dataNascimento} : 'Não informada'"></span>
+      </div>
+
+      <!-- DADOS EXCLUSIVOS DO MÉDICO -->
+      <div th:if="${u.tipo.equalsIgnoreCase('MEDICO')}">
+
+        <div class="info-row">
+          <span class="info-label">Especialidade</span>
+          <span th:class="${u.especialidade != null && !u.especialidade.isEmpty()} ? 'info-value' : 'info-value empty'"
+                th:text="${u.especialidade != null && !u.especialidade.isEmpty()} ? ${u.especialidade} : 'Não definida'"></span>
+        </div>
+
+        <div class="info-row">
+          <span class="info-label">Status</span>
+          <span th:text="${u.status}"
+                th:style="${u.status == 'APROVADO'} ? 'color:#065f46; font-weight:700;' : (${u.status == 'REJEITADO'} ? 'color:#991b1b; font-weight:700;' : 'color:#92400e; font-weight:700;')">
+          </span>
+        </div>
+
+        <!-- EXAMES -->
+        <p class="section-title">Exames que realiza</p>
+        <div th:if="${#lists.isEmpty(u.exames)}">
+          <span class="info-value empty">Nenhum exame cadastrado</span>
+        </div>
+        <div th:each="ex : ${u.exames}" class="exame-tag" th:text="${ex}"></div>
+
+        <!-- LOCAIS DE ATENDIMENTO -->
+        <p class="section-title">Locais de Atendimento</p>
+        <div th:if="${#lists.isEmpty(u.locaisAtendimento)}">
+          <span class="info-value empty">Nenhum local cadastrado</span>
+        </div>
+        <div th:each="local : ${u.locaisAtendimento}" class="local-item">
+          <strong th:text="${local.nome}"></strong>
+          <small th:text="${local.endereco}"></small>
+        </div>
+
+        <!-- DOCUMENTOS -->
+        <p class="section-title">Documentos Enviados</p>
+        <div th:if="${#lists.isEmpty(u.documentos)}">
+          <span class="info-value empty">Nenhum documento enviado</span>
+        </div>
+        <div th:each="doc : ${u.documentos}" class="doc-item">
+          <div>
+            <strong th:text="${doc.nomeArquivo.contains('_') ? doc.nomeArquivo.substring(doc.nomeArquivo.indexOf('_') + 1) : doc.nomeArquivo}"></strong><br>
+            <span th:text="${doc.status}"
+                  th:style="${doc.status == 'APROVADO'} ? 'color:#065f46; font-size:0.82rem; font-weight:600;' : (${doc.status == 'REJEITADO'} ? 'color:#991b1b; font-size:0.82rem; font-weight:600;' : 'color:#92400e; font-size:0.82rem; font-weight:600;')">
+            </span>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <a th:href="@{'/uploads/view/' + ${doc.nomeArquivo}}" target="_blank" class="btn-add-exame" style="text-decoration:none; padding:6px 12px; font-size:12px;">Visualizar</a>
+            <a th:href="@{'/uploads/download/' + ${doc.nomeArquivo}}" class="btn-add-exame" style="text-decoration:none; padding:6px 12px; font-size:12px; background:#6b7280;">Download</a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- AÇÕES -->
+      <div class="actions">
+        <a th:href="@{/profile(aba=${aba})}" class="btn-voltar">← Voltar</a>
+        <a th:href="@{/admin/editar-usuario(email=${u.email}, aba=${aba})}" class="btn-editar">Editar</a>
+        <a th:href="@{/admin/deletar-usuario(email=${u.email}, aba=${aba})}"
+           class="btn-deletar"
+           onclick="return confirm('Tem certeza que deseja deletar este cadastro?')">
+          Deletar
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+</body>
+</html>

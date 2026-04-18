@@ -1,187 +1,112 @@
-/* BOTÃO CANCELAR CONSULTA */
-.btn-cancelar {
-    background: #dc3545;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 12px;
-    transition: 0.2s;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
-.btn-cancelar:hover {
-    background: #b02a37;
-}
+body { background: #e5e7eb; min-height: 100vh; }
 
-/* BOTÃO REMARCAR */
-    .btn-remarcar {
-    background: #0d6efd;
-    color: white;
-    padding: 6px 12px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 12px;
-    transition: 0.2s;
+/* ── HEADER ── */
+.header-shell {
+  display: grid; grid-template-columns: 1fr 1fr 1fr;
+  align-items: center; height: 100px; background: #fff;
+  border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  margin: 8px 200px 0; padding: 0 50px; position: relative;
 }
+.header-brand { display: inline-flex; align-items: center; gap: 14px; text-decoration: none; border-radius: 16px; padding: 8px 12px; transition: transform 0.3s; }
+.header-brand:hover { transform: scale(1.05); }
+.header-brand img  { width: 72px; height: 72px; object-fit: contain; border-radius: 8px; }
+.header-brand span { font-size: 2rem; font-weight: 700; color: #2a9d8a; }
+.header-nav { display: flex; justify-content: center; gap: 10px; }
+.nav-btn { position: relative; padding: 12px 28px; background: none; border: none; font-size: 1.05rem; font-weight: 500; color: #111; cursor: pointer; transition: color 0.3s; white-space: nowrap; }
+.nav-btn:hover { color: #2a9d8a; }
+.nav-btn::before, .nav-btn::after { content: ''; position: absolute; top: 50%; width: 2px; height: 0; background: #2a9d8a; border-radius: 9999px; transform: translateY(-50%); transition: height 0.3s; }
+.nav-btn::before { left: 0; } .nav-btn::after { right: 0; }
+.nav-btn:hover::before, .nav-btn:hover::after { height: 40px; }
+.header-cta { display: flex; justify-content: flex-end; gap: 10px; }
+.btn-home { background: transparent; color: #2a9d8a; border: 2px solid #2a9d8a; border-radius: 12px; padding: 10px 20px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.2s, color 0.2s; }
+.btn-home:hover { background: #2a9d8a; color: #fff; }
+.btn-logout { background: #2a9d8a; color: #fff; border: none; border-radius: 12px; padding: 10px 20px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: transform 0.2s; }
+.btn-logout:hover { transform: scale(1.02); filter: brightness(1.1); }
 
-.btn-remarcar:hover {
-    background: #0b5ed7;
-}
-
-/* BOTÕES EMPILHADOS */
-    .acoes-botoes {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-* {
-margin:0; padding:0; box-sizing:border-box; font-family:'Segoe UI';
-}
-
-body {
-    background:#f4f7fb;
-}
-
-header {
-    display:flex; justify-content:space-between; align-items:center;
-    padding:20px 40px; background:#0d6efd; color:white;
-}
-
-header h1 {
-    font-size:24px;
-}
-
-.logo {
-    color:white; text-decoration:none;
-}
-
-.header-actions {
-    display:flex; gap:10px;
-}
-
-.home-btn {
-    background:transparent; border:2px solid white; color:white;
-    padding:8px 16px; border-radius:8px; cursor:pointer;
-}
-
-.logout-btn {
-    background:white; color:#0d6efd; border:none;
-    padding:10px 20px; border-radius:8px; cursor:pointer;
-}
-
-.container {
-    display:flex; height:calc(100vh - 80px);
-}
-
-.sidebar {
-    width:250px; background:white; padding:20px;
-    border-right:1px solid #eee;
+/* ── MENU HORIZONTAL ── */
+.profile-menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 16px 200px 0;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  padding: 12px 24px;
 }
 
 .menu-item {
-    padding:12px; margin-bottom:10px;
-    cursor:pointer; border-radius:8px;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  color: #374151;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+  white-space: nowrap;
 }
+.menu-item:hover { background: #f0faf8; color: #2a9d8a; }
+.menu-item.active { background: #2a9d8a; color: #fff; }
 
-.menu-item.active {
-    background:#0d6efd; color:white;
+/* ── LAYOUT ── */
+.container { margin: 16px 200px 40px; }
+
+/* ── CONTENT ── */
+.content { width: 100%; }
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── CARD ── */
+.card { background: #fff; padding: 28px; border-radius: 16px; box-shadow: 0 4px 16px rgba(0,0,0,0.07); }
+.card h2 { font-size: 1.3rem; font-weight: 700; color: #111; margin-bottom: 16px; }
+.card p  { font-size: 0.95rem; color: #374151; margin-bottom: 8px; line-height: 1.6; }
+
+/* ── EXAME CONTAINER ── */
+.exame-container { display: flex; justify-content: space-between; align-items: center; background: #f7fdfb; border: 1px solid #e0f0ec; padding: 12px 16px; border-radius: 10px; margin-bottom: 10px; }
+.agendamento-info { display: flex; flex-direction: column; gap: 4px; font-size: 0.9rem; color: #374151; }
+
+/* ── BOTÕES FUNCIONAIS (mantidos) ── */
+.acoes-botoes { display: flex; flex-direction: column; gap: 6px; }
+
+.btn-cancelar { background: #ef4444; color: #fff; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-size: 12px; font-weight: 600; transition: background 0.2s; }
+.btn-cancelar:hover { background: #dc2626; }
+
+.btn-remarcar { background: #2a9d8a; color: #fff; padding: 6px 14px; border-radius: 8px; text-decoration: none; font-size: 12px; font-weight: 600; transition: background 0.2s; }
+.btn-remarcar:hover { background: #21867a; }
+
+.btn-remover-exame { background: #ef4444; color: #fff; padding: 5px 12px; border-radius: 8px; text-decoration: none; font-size: 12px; font-weight: 600; }
+
+.btn-add-exame { background: #2a9d8a; color: #fff; border: none; padding: 10px 16px; border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.9rem; transition: background 0.2s; }
+.btn-add-exame:hover { background: #21867a; }
+
+.form-exame { display: flex; gap: 10px; margin-top: 14px; }
+.input-exame { flex: 1; padding: 10px 14px; border-radius: 10px; border: 1.5px solid rgba(42,157,138,0.3); outline: none; font-size: 0.95rem; color: #2a9d8a; }
+.input-exame:focus { border-color: #2a9d8a; }
+
+/* ── STATUS ── */
+.status { padding: 4px 10px; border-radius: 6px; font-size: 12px; display: inline-block; margin-top: 4px; font-weight: 600; }
+.pendente  { background: #fef3c7; color: #92400e; }
+.aprovado  { background: #d1fae5; color: #065f46; }
+.rejeitado { background: #fee2e2; color: #991b1b; }
+
+/* ── CARD MÉDICO (admin) ── */
+.card-medico { background: #f7fdfb; border: 1px solid #e0f0ec; padding: 14px 16px; border-radius: 12px; margin-bottom: 10px; cursor: pointer; }
+.card-header { display: flex; justify-content: space-between; align-items: center; }
+.card-detalhes { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid #e0f0ec; }
+.card-medico.ativo .card-detalhes { display: block; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1366px) {
+  .header-shell  { margin: 6px 80px 0; }
+  .profile-menu  { margin: 16px 80px 0; }
+  .container     { margin: 16px 80px 40px; }
+  .header-brand span { font-size: 1.6rem; }
+  .header-nav    { gap: 2.5rem; font-size: 1rem; }
 }
-
-.menu-item:hover {
-    background:#f1f5ff;
-}
-
-.content {
-    flex:1; padding:40px;
-}
-
-.section {
-    display:none;
-}
-
-.section.active {
-    display:block;
-}
-
-.card {
-    background:white; padding:25px; border-radius:12px;
-    box-shadow:0 10px 25px rgba(0,0,0,0.08);
-}
-
-.exame-container {
-    display:flex; justify-content:space-between;
-    background:#f1f5ff; padding:10px;
-    border-radius:8px; margin-bottom:10px;
-        }
-
-.agendamento-info {
-    display:flex; flex-direction:column; gap:4px;
-}
-
-.btn-remover-exame {
-    background:#dc3545; color:white;
-    padding:5px 10px; border-radius:6px;
-    text-decoration:none; font-size:12px;
-}
-
-.form-exame {
-    display:flex; gap:10px; margin-top:10px;
-}
-
-.input-exame {
-    flex:1; padding:10px;
-    border-radius:8px; border:1px solid #ccc;
-}
-
-.btn-add-exame {
-    background:#0d6efd; color:white;
-    border:none; padding:10px;
-    border-radius:8px; cursor:pointer;
-}
-
-/* DOCUMENTOS */
-.status {
-    padding:6px 10px;
-    border-radius:6px;
-    font-size:12px;
-    display:inline-block;
-    margin-top:5px;
-}
-
-.pendente {
-    background:#ffc107;
-}
-
-.aprovado {
-    background:#198754; color:white;
-}
-
-.rejeitado {
-    background:#dc3545; color:white;
-}
-
-.card-medico {
-    background: #f1f5ff;
-    padding: 12px;
-    border-radius: 8px;
-    margin-bottom: 10px;
-    cursor: pointer;
-}
-
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.card-detalhes {
-    display: none;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #ddd;
-}
-
-.card-medico.ativo .card-detalhes {
-    display: block;
-}
+@media (min-width: 1367px) and (max-width: 1440px) { .header-nav { gap: 2.8rem; font-size: 1.02rem; } }
+@media (min-width: 1441px) and (max-width: 1600px) { .header-nav { gap: 3rem; font-size: 1.05rem; } }
+@media (min-width: 1601px) and (max-width: 1920px) { .header-nav { gap: 3.5rem; font-size: 1.1rem; } }
+@media (min-width: 1921px) and (max-width: 2559px) { .header-nav { gap: 4rem; font-size: 1.15rem; } }
+@media (min-width: 2560px) { .header-nav { gap: 5rem; font-size: 1.25rem; } }

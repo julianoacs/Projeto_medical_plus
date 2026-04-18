@@ -5,42 +5,68 @@
     <title>Agendamentos - Medical Plus</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/css/agendamentos.css}">
-    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/telemed.png">
 </head>
 <body>
-<header>
-    <h1><a href="/" class="logo">Medical Plus</a></h1>
-    <button class="profile-btn" onclick="location.href='/profile'">Profile</button>
-</header>
-<div class="container">
-    <div class="card">
-        <h2>Novo Agendamento</h2>
-        <form action="/agendar" method="post" onsubmit="return validarForm()">
-            <!-- Selecionar Exame -->
-            <label>Tipo de Exame:</label>
-            <select id="exameSelect" name="exame" required>
-                <option value="">--Selecione--</option>
-                <option th:each="ex : ${exames}" th:value="${ex}" th:text="${ex}"></option>
-            </select>
-            <!-- Selecionar Médico -->
-            <label>Médico:</label>
-            <select id="medicoSelect" name="medico" required>
-                <option value="">--Selecione o exame primeiro--</option>
-                <option th:each="m : ${medicos}" th:value="${m.nome}"
-                        th:text="'Dr(a) ' + ${m.nome}"
-                        th:attr="data-exames=${#strings.arrayJoin(m.exames, ',')}">
-                </option>
-            </select>
-            <!-- Data e hora -->
-            <label>Data:</label>
-            <input type="date" name="data" required>
-            <label>Hora:</label>
-            <input type="time" name="hora" required>
-            <button type="submit" class="btn btn-agendar">Agendar Consulta</button>
-            <button type="button" class="btn btn-back" onclick="location.href='/'">Voltar</button>
-        </form>
+
+  <header class="header-shell">
+    <a href="/landing" class="header-brand">
+      <img src="/images/telemed.png" alt="Logo">
+      <span>MED CONNECT</span>
+    </a>
+    <nav class="header-nav">
+      <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
+      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
+      <button class="nav-btn" onclick="location.href='/sobre'">Sobre Nós</button>
+    </nav>
+    <div class="header-cta">
+      <button class="btn-profile" onclick="location.href='/profile'">Profile</button>
     </div>
-</div>
-<script th:src="@{/js/agendamentos.js}"></script>
+  </header>
+
+  <div class="top-bar">
+    <button class="back-btn" onclick="location.href='/home'">← Home</button>
+  </div>
+
+  <div class="container">
+    <div class="card">
+      <h2>Novo Agendamento</h2>
+      <form action="/agendar" method="post" onsubmit="return validarForm()">
+
+        <label>Tipo de Exame:</label>
+        <select id="exameSelect" name="exame" required>
+          <option value="">--Selecione--</option>
+          <option th:each="ex : ${exames}" th:value="${ex}" th:text="${ex}"></option>
+        </select>
+
+        <label>Médico:</label>
+        <select id="medicoSelect" name="medico" required>
+          <option value="">--Selecione o exame primeiro--</option>
+          <option th:each="m : ${medicos}" th:value="${m.nome}"
+                  th:text="'Dr(a) ' + ${m.nome}"
+                  th:attr="data-exames=${#strings.arrayJoin(m.exames, ',')},data-locais=${#strings.arrayJoin(m.locaisAtendimento.![nome + '|' + endereco], ';')}">
+          </option>
+        </select>
+
+        <div id="localWrapper" style="display:none;">
+          <label>Local de Atendimento:</label>
+          <select id="localSelect" name="local">
+            <option value="">-- Selecione o local --</option>
+          </select>
+        </div>
+
+        <label>Data:</label>
+        <input type="date" name="data" required>
+
+        <label>Hora:</label>
+        <input type="time" name="hora" required>
+
+        <button type="submit" class="btn-submit">Agendar Consulta</button>
+        <button type="button" class="btn-voltar" onclick="location.href='/home'">Voltar</button>
+      </form>
+    </div>
+  </div>
+
+  <script th:src="@{/js/agendamentos.js}"></script>
 </body>
 </html>

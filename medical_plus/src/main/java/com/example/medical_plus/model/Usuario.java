@@ -1,111 +1,104 @@
 package com.example.medical_plus.model;
 
+import com.example.medical_plus.model.LocalAtendimento;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
-import java.util.List;
-import com.example.medical_plus.model.Documento;
 
+@Entity
+@Table(name = "usuarios")
 public class Usuario {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String nome;
+
+    @Column(unique = true)
     private String email;
+
     private String senha;
     private String tipo;
+    private String cpf;
+    private String dataNascimento;
+    private String especialidade;
+    private String status = "PENDENTE";
 
-    // EXAMES DO MÉDICO
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "usuario_exames", joinColumns = @JoinColumn(name = "usuario_id"))
+    @Column(name = "exame")
     private List<String> exames = new ArrayList<>();
 
-    // NOVO — LISTA DE DOCUMENTOS
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "usuario_id")
     private List<Documento> documentos = new ArrayList<>();
 
-    // NOVO — STATUS DO MÉDICO (FUTURO ADMIN)
-    private String status = "PENDENTE"; // PENDENTE / APROVADO / REJEITADO
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "usuario_id")
+    private List<LocalAtendimento> locaisAtendimento = new ArrayList<>();
 
-    // NOVO — ESPECIALIDADE DO MÉDICO
-    private String especialidade;
+    public Usuario() {}
 
     public Usuario(String nome, String email, String senha, String tipo) {
-        this.nome = nome;
-        this.email = email;
-        this.senha = senha;
-        this.tipo = tipo;
+        this.nome = nome; this.email = email; this.senha = senha; this.tipo = tipo;
+    }
+
+    public Usuario(String nome, String email, String senha, String tipo, String cpf, String dataNascimento) {
+        this.nome = nome; this.email = email; this.senha = senha; this.tipo = tipo;
+        this.cpf = cpf; this.dataNascimento = dataNascimento;
     }
 
     // GETTERS
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public List<String> getExames() {
-        return exames;
-    }
-
-    public List<Documento> getDocumentos() { return documentos; }
-
-    public String getStatus() {
-        return status;
-    }
-
+    public Long getId() { return id; }
+    public String getNome() { return nome; }
+    public String getEmail() { return email; }
+    public String getSenha() { return senha; }
+    public String getTipo() { return tipo; }
+    public String getCpf() { return cpf; }
+    public String getDataNascimento() { return dataNascimento; }
     public String getEspecialidade() { return especialidade; }
+    public String getStatus() { return status; }
+    public List<String> getExames() { return exames; }
+    public List<Documento> getDocumentos() { return documentos; }
+    public List<LocalAtendimento> getLocaisAtendimento() { return locaisAtendimento; }
 
     // SETTERS
+    public void setNome(String nome) { this.nome = nome; }
+    public void setEmail(String email) { this.email = email; }
+    public void setSenha(String senha) { this.senha = senha; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
+    public void setDataNascimento(String d) { this.dataNascimento = d; }
+    public void setEspecialidade(String e) { this.especialidade = e; }
+    public void setStatus(String s) { this.status = s; }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public void setEspecialidade(String especialidade) { this.especialidade = especialidade; }
-
-    // MÉTODOS DE NEGÓCIO
-
-    // ADICIONAR EXAME (COM VALIDAÇÃO)
+    // NEGÓCIO
     public void adicionarExame(String exame) {
-
-        if (exame == null || exame.trim().isEmpty()) {
-            return;
-        }
-
-        // evita duplicados (case insensitive)
-        boolean jaExiste = exames.stream()
-                .anyMatch(e -> e.equalsIgnoreCase(exame));
-
-        if (!jaExiste) {
-            exames.add(exame);
-        }
+        if (exame == null || exame.trim().isEmpty()) return;
+        if (exames.stream().noneMatch(e -> e.equalsIgnoreCase(exame))) exames.add(exame);
     }
 
-    // ADICIONAR DOCUMENTO
-    public void adicionarDocumento(String nomeArquivo) {
-        documentos.add(new Documento(nomeArquivo));
-    }
-
-    // REMOVER DOCUMENTO
-    public void removerDocumento(String nomeArquivo) {
-        documentos.removeIf(d -> d.getNomeArquivo().equals(nomeArquivo));
-    }
-
-    // REMOVER EXAME
     public void removerExame(String exame) {
         exames.removeIf(e -> e.equalsIgnoreCase(exame));
     }
 
+    public void adicionarDocumento(String nomeArquivo) {
+        documentos.add(new Documento(nomeArquivo));
+    }
+
+    public void removerDocumento(String nomeArquivo) {
+        documentos.removeIf(d -> d.getNomeArquivo().equals(nomeArquivo));
+    }
+
+    public void adicionarLocal(String nome, String endereco) {
+        locaisAtendimento.add(new LocalAtendimento(nome, endereco));
+    }
+
+    public void removerLocal(Long id) {
+        locaisAtendimento.removeIf(l -> l.getId().equals(id));
+    }
+
     public void definirEspecialidade(String especialidade) {
-        if (especialidade != null && !especialidade.trim().isEmpty()) {
-            this.especialidade = especialidade;
-        }
+        if (especialidade != null && !especialidade.trim().isEmpty()) this.especialidade = especialidade;
     }
 }

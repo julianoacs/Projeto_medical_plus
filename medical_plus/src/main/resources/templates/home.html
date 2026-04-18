@@ -5,49 +5,94 @@
     <title>Medical Plus</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/css/home.css}">
-    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/telemed.png">
 </head>
 <body>
-<header>
-    <h1>
-        <a href="/" class="logo">Medical Plus</a>
-    </h1>
 
-    <!-- QUANDO O PACIENTE NÃO ESTIVER LOGADO APARECE O BOTAO LOGIN -->
-    <button th:if="${usuario == null}"
-            class="login-btn"
-            onclick="location.href='/login'">
-        Login
-    </button>
+  <!-- HEADER -->
+  <header class="header-shell">
+    <a href="/landing" class="header-brand">
+      <img src="/images/telemed.png" alt="Logo">
+      <span>MED CONNECT</span>
+    </a>
+    <nav class="header-nav">
+      <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
+      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
+      <button class="nav-btn" onclick="location.href='/sobre'">Sobre Nós</button>
+    </nav>
+    <div class="header-cta">
+      <button th:if="${usuario != null}" class="btn-profile" onclick="location.href='/profile'">Profile</button>
+      <button th:if="${usuario == null}" class="btn-agendar" onclick="location.href='/login'">Login</button>
+    </div>
+  </header>
 
-    <!-- QUANDO O PACIENTE ESTIVER LOGADO NO SISTEMA APARECE O BOTAO PROFILE -->
-    <button th:if="${usuario != null}"
-            class="login-btn"
-            onclick="location.href='/profile'">
-        Profile
-    </button>
-</header>
+  <!-- CARDS PRINCIPAIS -->
+  <main class="home-main">
 
-<section class="hero">
-    <img src="/images/wallpaper_home.jpg" alt="Medical Plus Banner">
-</section>
-
-<!-- CARDS DE ACOES PRINCIPAIS DA TELA HOME DO SISTEMA -->
-<main class="container">
-    <div class="card" onclick="location.href='/agendamentos'">
-        <h2>Agendamento</h2>
-        <p>Marque suas consultas rapidamente</p>
+    <div class="home-card" onclick="location.href='/agendamentos'">
+      <div class="home-card-icon">📅</div>
+      <h2>Agendamento</h2>
+      <p>Marque suas consultas rapidamente</p>
     </div>
 
-    <div class="card" onclick="location.href='/medicos'">
-        <h2>Médicos</h2>
-        <p>Veja a lista de profissionais</p>
+    <div class="home-card" onclick="location.href='/medicos'">
+      <div class="home-card-icon">👨‍⚕️</div>
+      <h2>Médicos</h2>
+      <p>Veja a lista de profissionais</p>
     </div>
 
-    <div class="card" onclick="location.href='/exames'">
-        <h2>Exames</h2>
-        <p>Consulte exames disponíveis</p>
+    <div class="home-card" onclick="location.href='/exames'">
+      <div class="home-card-icon">🔬</div>
+      <h2>Exames</h2>
+      <p>Consulte exames disponíveis</p>
     </div>
-</main>
+
+  </main>
+
+  <!-- ESPECIALIDADES -->
+  <section class="esp-section">
+    <h2 class="esp-titulo">Especialidades</h2>
+    <p class="esp-subtitulo">Encontre o especialista certo para o seu cuidado</p>
+    <div class="esp-grid">
+
+      <div class="esp-card" onclick="location.href='/agendamentos'">
+        <div class="esp-icon">🫀</div>
+        <h3>Cardiologia</h3>
+        <p>Cuidados com o coração e sistema cardiovascular</p>
+      </div>
+
+      <div class="esp-card" onclick="location.href='/agendamentos'">
+        <div class="esp-icon">🧠</div>
+        <h3>Neurologia</h3>
+        <p>Tratamento de doenças do sistema nervoso</p>
+      </div>
+
+      <div class="esp-card" onclick="location.href='/agendamentos'">
+        <div class="esp-icon">🩺</div>
+        <h3>Clínico Geral</h3>
+        <p>Atendimento geral e acompanhamento de saúde</p>
+      </div>
+
+      <div class="esp-card" onclick="location.href='/agendamentos'">
+        <div class="esp-icon">🧴</div>
+        <h3>Dermatologia</h3>
+        <p>Cuidados com a pele, cabelo e unhas</p>
+      </div>
+
+      <div class="esp-card" onclick="location.href='/agendamentos'">
+        <div class="esp-icon">🦴</div>
+        <h3>Ortopedia</h3>
+        <p>Tratamento de ossos, articulações e músculos</p>
+      </div>
+
+      <div class="esp-card" onclick="location.href='/agendamentos'">
+        <div class="esp-icon">👁️</div>
+        <h3>Oftalmologia</h3>
+        <p>Saúde dos olhos e tratamento da visão</p>
+      </div>
+
+    </div>
+  </section>
+
 </body>
 </html>

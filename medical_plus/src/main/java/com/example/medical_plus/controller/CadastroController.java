@@ -19,12 +19,10 @@ public class CadastroController {
     }
 
     @PostMapping("/cadastrar")
-    public String cadastrar(String nome, String email, String senha, String tipo) {
-
-        Usuario usuario = new Usuario(nome, email, senha, tipo);
-
+    public String cadastrar(String nome, String email, String senha, String tipo,
+                            String cpf, String dataNascimento) {
+        Usuario usuario = new Usuario(nome, email, senha, tipo, cpf, dataNascimento);
         usuarioService.salvar(usuario);
-
         return "redirect:/login";
     }
 }

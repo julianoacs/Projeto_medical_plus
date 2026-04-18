@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HomeController {
 
     @GetMapping("/")
-    public String home(HttpSession session, Model model) {
+    public String home() {
+        return "redirect:/landing";
+    }
 
+    @GetMapping("/home")
+    public String homePage(HttpSession session, Model model) {
         Object usuario = session.getAttribute("usuario");
-
         model.addAttribute("usuario", usuario);
-
         return "home";
     }
 }

@@ -27,7 +27,7 @@ public class LoginController {
         if (usuario != null) {
             session.setAttribute("usuario", usuario);
 
-            return "redirect:/";
+            return "redirect:/home";
         }
 
         return "redirect:/login?erro=true";

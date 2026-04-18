@@ -1,48 +1,51 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Cadastro - Medical Plus</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/css/cadastro.css}">
-    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/telemed.png">
 </head>
 <body>
-<div class="cadastro-card">
-    <h2>Cadastro</h2>
-    <form action="/cadastrar" method="post" autocomplete="off">
-        <div class="input-group">
-            <label>Nome</label>
-            <input type="text" name="nome" placeholder="Digite seu nome" autocomplete="off" required>
+
+<main class="login-main">
+    <div class="login-card">
+
+        <div class="card-bg"></div>
+
+        <div class="card-content">
+
+            <!-- Logo -->
+            <div class="brand" onclick="location.href='/landing'">
+                <img src="/images/telemed.png" alt="Logo">
+                <span>MED CONNECT</span>
+            </div>
+
+            <!-- Título -->
+            <h1>Criar conta</h1>
+            <p class="subtitle">Preencha os dados para se cadastrar</p>
+
+            <!-- Form -->
+            <form action="/cadastrar" method="post" autocomplete="off">
+                <input type="text"     name="nome"           placeholder="Seu nome completo" required autocomplete="off">
+                <input type="date"     name="dataNascimento" required>
+                <input type="email"    name="email"          placeholder="Seu e-mail"        required autocomplete="off">
+                <input type="text"     name="cpf"            placeholder="Seu CPF"           required autocomplete="off">
+                <select name="tipo" required>
+                    <option value="">Tipo de usuário</option>
+                    <option value="medico">Médico</option>
+                    <option value="paciente">Paciente</option>
+                </select>
+                <input type="password" name="senha"          placeholder="Sua senha"         required autocomplete="new-password">
+                <button type="submit" class="btn-entrar">Cadastrar</button>
+                <button type="button" class="btn-voltar" onclick="location.href='/login'">Voltar</button>
+            </form>
+
         </div>
-        <div class="input-group">
-            <label>Data de Nascimento</label>
-            <input type="date" name="dataNascimento" required>
-        </div>
-        <div class="input-group">
-            <label>Email</label>
-            <input type="email" name="email" placeholder="Digite seu email" autocomplete="off" required>
-        </div>
-        <div class="input-group">
-            <label>CPF</label>
-            <input type="text" name="cpf" placeholder="Digite seu CPF" autocomplete="off" required>
-        </div>
-        <div class="input-group">
-            <label>Tipo de Usuário</label>
-            <select name="tipo" required>
-                <option value="">Selecione</option>
-                <option value="medico">Médico</option>
-                <option value="paciente">Paciente</option>
-            </select>
-        </div>
-        <div class="input-group">
-            <label>Senha</label>
-            <input type="password" name="senha" placeholder="Digite sua senha" autocomplete="new-password" required>
-        </div>
-        <button type="submit" class="btn btn-cadastrar">Cadastrar</button>
-        <button type="button" class="btn btn-back" onclick="location.href='/login'">Voltar</button>
-    </form>
-</div>
+    </div>
+</main>
+
 <script th:src="@{/js/cadastro.js}"></script>
 </body>
 </html>

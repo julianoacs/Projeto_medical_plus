@@ -60,30 +60,14 @@ public class AgendamentoController {
 
     // SALVAR AGENDAMENTO
     @PostMapping("/agendar")
-    public String agendar(String exame,
-                          String medico,
-                          String data,
-                          String hora,
-                          HttpSession session) {
-
+    public String agendar(String exame, String medico, String data, String hora,
+                          String local, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null) return "redirect:/login";
 
-        if (usuario == null) {
-            return "redirect:/login";
-        }
-
-        // SALVA NOME + EMAIL
-        Agendamento agendamento = new Agendamento(
-                exame,
-                medico,
-                data,
-                hora,
-                usuario.getEmail(),
-                usuario.getNome()
-        );
-
+        Agendamento agendamento = new Agendamento(exame, medico, data, hora, usuario.getEmail(), usuario.getNome());
+        agendamento.setLocal(local);
         agendamentoService.salvar(agendamento);
-
         return "redirect:/profile?aba=historico";
     }
 
@@ -109,54 +93,28 @@ public class AgendamentoController {
 
     // ACEITAR CONSULTA
     @GetMapping("/consulta/aceitar")
-    public String aceitar(int index, HttpSession session) {
-
+    public String aceitar(Long id, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-
-        if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) {
-            return "redirect:/login";
-        }
-
-        Agendamento ag = agendamentoService.buscarPorIndex(index);
-
-        if (ag != null && ag.getMedico().equalsIgnoreCase(usuario.getNome())) {
-            ag.setStatus("ACEITO");
-        }
-
+        if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) return "redirect:/login";
+        agendamentoService.atualizarStatus(id, "ACEITO");
         return "redirect:/profile?aba=historico";
     }
 
     // RECUSAR CONSULTA
     @GetMapping("/consulta/recusar")
-    public String recusar(int index, HttpSession session) {
-
+    public String recusar(Long id, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-
-        if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) {
-            return "redirect:/login";
-        }
-
-        Agendamento ag = agendamentoService.buscarPorIndex(index);
-
-        if (ag != null && ag.getMedico().equalsIgnoreCase(usuario.getNome())) {
-            ag.setStatus("RECUSADO");
-        }
-
+        if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) return "redirect:/login";
+        agendamentoService.atualizarStatus(id, "RECUSADO");
         return "redirect:/profile?aba=historico";
     }
 
-    // CANCELAR (remove da lista)
+    // CANCELAR CONSULTA
     @GetMapping("/consulta/cancelar")
-    public String cancelarConsulta(int index, HttpSession session) {
-
+    public String cancelarConsulta(Long id, HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
-
-        if (usuario == null) {
-            return "redirect:/login";
-        }
-
-        agendamentoService.removerAdmin(index);
-
+        if (usuario == null) return "redirect:/login";
+        agendamentoService.atualizarStatus(id, "CANCELADO");
         return "redirect:/profile?aba=historico";
     }
 }

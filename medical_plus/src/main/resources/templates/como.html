@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Como Funciona - Medical Plus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/como.css}">
+  <link rel="icon" type="image/png" href="/images/telemed.png">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header-shell">
+    <a href="/landing" class="header-brand">
+      <img src="/images/telemed.png" alt="Logo">
+      <span>MED CONNECT</span>
+    </a>
+    <nav class="header-nav">
+      <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
+      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
+      <button class="nav-btn" onclick="location.href='/sobre'">Sobre Nós</button>
+    </nav>
+    <div class="header-cta">
+      <button th:if="${usuario != null}" class="btn-profile" onclick="location.href='/profile'">Profile</button>
+      <button class="btn-agendar" th:onclick="${usuario != null} ? 'location.href=\'/home\'' : 'location.href=\'/login\''">Agendar consulta gratuita</button>
+    </div>
+  </header>
+
+  <!-- SEÇÃO PRINCIPAL -->
+  <section class="como-section">
+
+    <!-- Fundo desfocado -->
+    <div class="como-bg">
+      <img src="/images/back.png" alt="Fundo">
+      <div class="como-bg-overlay"></div>
+    </div>
+
+    <!-- Médico -->
+    <div class="class-cards">
+      <img src="/images/med1.png" alt="Médico">
+    </div>
+
+    <!-- Cards de passos -->
+    <div class="cards-wrapper">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <div class="card-minimal"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <div class="card-minimal"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <div class="card-minimal"></div>
+      </div>
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <div class="card-minimal"></div>
+      </div>
+    </div>
+
+    <!-- Botão flutuante -->
+    <div class="cta-float">
+      <button class="btn-cta-float" onclick="location.href='/login'">Agendar consulta gratuita</button>
+    </div>
+
+  </section>
+
+  <!-- BENEFÍCIOS -->
+  <section class="benefits-section">
+    <div class="benefit-card">
+      <img src="/images/money.png" alt="Sem Custo">
+      <div><h3>Sem Custo</h3><p>Agende consultas gratuitas e acessível para todos.</p></div>
+    </div>
+    <div class="benefit-card">
+      <img src="/images/certo.png" alt="Sem Filas">
+      <div><h3>Sem Filas Longas</h3><p>Evite filas e esperar, sua consulta online em poucos minutos.</p></div>
+    </div>
+    <div class="benefit-card">
+      <img src="/images/seguro.png" alt="Seguro">
+      <div><h3>Consulta Segura</h3><p>Atendimento remoto e privado com médicos qualificados.</p></div>
+    </div>
+  </section>
+
+  <script>
+    window.addEventListener("pageshow", function(e) {
+      const nav = performance.getEntriesByType("navigation")[0];
+      if (e.persisted || (nav && nav.type === "back_forward")) window.location.reload();
+    });
+  </script>
+</body>
+</html>

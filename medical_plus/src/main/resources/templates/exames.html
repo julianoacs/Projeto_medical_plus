@@ -5,55 +5,55 @@
     <title>Exames - Medical Plus</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" th:href="@{/css/exames.css}">
-    <link rel="icon" type="image/png" href="/images/logo.png">
+    <link rel="icon" type="image/png" href="/images/telemed.png">
 </head>
 <body>
-<header>
-    <h1>
-        <a href="/" class="logo">Medical Plus</a>
-    </h1>
-    <button th:if="${usuario == null}"
-            class="login-btn"
-            onclick="location.href='/login'">
-        Login
-    </button>
-    <button th:if="${usuario != null}"
-            class="login-btn"
-            onclick="location.href='/profile'">
-        Profile
-    </button>
-</header>
-<div class="top-bar">
-    <button class="back-btn" onclick="location.href='/'">Home</button>
-</div>
-<main class="container">
-    <div class="content">
-        <h2 class="titulo">Exames Disponíveis</h2>
-        <div class="lista">
-            <!-- LISTA -->
-            <div th:if="${!#lists.isEmpty(exames)}">
-                <div th:each="exame : ${exames}" class="exame-box">
-                    <!-- EXAME -->
-                    <div class="item" onclick="toggleExame(this)">
-                        <span th:text="${exame}"></span>
-                    </div>
-                    <!-- MÉDICOS -->
-                    <div class="medicos-box">
-                        <div th:each="m : ${medicos}"
-                             th:if="${#lists.contains(m.exames, exame)}"
-                             class="medico-item">
-                            <strong th:text="'Dr(a) ' +${m.nome}"></strong><br>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- VAZIO -->
-            <div th:if="${#lists.isEmpty(exames)}" class="empty">
-                Nenhum exame disponível no momento.
-            </div>
-        </div>
+
+  <header class="header-shell">
+    <a href="/landing" class="header-brand">
+      <img src="/images/telemed.png" alt="Logo">
+      <span>MED CONNECT</span>
+    </a>
+    <nav class="header-nav">
+      <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
+      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
+      <button class="nav-btn" onclick="location.href='/sobre'">Sobre Nós</button>
+    </nav>
+    <div class="header-cta">
+      <button th:if="${usuario == null}" class="btn-agendar" onclick="location.href='/login'">Login</button>
+      <button th:if="${usuario != null}" class="btn-profile" onclick="location.href='/profile'">Profile</button>
     </div>
-</main>
-<script th:src="@{/js/exames.js}"></script>
+  </header>
+
+  <div class="top-bar">
+    <button class="back-btn" onclick="location.href='/home'">← Home</button>
+  </div>
+
+  <main class="container">
+    <div class="content">
+      <h2 class="titulo">Exames Disponíveis</h2>
+      <div class="lista">
+        <div th:if="${!#lists.isEmpty(exames)}">
+          <div th:each="exame : ${exames}" class="exame-box">
+            <div class="item" onclick="toggleExame(this)">
+              <span th:text="${exame}"></span>
+            </div>
+            <div class="medicos-box">
+              <div th:each="m : ${medicos}"
+                   th:if="${#lists.contains(m.exames, exame)}"
+                   class="medico-item">
+                <strong th:text="'Dr(a) ' + ${m.nome}"></strong><br>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div th:if="${#lists.isEmpty(exames)}" class="empty">
+          Nenhum exame disponível no momento.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script th:src="@{/js/exames.js}"></script>
 </body>
 </html>

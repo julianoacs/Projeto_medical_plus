@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Medical Plus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/landing.css}">
+  <link rel="icon" type="image/png" href="/images/telemed.png">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header-shell">
+    <a href="/landing" class="header-brand">
+      <img src="/images/telemed.png" alt="Logo">
+      <span>MED CONNECT</span>
+    </a>
+    <nav class="header-nav">
+      <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
+      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
+      <button class="nav-btn" onclick="location.href='/sobre'">Sobre Nós</button>
+    </nav>
+    <div class="header-cta">
+      <button th:if="${usuario != null}" class="btn-profile" onclick="location.href='/profile'">Profile</button>
+      <button class="btn-agendar" th:onclick="${usuario != null} ? 'location.href=\'/home\'' : 'location.href=\'/login\''">Agendar consulta gratuita</button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero-section">
+    <div class="hero-text">
+      <h1>Agende sua consulta</h1>
+      <p>Fale com especialistas de saúde sem qualquer custo do conforto da sua casa.</p>
+    </div>
+    <div class="hero-bg">
+      <img src="/images/back.png" alt="Fundo médico">
+      <div class="hero-bg-overlay"></div>
+    </div>
+    <div class="class-medic">
+      <img src="/images/med.png" alt="Médico">
+    </div>
+  </section>
+
+  <!-- BENEFÍCIOS -->
+  <section class="benefits-section">
+    <div class="benefit-card">
+      <img src="/images/money.png" alt="Sem Custo">
+      <div><h3>Sem Custo</h3><p>Agende consultas gratuitas e acessível para todos.</p></div>
+    </div>
+    <div class="benefit-card">
+      <img src="/images/certo.png" alt="Sem Filas">
+      <div><h3>Sem Filas Longas</h3><p>Evite filas e esperar, sua consulta online em poucos minutos.</p></div>
+    </div>
+    <div class="benefit-card">
+      <img src="/images/seguro.png" alt="Seguro">
+      <div><h3>Consulta Segura</h3><p>Atendimento remoto e privado com médicos qualificados.</p></div>
+    </div>
+  </section>
+
+  <!-- CARROSSEL -->
+  <section class="carousel-section">
+    <div class="carousel-row">
+      <button class="carousel-arrow" onclick="prevCard()">&#8249;</button>
+      <div id="carouselCards" style="display:flex; gap:20px;"></div>
+      <button class="carousel-arrow" onclick="nextCard()">&#8250;</button>
+    </div>
+  </section>
+
+  <!-- Injeta médicos do backend para o JS -->
+  <script th:inline="javascript">
+    window.medicosData = /*[[${medicos}]]*/ [];
+    window.usuarioLogado = /*[[${usuario != null}]]*/ false;
+  </script>
+  <script th:src="@{/js/landing.js}"></script>
+</body>
+</html>

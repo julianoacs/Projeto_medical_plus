@@ -1,69 +1,85 @@
 package com.example.medical_plus.service;
 
 import com.example.medical_plus.model.Agendamento;
+import com.example.medical_plus.repository.AgendamentoRepository;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.medical_plus.service.UsuarioService;
-import java.util.ArrayList;
+
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
+@Transactional
 public class AgendamentoService {
 
-    private AgendamentoService agendamentoService;
+    @Autowired private AgendamentoRepository agendamentoRepo;
 
-    private UsuarioService usuarioService;
-
-    private final List<Agendamento> agendamentos = new ArrayList<>();
-
-    // SALVAR AGENDAMENTO
     public void salvar(Agendamento agendamento) {
-        agendamentos.add(agendamento);
+        agendamentoRepo.save(agendamento);
     }
 
-    // LISTAR APENAS DO USUÁRIO
-    public List<Agendamento> listarPorUsuario(String email) {
-        return agendamentos.stream()
-                .filter(a -> a.getEmailUsuario().equals(email))
-                .collect(Collectors.toList());
-    }
-
-    // AGENDAMENTO BUSCA POR INDEX
-    public Agendamento buscarPorIndex(int index) {
-        if (index >= 0 && index < agendamentos.size()) {
-            return agendamentos.get(index);
-        }
-        return null;
-    }
-
-    // LISTAR APENAS DO MEDICO
-    public List<Agendamento> listarPorMedico(String nomeMedico) {
-        return agendamentos.stream()
-                .filter(a -> a.getMedico().equalsIgnoreCase(nomeMedico))
-                .collect(Collectors.toList());
-    }
-
-    // LISTAR TODOS (ADMIN)
     public List<Agendamento> listarTodos() {
-        return agendamentos;
+        return agendamentoRepo.findAll();
     }
 
-    // REMOVER AGENDAMENTO (USUÁRIO)
+    public List<Agendamento> listarPorUsuario(String email) {
+        return agendamentoRepo.findByEmailUsuario(email);
+    }
+
+    public List<Agendamento> listarPorMedico(String nomeMedico) {
+        return agendamentoRepo.findByMedicoIgnoreCase(nomeMedico);
+    }
+
+    public void agendar(String exame, String medico, String data, String hora, String emailUsuario, String nomeUsuario) {
+        agendamentoRepo.save(new Agendamento(exame, medico, data, hora, emailUsuario, nomeUsuario));
+    }
+
+    public void aceitar(int index, String nomeMedico) {
+        List<Agendamento> lista = listarPorMedico(nomeMedico);
+        if (index >= 0 && index < lista.size()) {
+            Agendamento ag = lista.get(index);
+            ag.setStatus("ACEITO");
+            agendamentoRepo.save(ag);
+        }
+    }
+
+    public void recusar(int index, String nomeMedico) {
+        List<Agendamento> lista = listarPorMedico(nomeMedico);
+        if (index >= 0 && index < lista.size()) {
+            Agendamento ag = lista.get(index);
+            ag.setStatus("RECUSADO");
+            agendamentoRepo.save(ag);
+        }
+    }
+
+    public void atualizarStatus(Long id, String status) {
+        agendamentoRepo.findById(id).ifPresent(ag -> {
+            ag.setStatus(status);
+            agendamentoRepo.save(ag);
+        });
+    }
+
+    public void cancelar(int index) {
+        List<Agendamento> todos = listarTodos();
+        if (index >= 0 && index < todos.size()) {
+            Agendamento ag = todos.get(index);
+            ag.setStatus("CANCELADO");
+            agendamentoRepo.save(ag);
+        }
+    }
+
     public void remover(int index, String email) {
-
-        List<Agendamento> listaUsuario = listarPorUsuario(email);
-
-        if (index >= 0 && index < listaUsuario.size()) {
-            Agendamento ag = listaUsuario.get(index);
-            agendamentos.remove(ag);
-        }
+        List<Agendamento> lista = listarPorUsuario(email);
+        if (index >= 0 && index < lista.size()) agendamentoRepo.delete(lista.get(index));
     }
 
-    // REMOVER QUALQUER AGENDAMENTO (ADMIN FUTURO)
     public void removerAdmin(int index) {
+        List<Agendamento> todos = listarTodos();
+        if (index >= 0 && index < todos.size()) agendamentoRepo.delete(todos.get(index));
+    }
 
-        if (index >= 0 && index < agendamentos.size()) {
-            agendamentos.remove(index);
-        }
+    public Agendamento buscarPorIndex(int index) {
+        List<Agendamento> todos = listarTodos();
+        return (index >= 0 && index < todos.size()) ? todos.get(index) : null;
     }
 }

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Sobre Nós - Medical Plus</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/sobre.css}">
+  <link rel="icon" type="image/png" href="/images/telemed.png">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header-shell">
+    <a href="/landing" class="header-brand">
+      <img src="/images/telemed.png" alt="Logo">
+      <span>MED CONNECT</span>
+    </a>
+    <nav class="header-nav">
+      <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
+      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
+      <button class="nav-btn active" onclick="location.href='/sobre'">Sobre Nós</button>
+    </nav>
+    <div class="header-cta">
+      <button th:if="${usuario != null}" class="btn-profile" onclick="location.href='/profile'">Profile</button>
+      <button class="btn-agendar" th:onclick="${usuario != null} ? 'location.href=\'/home\'' : 'location.href=\'/login\''">Agendar consulta gratuita</button>
+    </div>
+  </header>
+
+  <!-- SEÇÃO NOSSA HISTÓRIA -->
+  <section class="sobre-hero">
+    <div class="sobre-texto">
+      <h2>Nossa História</h2>
+      <h3>Democratizando a Saúde de Qualidade</h3>
+      <p>
+        O <strong>Med Connect</strong> nasceu da convicção de que a tecnologia deve ser uma ponte para o cuidado humanizado.
+      </p>
+      <p>
+        Iniciado como um projeto acadêmico focado em superar barreiras, evoluímos para uma plataforma que conecta pacientes a especialistas em telemedicina com rapidez, segurança e acessibilidade total, direto do conforto de casa.
+      </p>
+    </div>
+    <div class="sobre-imagem">
+      <img src="/images/back.png" alt="Equipe Médica">
+      <div class="sobre-imagem-overlay"></div>
+    </div>
+  </section>
+
+  <!-- VALORES -->
+  <section class="valores-section">
+    <div class="valor-card">
+      <div class="valor-icon">🎯</div>
+      <div>
+        <h4>Nossa Missão</h4>
+        <p>Consultas gratuitas e acessíveis para todos.</p>
+      </div>
+    </div>
+    <div class="valor-card">
+      <div class="valor-icon">🚀</div>
+      <div>
+        <h4>Nossa Visão</h4>
+        <p>Sua consulta online em poucos minutos.</p>
+      </div>
+    </div>
+    <div class="valor-card">
+      <div class="valor-icon">🤝</div>
+      <div>
+        <h4>Nossos Valores</h4>
+        <p>Atendimento privado com médicos qualificados.</p>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>
