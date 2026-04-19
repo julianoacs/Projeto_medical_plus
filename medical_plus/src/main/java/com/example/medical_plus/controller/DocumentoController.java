@@ -26,7 +26,7 @@ public class DocumentoController {
         return servirArquivo(filename, false);
     }
 
-    // DOWNLOAD forçado
+    // DOWNLOAD
     @GetMapping("/uploads/download/{filename:.+}")
     public ResponseEntity<Resource> download(@PathVariable String filename) {
         return servirArquivo(filename, true);

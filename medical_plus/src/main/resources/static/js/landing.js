@@ -4,7 +4,7 @@ const medicosReais = (window.medicosData || []).map(m => ({
   especialidade: (m.especialidade && m.especialidade.trim() !== "") ? m.especialidade : "Especialidade não informada"
 }));
 
-// Garante sempre pelo menos 3 slots, preenchendo com placeholder se necessário
+// Deixa sempre 3 cards, mesmo sem medicos adicionados
 const TOTAL_VISIVEIS = 3;
 const medicos = [...medicosReais];
 while (medicos.length < TOTAL_VISIVEIS) {

@@ -20,7 +20,7 @@ public class AgendamentoController {
     private AgendamentoService agendamentoService;
 
     @Autowired
-    private UsuarioService usuarioService; // ✅ INJEÇÃO DO SERVICE
+    private UsuarioService usuarioService; // INJEÇÃO DO SERVICE
 
     // ABRIR TELA DE AGENDAMENTO
     @GetMapping("/agendamentos")
