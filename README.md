@@ -1,4 +1,4 @@
-# Medical Plus
+# MED CONNECT
 
 ## Sobre o projeto
 O **Medical Plus** é um sistema web desenvolvido para auxiliar no gerenciamento de atendimentos em unidades de saúde e seu 
