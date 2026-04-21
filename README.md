@@ -18,7 +18,7 @@ objetivo é otimizar o processo de atendimento, tornando-o mais prático, organi
 ## Como clonar o projeto
 
 ```bash
-git clone https://github.com/julianoacs/Projeto_medical_plus.git
+git clone https://github.com/julianoacs/Projeto_med_connect.git
 ```
 
 ---
