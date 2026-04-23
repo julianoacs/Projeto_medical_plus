@@ -1,7 +1,7 @@
-# Medical Plus
+# MED CONNECT
 
 ## Sobre o projeto
-O **Medical Plus** é um sistema web desenvolvido para auxiliar no gerenciamento de atendimentos em unidades de saúde e seu 
+O **Med Connect** é um sistema web desenvolvido para auxiliar no gerenciamento de atendimentos em unidades de saúde e seu 
 objetivo é otimizar o processo de atendimento, tornando-o mais prático, organizado e acessível.
 
 ---
@@ -18,7 +18,7 @@ objetivo é otimizar o processo de atendimento, tornando-o mais prático, organi
 ## Como clonar o projeto
 
 ```bash
-git clone https://github.com/julianoacs/Projeto_medical_plus.git
+git clone https://github.com/julianoacs/Projeto_med_connect.git
 ```
 
 ---
