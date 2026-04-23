@@ -95,6 +95,37 @@ form select:focus {
     box-shadow: 0 0 0 3px rgba(42,157,138,0.15);
 }
 
+/* ── SENHA COM OLHO ── */
+.senha-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.senha-wrapper input {
+    width: 100%;
+    padding-right: 46px;
+}
+
+.olho-btn {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+    color: #9ca3af;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+}
+.olho-btn:hover { color: #2a9d8a; }
+.olho-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
 /* ── BOTÕES ── */
 .btn-entrar {
     width: 100%;

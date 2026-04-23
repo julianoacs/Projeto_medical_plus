@@ -334,17 +334,17 @@
           <input type="text" id="filtroGerenciarExames" class="input-exame" placeholder="Buscar exame..."
                  oninput="filtrarLista('filtroGerenciarExames', 'listaGerenciarExames')" style="width:100%; margin-bottom:16px;">
           <div th:if="${#lists.isEmpty(examesGlobais)}"><p style="color:#9ca3af;">Nenhum exame cadastrado ainda.</p></div>
+          <p id="semResultadoGerenciarExames" style="display:none; color:#9ca3af; font-size:0.9rem;">Nenhum resultado encontrado.</p>
+          <form action="/admin/adicionar-exame-global" method="post" class="form-exame" style="margin-top:20px;">
+            <input type="text" name="exame" class="input-exame" placeholder="Nome do novo exame" required>
+            <button class="btn-add-exame">Adicionar</button>
+          </form>
           <div id="listaGerenciarExames">
             <div th:each="ex : ${examesGlobais}" class="exame-container filtro-item">
               <strong th:text="${ex}"></strong>
               <a th:href="@{/admin/remover-exame-global(exame=${ex})}" class="btn-remover-exame">Excluir</a>
             </div>
           </div>
-          <p id="semResultadoGerenciarExames" style="display:none; color:#9ca3af; font-size:0.9rem;">Nenhum resultado encontrado.</p>
-          <form action="/admin/adicionar-exame-global" method="post" class="form-exame" style="margin-top:20px;">
-            <input type="text" name="exame" class="input-exame" placeholder="Nome do novo exame" required>
-            <button class="btn-add-exame">Adicionar</button>
-          </form>
         </div>
       </div>
 
@@ -356,17 +356,17 @@
           <input type="text" id="filtroGerenciarEsp" class="input-exame" placeholder="Buscar especialidade..."
                  oninput="filtrarLista('filtroGerenciarEsp', 'listaGerenciarEsp')" style="width:100%; margin-bottom:16px;">
           <div th:if="${#lists.isEmpty(especialidadesGlobais)}"><p style="color:#9ca3af;">Nenhuma especialidade cadastrada ainda.</p></div>
+          <p id="semResultadoGerenciarEsp" style="display:none; color:#9ca3af; font-size:0.9rem;">Nenhum resultado encontrado.</p>
+          <form action="/admin/adicionar-especialidade-global" method="post" class="form-exame" style="margin-top:20px;">
+            <input type="text" name="especialidade" class="input-exame" placeholder="Nome da nova especialidade" required>
+            <button class="btn-add-exame">Adicionar</button>
+          </form>
           <div id="listaGerenciarEsp">
             <div th:each="esp : ${especialidadesGlobais}" class="exame-container filtro-item">
               <strong th:text="${esp}"></strong>
               <a th:href="@{/admin/remover-especialidade-global(especialidade=${esp})}" class="btn-remover-exame">Excluir</a>
             </div>
           </div>
-          <p id="semResultadoGerenciarEsp" style="display:none; color:#9ca3af; font-size:0.9rem;">Nenhum resultado encontrado.</p>
-          <form action="/admin/adicionar-especialidade-global" method="post" class="form-exame" style="margin-top:20px;">
-            <input type="text" name="especialidade" class="input-exame" placeholder="Nome da nova especialidade" required>
-            <button class="btn-add-exame">Adicionar</button>
-          </form>
         </div>
       </div>
 

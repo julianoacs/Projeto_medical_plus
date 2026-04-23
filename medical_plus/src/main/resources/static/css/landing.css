@@ -118,7 +118,7 @@ body {
 /* ── HERO ── */
 .hero-section {
   position: relative;
-  overflow: hidden;
+  overflow: visible;
   display: flex;
   background: #fff;
   border-radius: 16px;
@@ -195,7 +195,7 @@ body {
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
   height: 130px;
-  margin: 10px 200px 0;
+  margin: 40px 200px 0;
   align-items: center;
 }
 
@@ -305,6 +305,43 @@ body {
   transition: background 0.3s;
 }
 .btn-card-agendar:hover::after { background: rgba(255,255,255,0.12); }
+
+/* ── BOTÃO FLUTUANTE LANDING ── */
+.cta-float-landing {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%) translateY(50%);
+  z-index: 30;
+}
+
+.btn-cta-float-landing {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50px;
+  border: 2px solid #fff;
+  background: #2a9d8a;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(42,157,138,0.35);
+  padding: 16px 40px;
+  font-size: 1.2rem;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+.btn-cta-float-landing:hover { transform: scale(1.02); }
+.btn-cta-float-landing::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0);
+  transition: background 0.3s;
+}
+.btn-cta-float-landing:hover::after { background: rgba(255,255,255,0.12); }
 
 /* ── RESPONSIVE ── */
 @media (min-width: 1280px) and (max-width: 1366px) {

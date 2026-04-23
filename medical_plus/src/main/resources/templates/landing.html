@@ -39,6 +39,13 @@
     <div class="class-medic">
       <img src="/images/med.png" alt="Médico">
     </div>
+    <!-- BOTÃO FLUTUANTE -->
+    <div class="cta-float-landing">
+    <button class="btn-cta-float-landing"
+            th:onclick="${usuario != null} ? 'location.href=\'/home\'' : 'location.href=\'/login\''">
+      Agendar consulta gratuita
+    </button>
+  </div>
   </section>
 
   <!-- BENEFÍCIOS -->
