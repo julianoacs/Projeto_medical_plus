@@ -66,6 +66,10 @@
               <p><strong>Especialidade:</strong>
                 <span th:text="${usuario.especialidade != null && !usuario.especialidade.isEmpty() ? usuario.especialidade : 'Sem Especialidade'}"></span>
               </p>
+              <p th:if="${usuario.tipoRegistro != null && usuario.numeroRegistro != null}">
+                <strong>Registro:</strong>
+                <span th:text="${usuario.tipoRegistro + ' ' + usuario.numeroRegistro}"></span>
+              </p>
               <div th:if="${!#lists.isEmpty(usuario.locaisAtendimento)}" style="margin-top:8px;">
                 <p><strong>Locais de Atendimento:</strong></p>
                 <div th:each="local : ${usuario.locaisAtendimento}" style="margin-top:6px; padding:8px 12px; background:#f7fdfb; border:1px solid #e0f0ec; border-radius:8px;">
@@ -191,15 +195,48 @@
       <!-- ESPECIALIDADE -->
       <div id="especialidade" class="section">
         <div class="card">
-          <h2>Definir Especialidade</h2><br>
-          <form action="/medico/definir-especialidade" method="post">
-            <label>Especialidade:</label>
-            <select name="especialidade" class="input-exame" required>
+          <h2>Especialidade e Registro</h2><br>
+
+          <!-- ESPECIALIDADE -->
+          <form action="/medico/definir-especialidade" method="post" style="margin-bottom:28px;">
+            <label style="font-size:0.88rem; font-weight:600; color:#6b7280; display:block; margin-bottom:6px;">Especialidade</label>
+            <select name="especialidade" class="input-exame" required style="width:100%; margin-bottom:12px;">
               <option value="">-- Selecione --</option>
               <option th:each="esp : ${especialidadesDisponiveis}" th:value="${esp}" th:text="${esp}" th:selected="${esp == usuario.especialidade}"></option>
             </select>
-            <br><br>
-            <button class="btn-add-exame">Salvar</button>
+            <button class="btn-add-exame">Salvar Especialidade</button>
+          </form>
+
+          <hr style="border:none; border-top:1px solid #e0f0ec; margin-bottom:24px;">
+
+          <!-- REGISTRO PROFISSIONAL -->
+          <form action="/medico/definir-registro" method="post">
+            <label style="font-size:0.88rem; font-weight:600; color:#6b7280; display:block; margin-bottom:6px;">Tipo de Registro</label>
+            <select name="tipoRegistro" class="input-exame" required style="width:100%; margin-bottom:14px;">
+              <option value="">-- Selecione --</option>
+              <option value="CRM"     th:selected="${usuario.tipoRegistro == 'CRM'}">CRM — Conselho Regional de Medicina</option>
+              <option value="COREN"   th:selected="${usuario.tipoRegistro == 'COREN'}">COREN — Conselho Regional de Enfermagem</option>
+              <option value="CRF"     th:selected="${usuario.tipoRegistro == 'CRF'}">CRF — Conselho Regional de Farmácia</option>
+              <option value="CREFITO" th:selected="${usuario.tipoRegistro == 'CREFITO'}">CREFITO — Conselho Regional de Fisioterapia e Terapia Ocupacional</option>
+              <option value="CRFo"    th:selected="${usuario.tipoRegistro == 'CRFo'}">CRFo — Conselho Regional de Fonoaudiologia</option>
+              <option value="CRBM"    th:selected="${usuario.tipoRegistro == 'CRBM'}">CRBM — Conselho Regional de Biomedicina</option>
+              <option value="CRBio"   th:selected="${usuario.tipoRegistro == 'CRBio'}">CRBio — Conselho Regional de Biologia</option>
+              <option value="CREF"    th:selected="${usuario.tipoRegistro == 'CREF'}">CREF — Conselho Regional de Educação Física</option>
+            </select>
+
+            <label style="font-size:0.88rem; font-weight:600; color:#6b7280; display:block; margin-bottom:6px;">Número do Registro</label>
+            <input type="text" name="numeroRegistro" class="input-exame"
+                   placeholder="Ex: 123456/SP"
+                   th:value="${usuario.numeroRegistro}"
+                   required style="width:100%; margin-bottom:14px;">
+
+            <!-- Exibe registro atual se já preenchido -->
+            <div th:if="${usuario.tipoRegistro != null && usuario.numeroRegistro != null}"
+                 style="background:#f7fdfb; border:1px solid #e0f0ec; border-radius:10px; padding:10px 14px; margin-bottom:14px; font-size:0.9rem; color:#374151;">
+              Registro atual: <strong th:text="${usuario.tipoRegistro + ' ' + usuario.numeroRegistro}"></strong>
+            </div>
+
+            <button class="btn-add-exame">Salvar Registro</button>
           </form>
         </div>
       </div>

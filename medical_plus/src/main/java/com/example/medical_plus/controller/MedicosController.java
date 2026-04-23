@@ -19,8 +19,10 @@ public class MedicosController {
     @GetMapping("/medicos")
     public String listarMedicos(Model model, HttpSession session) {
 
-        // BUSCA MÉDICOS CADASTRADOS
-        List<Usuario> medicos = usuarioService.listarMedicos();
+        // BUSCA APENAS MÉDICOS APROVADOS
+        List<Usuario> medicos = usuarioService.listarMedicos().stream()
+                .filter(m -> "APROVADO".equalsIgnoreCase(m.getStatus()))
+                .toList();
 
         // Envia médicos para o HTML
         model.addAttribute("medicos", medicos);

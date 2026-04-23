@@ -214,7 +214,7 @@ body {
 .benefit-card p   { font-size: 0.83rem; color: rgba(0,0,0,0.65); line-height: 1.3; }
 
 /* ── CARROSSEL ── */
-.carousel-section { margin-top: 24px; overflow: hidden; }
+.carousel-section { position: relative; margin: 15px; overflow: hidden; }
 
 .carousel-row {
   display: flex;

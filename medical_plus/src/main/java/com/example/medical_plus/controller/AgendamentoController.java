@@ -32,8 +32,10 @@ public class AgendamentoController {
         // BUSCA TODOS EXAMES CADASTRADOS
         List<String> exames = usuarioService.listarTodosExames(); // deve retornar apenas nomes de exames
 
-        // BUSCA TODOS MEDICOS CADASTRADOS
-        List<Usuario> medicos = usuarioService.listarMedicos(); // apenas usuários do tipo MEDICO
+        // BUSCA APENAS MÉDICOS APROVADOS
+        List<Usuario> medicos = usuarioService.listarMedicos().stream()
+                .filter(m -> "APROVADO".equalsIgnoreCase(m.getStatus()))
+                .toList();
 
         model.addAttribute("usuario", usuario);
         model.addAttribute("exames", exames);

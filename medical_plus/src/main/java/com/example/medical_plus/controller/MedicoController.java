@@ -99,4 +99,15 @@ public class MedicoController {
         usuarioService.salvar(usuario);
         return "redirect:/profile?aba=dados";
     }
+
+    // DEFINIR REGISTRO PROFISSIONAL
+    @PostMapping("/medico/definir-registro")
+    public String definirRegistro(String tipoRegistro, String numeroRegistro, HttpSession session) {
+        Usuario usuario = (Usuario) session.getAttribute("usuario");
+        if (usuario == null || !"MEDICO".equalsIgnoreCase(usuario.getTipo())) return "redirect:/login";
+        usuario.setTipoRegistro(tipoRegistro);
+        usuario.setNumeroRegistro(numeroRegistro);
+        usuarioService.salvar(usuario);
+        return "redirect:/profile?aba=especialidade";
+    }
 }

@@ -23,6 +23,8 @@ public class Usuario {
     private String cpf;
     private String dataNascimento;
     private String especialidade;
+    private String tipoRegistro;
+    private String numeroRegistro;
     private String status = "PENDENTE";
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -58,6 +60,8 @@ public class Usuario {
     public String getCpf() { return cpf; }
     public String getDataNascimento() { return dataNascimento; }
     public String getEspecialidade() { return especialidade; }
+    public String getTipoRegistro() { return tipoRegistro; }
+    public String getNumeroRegistro() { return numeroRegistro; }
     public String getStatus() { return status; }
     public List<String> getExames() { return exames; }
     public List<Documento> getDocumentos() { return documentos; }
@@ -70,6 +74,8 @@ public class Usuario {
     public void setCpf(String cpf) { this.cpf = cpf; }
     public void setDataNascimento(String d) { this.dataNascimento = d; }
     public void setEspecialidade(String e) { this.especialidade = e; }
+    public void setTipoRegistro(String t) { this.tipoRegistro = t; }
+    public void setNumeroRegistro(String n) { this.numeroRegistro = n; }
     public void setStatus(String s) { this.status = s; }
 
     // NEGÓCIO

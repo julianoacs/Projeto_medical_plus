@@ -83,6 +83,15 @@
         </div>
 
         <div class="info-row">
+          <span class="info-label">Registro Profissional</span>
+          <span th:if="${u.tipoRegistro != null && u.numeroRegistro != null && !u.numeroRegistro.isEmpty()}"
+                class="info-value"
+                th:text="${u.tipoRegistro + ' — ' + u.numeroRegistro}"></span>
+          <span th:if="${u.tipoRegistro == null || u.numeroRegistro == null || u.numeroRegistro.isEmpty()}"
+                class="info-value empty">Não informado</span>
+        </div>
+
+        <div class="info-row">
           <span class="info-label">Status</span>
           <span th:text="${u.status}"
                 th:style="${u.status == 'APROVADO'} ? 'color:#065f46; font-weight:700;' : (${u.status == 'REJEITADO'} ? 'color:#991b1b; font-weight:700;' : 'color:#92400e; font-weight:700;')">

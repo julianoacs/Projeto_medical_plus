@@ -16,7 +16,9 @@ public class LandingController {
     @GetMapping("/landing")
     public String landing(HttpSession session, Model model) {
         model.addAttribute("usuario", session.getAttribute("usuario"));
-        model.addAttribute("medicos", usuarioService.listarMedicos());
+        model.addAttribute("medicos", usuarioService.listarMedicos().stream()
+                .filter(m -> "APROVADO".equalsIgnoreCase(m.getStatus()))
+                .toList());
         return "landing";
     }
 }
