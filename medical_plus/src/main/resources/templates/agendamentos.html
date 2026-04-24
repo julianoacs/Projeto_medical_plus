@@ -16,7 +16,6 @@
     </a>
     <nav class="header-nav">
       <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
-      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
       <button class="nav-btn" onclick="location.href='/sobre'">Sobre Nós</button>
     </nav>
     <div class="header-cta">
@@ -48,6 +47,23 @@
           </option>
         </select>
 
+        <!-- TIPO DE CONSULTA -->
+        <div id="tipoWrapper" style="display:none;">
+          <label>Tipo de Consulta:</label>
+          <select id="tipoSelect" name="tipoConsulta" required>
+            <option value="">-- Selecione --</option>
+            <option value="Online">Online</option>
+            <option value="Presencial">Presencial</option>
+          </select>
+        </div>
+
+        <!-- TELEFONE (Online) -->
+        <div id="telefoneWrapper" style="display:none;">
+          <label>Número de Telefone / WhatsApp:</label>
+          <input type="tel" id="telefoneInput" name="telefone" placeholder="Ex: (11) 99999-9999">
+        </div>
+
+        <!-- LOCAL (Presencial) -->
         <div id="localWrapper" style="display:none;">
           <label>Local de Atendimento:</label>
           <select id="localSelect" name="local">

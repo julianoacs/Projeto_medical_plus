@@ -59,6 +59,10 @@ public class AgendamentoService {
         });
     }
 
+    public void deletarPorId(Long id) {
+        agendamentoRepo.deleteById(id);
+    }
+
     public void cancelar(int index) {
         List<Agendamento> todos = listarTodos();
         if (index >= 0 && index < todos.size()) {

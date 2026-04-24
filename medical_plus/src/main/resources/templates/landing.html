@@ -17,7 +17,6 @@
     </a>
     <nav class="header-nav">
       <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
-      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
       <button class="nav-btn" onclick="location.href='/sobre'">Sobre Nós</button>
     </nav>
     <div class="header-cta">
@@ -64,13 +63,36 @@
     </div>
   </section>
 
-  <!-- CARROSSEL -->
-  <section class="carousel-section">
-    <div class="carousel-row">
-      <button class="carousel-arrow" onclick="prevCard()">&#8249;</button>
-      <div id="carouselCards" style="display:flex; gap:20px;"></div>
-      <button class="carousel-arrow" onclick="nextCard()">&#8250;</button>
+  <!-- CARDS FIXOS DE ESPECIALIDADES -->
+  <section class="fixed-cards-section">
+
+    <div class="fixed-card">
+      <div class="fixed-card-content">
+        <div class="fixed-card-icon">🧠</div>
+        <h3>Psiquiatria</h3>
+        <p>Ramo da medicina especializado na prevenção, diagnóstico, tratamento e reabilitação de transtornos mentais, comportamentais e emocionais.</p>
+        <button class="fixed-card-btn" th:onclick="${usuario != null} ? 'location.href=\'/home\'' : 'location.href=\'/login\''">Agendar consulta</button>
+      </div>
     </div>
+
+    <div class="fixed-card">
+      <div class="fixed-card-content">
+        <div class="fixed-card-icon">💬</div>
+        <h3>Psicologia</h3>
+        <p>Ciência que estuda a mente e o comportamento humano, abrangendo processos conscientes e inconscientes, emoções e pensamentos.</p>
+        <button class="fixed-card-btn" th:onclick="${usuario != null} ? 'location.href=\'/home\'' : 'location.href=\'/login\''">Agendar consulta</button>
+      </div>
+    </div>
+
+    <div class="fixed-card">
+      <div class="fixed-card-content">
+        <div class="fixed-card-icon">🥗</div>
+        <h3>Nutrição</h3>
+        <p>Ciência que estuda alimentos e nutrientes, focando em como eles influenciam a saúde, o bem-estar e a prevenção de doenças.</p>
+        <button class="fixed-card-btn" th:onclick="${usuario != null} ? 'location.href=\'/home\'' : 'location.href=\'/login\''">Agendar consulta</button>
+      </div>
+    </div>
+
   </section>
 
   <!-- Injeta médicos do backend para o JS -->

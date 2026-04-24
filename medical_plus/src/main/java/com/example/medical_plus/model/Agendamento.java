@@ -18,6 +18,8 @@ public class Agendamento {
     private String nomeUsuario;
     private String status = "PENDENTE";
     private String local;
+    private String tipoConsulta;
+    private String telefone;
 
     public Agendamento() {}
 
@@ -35,6 +37,10 @@ public class Agendamento {
     public String getNomeUsuario() { return nomeUsuario; }
     public String getStatus() { return status; }
     public String getLocal() { return local; }
+    public String getTipoConsulta() { return tipoConsulta; }
+    public String getTelefone() { return telefone; }
     public void setStatus(String status) { this.status = status; }
     public void setLocal(String local) { this.local = local; }
+    public void setTipoConsulta(String t) { this.tipoConsulta = t; }
+    public void setTelefone(String t) { this.telefone = t; }
 }

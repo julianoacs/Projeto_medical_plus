@@ -63,12 +63,15 @@ public class AgendamentoController {
     // SALVAR AGENDAMENTO
     @PostMapping("/agendar")
     public String agendar(String exame, String medico, String data, String hora,
-                          String local, HttpSession session) {
+                          String local, String tipoConsulta, String telefone,
+                          HttpSession session) {
         Usuario usuario = (Usuario) session.getAttribute("usuario");
         if (usuario == null) return "redirect:/login";
 
         Agendamento agendamento = new Agendamento(exame, medico, data, hora, usuario.getEmail(), usuario.getNome());
         agendamento.setLocal(local);
+        agendamento.setTipoConsulta(tipoConsulta);
+        agendamento.setTelefone(telefone);
         agendamentoService.salvar(agendamento);
         return "redirect:/profile?aba=historico";
     }

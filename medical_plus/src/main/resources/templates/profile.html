@@ -16,7 +16,6 @@
     </a>
     <nav class="header-nav">
       <button class="nav-btn" onclick="location.href='/como'">Como Funciona</button>
-      <button class="nav-btn" onclick="location.href='/especialidades'">Especialidades</button>
       <button class="nav-btn" onclick="location.href='/sobre'">Sobre Nós</button>
     </nav>
     <div class="header-cta">
@@ -117,6 +116,8 @@
                 <strong th:text="${ag.exame}"></strong>
                 <span th:text="'Paciente: ' + ${ag.nomeUsuario}"></span>
                 <span th:text="'Data: ' + ${ag.data} + ' - ' + ${ag.hora}"></span>
+                <span th:if="${ag.tipoConsulta != null}">Tipo: <b th:text="${ag.tipoConsulta}"></b></span>
+                <span th:if="${ag.tipoConsulta == 'Online' && ag.telefone != null}">📱 <span th:text="${ag.telefone}"></span></span>
                 <span th:if="${ag.local != null && !ag.local.isEmpty()}">📍 <span th:text="${ag.local}"></span></span>
                 <span>Status: <b th:text="${ag.status}"></b></span>
               </div>
@@ -128,6 +129,13 @@
               <div class="acoes-botoes" th:if="${usuario.tipo.equalsIgnoreCase('PACIENTE')}">
                 <a th:if="${ag.status == 'PENDENTE'}" th:href="@{/consulta/cancelar(id=${ag.id})}" class="btn-cancelar">Cancelar</a>
                 <a th:href="@{/agendamentos}" class="btn-remarcar">Remarcar</a>
+              </div>
+              <div class="acoes-botoes" th:if="${usuario.tipo.equalsIgnoreCase('ADMIN')}">
+                <a th:href="@{/admin/deletar-consulta(id=${ag.id})}"
+                   class="btn-cancelar"
+                   onclick="return confirm('Tem certeza que deseja deletar esta consulta?')">
+                  Deletar
+                </a>
               </div>
             </div>
           </div>

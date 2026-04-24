@@ -1,6 +1,7 @@
 package com.example.medical_plus.controller;
 
 import com.example.medical_plus.model.Usuario;
+import com.example.medical_plus.service.AgendamentoService;
 import com.example.medical_plus.service.UsuarioService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,9 @@ public class AdminController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private AgendamentoService agendamentoService;
+
     // VISUALIZAR USUÁRIO (ADMIN)
     @GetMapping("/admin/visualizar-usuario")
     public String visualizarUsuario(@RequestParam String email, @RequestParam String aba,
@@ -27,6 +31,15 @@ public class AdminController {
         model.addAttribute("u", u);
         model.addAttribute("aba", aba);
         return "admin-visualizar";
+    }
+
+    // DELETAR CONSULTA (ADMIN)
+    @GetMapping("/admin/deletar-consulta")
+    public String deletarConsulta(@RequestParam Long id, HttpSession session) {
+        Usuario admin = (Usuario) session.getAttribute("usuario");
+        if (admin == null || !"ADMIN".equalsIgnoreCase(admin.getTipo())) return "redirect:/login";
+        agendamentoService.deletarPorId(id);
+        return "redirect:/profile?aba=historico";
     }
 
     // DELETAR USUÁRIO (ADMIN)
